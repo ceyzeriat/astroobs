@@ -1,0 +1,4 @@
+*.pyc
+*~
+*~lock*
+*fuse_hidden*

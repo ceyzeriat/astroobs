@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 # Written by Guillaume, 2015
 
-from numpy import argsort, linspace, asarray, sqrt, deg2rad, rad2deg
-import ephem as E
-from datetime import datetime
-from pytz import timezone, utc
-from time import struct_time
-import astro
+import core as _core
 
 _obsDataFile = './obsData.txt'
 
@@ -33,7 +28,7 @@ class ObservatoryList:
         self.obsdic = {}
         for item in allsplitobs:
             try:
-                self.obsdic.update({item[0]:{'name':str(item[1]),'long':-E.degrees(item[2]),'lat':E.degrees(item[3]),'elevation':float(item[4]),'temp':float(item[5]),'pressure':float(item[6]),'timezone':str(item[7]),'moonAvoidRadius':float(item[8])}})
+                self.obsdic.update({item[0]:{'name':str(item[1]),'long':_core.E.degrees(item[2]),'lat':_core.E.degrees(item[3]),'elevation':float(item[4]),'temp':float(item[5]),'pressure':float(item[6]),'timezone':str(item[7]),'moonAvoidRadius':float(item[8])}})
             except:
                 raise KeyError, "Missing parameter for '%s' (obsid '%s')" % (item[1], item[0])
 
@@ -100,13 +95,13 @@ class ObservatoryList:
         Returns the list of the (obs id, observatory name) in the alphabetical order of column 'observatory name'.
         """
         obsorder = []
-        names = asarray([item.split(';')[1] for item in self.lines])
-        ids = asarray([item.split(';')[0] for item in self.lines])
-        namesorted = argsort(names)
+        names = _core.np.asarray([item.split(';')[1] for item in self.lines])
+        ids = _core.np.asarray([item.split(';')[0] for item in self.lines])
+        namesorted = _core.np.argsort(names)
         return zip(ids[namesorted], names[namesorted])
 
 
-class Observatory(E.Observer):
+class Observatory(_core.E.Observer):
     """
     Defines an observatory
 
@@ -120,7 +115,7 @@ class Observatory(E.Observer):
     moonAvoidRadius: radius of forbiden circle around the moon in degrees
     """
     def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=15.0, pressure=1010.0, moonAvoidRadius=0, dataFile=_obsDataFile):
-        E.Observer.__init__(self) # first init
+        _core.E.Observer.__init__(self) # first init
 
         obslist = ObservatoryList(dataFile=dataFile)
 
@@ -139,17 +134,17 @@ class Observatory(E.Observer):
             self.moonAvoidRadius = float(moonAvoidRadius)
             # checks the type of long and lat
             if isinstance(long, (float, int)):
-                self.long = -E.degrees(deg2rad(long))
+                self.long = _core.E.degrees(_core.np.deg2rad(long))
             else:
-                self.long = -E.degrees(long)
+                self.long = _core.E.degrees(long)
             if isinstance(lat, (float, int)):
-                self.lat = E.degrees(deg2rad(lat))
+                self.lat = _core.E.degrees(_core.np.deg2rad(lat))
             else:
-                self.lat = E.degrees(lat)
+                self.lat = _core.E.degrees(lat)
         else: # a parameter is missing
             raise Exception, "One or more input parameter missing. All 'long', 'lat', 'elevation', and 'timezone' are mandatory."
-        self.epoch = E.J2000 # set epoch
-        self.horizon = -1*sqrt(2*self.elevation/E.earth_radius)
+        self.epoch = _core.E.J2000 # set epoch
+        self.horizon = -1*_core.np.sqrt(2*self.elevation/_core.E.earth_radius)
         # initialise the date
         self.upd_date(force=True)
         self.process_obs()
@@ -163,10 +158,10 @@ class Observatory(E.Observer):
         degs = {'astro':'18', 'nautical':'12', 'civil':'6'}
         if mode.lower() not in degs.keys() and mode!='': raise KeyError, "Unknown twilight %s" % mode # checks for mode
         s1 = self.horizon # save initial obs values
-        if mode!='': self.horizon = -1.0*E.degrees(degs[mode.lower()]+':00:00.0') # set horizon from mode
-        setattr(self, "sunset"+mode.lower(), self.previous_setting(E.Sun())) # adds property sunset of mode
-        setattr(self, "sunrise"+mode.lower(), self.next_rising(E.Sun())) # adds property sunrise of mode
-        if getattr(self, "sunrise"+mode.lower()) - getattr(self, "sunset"+mode.lower()) > 1: setattr(self, "sunset"+mode.lower(), self.next_setting(E.Sun())) # checks issue when the date provided was during day: time between previous_setting and next_rising is longer than a day
+        if mode!='': self.horizon = -1.0*_core.E.degrees(degs[mode.lower()]+':00:00.0') # set horizon from mode
+        setattr(self, "sunset"+mode.lower(), self.previous_setting(_core.E.Sun())) # adds property sunset of mode
+        setattr(self, "sunrise"+mode.lower(), self.next_rising(_core.E.Sun())) # adds property sunrise of mode
+        if getattr(self, "sunrise"+mode.lower()) - getattr(self, "sunset"+mode.lower()) > 1: setattr(self, "sunset"+mode.lower(), self.next_setting(_core.E.Sun())) # checks issue when the date provided was during day: time between previous_setting and next_rising is longer than a day
         self.horizon = s1 # restore initial obs values
 
 
@@ -181,27 +176,27 @@ class Observatory(E.Observer):
         self.moon.alt = []
         self.moon.az = []
         self.date = self.dates[0]
-        target = E.Moon()
+        target = _core.E.Moon()
         target.compute(self)
         self.moon.set_time = self.next_setting(target)
-        self.moon.set_az = rad2deg(target.az)
+        self.moon.set_az = _core.np.rad2deg(target.az)
         self.date = self.moon.set_time
         self.moon.rise_time = self.previous_rising(target)
-        self.moon.rise_az = rad2deg(target.az)
+        self.moon.rise_az = _core.np.rad2deg(target.az)
         for t in self.dates:
             self.date = t # forces obs date for target calculations
             target.compute(self) # target calculation
             self.moon.lst.append(self.sidereal_time())
             self.moon.phase.append(target.phase)
-            self.moon.airmass.append(astro.rad_to_airmass(target.alt))
+            self.moon.airmass.append(_core.rad_to_airmass(target.alt))
             self.moon.alt.append(target.alt)
             self.moon.az.append(target.az)
             self.moon.ha.append(self.moon.lst[-1] - target.ra)
         self.date = save_date # sets obs date back
-        self.moon.alt = rad2deg(self.moon.alt)
-        self.moon.az = rad2deg(self.moon.az)
-        self.moon.ha = rad2deg(self.moon.ha)
-        self.moon.airmass = asarray(self.moon.airmass)
+        self.moon.alt = _core.np.rad2deg(self.moon.alt)
+        self.moon.az = _core.np.rad2deg(self.moon.az)
+        self.moon.ha = _core.np.rad2deg(self.moon.ha)
+        self.moon.airmass = _core.np.asarray(self.moon.airmass)
 
 
 
@@ -216,32 +211,32 @@ class Observatory(E.Observer):
 
         returns False if the date did not change since last upd_date call and True if it did
         """
-        stored_date = getattr(self, 'obsnight', datetime(2000, 1, 1))
-        self.date = E.now() # takes the now for temporary calculation
+        stored_date = getattr(self, 'obsnight', _core.datetime(2000, 1, 1))
+        self.date = _core.E.now() # takes the now for temporary calculation
         # set the local_date to this night's sunset time in local time so we can get the local day/month/year
-        self.localTimeOffest = E.Date(datetime.now(timezone(self.timezone)))-E.now()
+        self.localTimeOffest = _core.E.Date(_core.datetime.now(_core.timezone(self.timezone)))-_core.E.now()
         if local_date is None and ut_date is None: # default set to tonight midnight if date not provided
-            if self.next_rising(E.Sun()) - self.previous_setting(E.Sun()) < 1: # if during the night
-                local_date = E.date(self.previous_setting(E.Sun()) + self.localTimeOffest).datetime()
+            if self.next_rising(_core.E.Sun()) - self.previous_setting(_core.E.Sun()) < 1: # if during the night
+                local_date = _core.E.Date(self.previous_setting(_core.E.Sun()) + self.localTimeOffest).datetime()
             else: # if before the night
-                local_date = E.date(self.next_setting(E.Sun()) + self.localTimeOffest).datetime()
+                local_date = _core.E.Date(self.next_setting(_core.E.Sun()) + self.localTimeOffest).datetime()
         elif local_date is not None: # if given local date
-            astro.cleanTime(local_date)
+            _core.cleanTime(local_date)
         else: # if given ut date
-            astro.cleanTime(ut_date)
+            _core.cleanTime(ut_date)
         # check if the date has changed
         if stored_date.year==local_date.year and stored_date.month==local_date.month and stored_date.day==local_date.day and force is False: # didn't change
             return False
         else: # the date has changed
-            self.obsnight = datetime(local_date.year, local_date.month, local_date.day, 23, 59, 59) # midnight in local time
-            self.date = E.date(timezone(self.timezone).localize(self.obsnight).astimezone(utc)) # midnight in UT time
+            self.obsnight = _core.datetime(local_date.year, local_date.month, local_date.day, 23, 59, 59) # midnight in local time
+            self.date = _core.E.Date(_core.timezone(self.timezone).localize(self.obsnight).astimezone(_core.timezone('utc'))) # midnight in UT time
             return True
 
 
 
 
     def nowarg(self):
-        return (_abs(self.dates-E.now())).argmin()
+        return (_abs(self.dates-_core.E.now())).argmin()
 
 
 
@@ -253,18 +248,18 @@ class Observatory(E.Observer):
         def set_time(dtime):
             """Sets time to nice rounded value"""
             y, m ,d, hh, mm, ss = dtime.tuple()
-            return E.Date(datetime(y, m , d, hh, int(round(mm)), 0))
+            return _core.E.Date(_core.datetime(y, m , d, hh, int(round(mm)), 0))
         def set_data_range(sunset, sunrise, numdates, margin=15, fullhour=False):
             """Returns a numpy array of numdates dates linearly spaced in time, from margin minutes before sunset to margin minutes after sunrise if fullhour is False, and from the previous full hour before sunset to next full hour after sunrise if fullhour is True."""
             if fullhour:
-                ss = E.date(int(sunset*24)/24.)
-                sr = E.Date(int(sunrise*24+1)/24.)
+                ss = _core.E.Date(int(sunset*24)/24.)
+                sr = _core.E.Date(int(sunrise*24+1)/24.)
             else:
-                ss = set_time(E.Date(float(sunset) - margin*E.minute))
-                sr = set_time(E.Date(float(sunrise) + margin*E.minute))
-            return linspace(ss, sr, numdates)
+                ss = set_time(_core.E.Date(float(sunset) - margin*_core.E.minute))
+                sr = set_time(_core.E.Date(float(sunrise) + margin*_core.E.minute))
+            return _core.np.linspace(ss, sr, numdates)
         if not hasattr(self, "date"): raise Exception, "No date specified, 'date' attribute must exist as ephem.date" # checks if date exists
-        if not isinstance(self.date, E.date): raise TypeError, "Wrong date type, must be ephem.date" # checks type of date
+        if not isinstance(self.date, _core.E.Date): raise TypeError, "Wrong date type, must be ephem.date" # checks type of date
         for mode in ['','astro','nautical','civil']: # gets sunrise and sunsets for all modes
             self._calc_sunRiseSet(mode=mode)
         self.dates = set_data_range(sunset=self.sunset, sunrise=self.sunrise, numdates=pts, margin=margin, fullhour=fullhour) # gets linearly spaced dates along the night

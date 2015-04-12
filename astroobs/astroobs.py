@@ -12,8 +12,15 @@ class ObservatoryList:
     Add, modify, or remove an observatory from the database
     Output 
     """
-    def __init__(self, dataFile=_obsDataFile):
-        self.dataFile = dataFile
+    def __init__(self, dataFile=None):
+        if dataFile is not None:
+            self.dataFile = dataFile
+        else:
+            try:
+                this_dir, this_filename = _core.os.path.split(__file__)
+                self.dataFile = _core.os.path.join(this_dir, _obsDataFile[_obsDataFile.find('/')+1:])
+            except:
+                self.dataFile = _obsDataFile
         self._load()
 
     def _load(self):

@@ -6,6 +6,7 @@ import numpy as np
 from pytz import timezone
 from datetime import datetime
 from time import struct_time
+import os
 
 
 def cleanTime(t, format=None):

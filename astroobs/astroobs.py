@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Written by Guillaume, 2015
 
-import core as _core
+import _core
 
 _obsDataFile = './obsData.txt'
 

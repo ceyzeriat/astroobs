@@ -1,29 +1,6 @@
 # README #
 
-Python code repository for Astronomy & Astrophysics purpose.
-
-
-Before you commit, you can re-generate automatically the documentation. You will need sphinx python module for that (sudo apt-get install python-sphinx rst2pdf)
-
-Open a terminal in the repository root directory, type:
-> ./dodocs
-
-This script will:
-
- * move any old documentation found in ./ folder into the folder./docs/old_docs.
-
- * place the newly generated documentation in the ./ folder under PyAstro_YYYY_MM_DDxhh_mm_ss.pdf name.
-
-
-If you are lazy and want to create the doc and commit right after, go in the repository root directory, type:
-> ./docommit "why this commit is cool"
-
-This script will:
-
- * ask you if you want to re-generate the documentation
-
- * recursively delete all .pyc files and all files finishing by ~
-
- * add all files to the commit
-
- * commit with the comment "why this commit is cool"
+Astroobs provides astronomy ephemeris (airmass, azimuth, altitude, etc) of a night sky target as a function of the date-time and the longitude/latitude of the observer.
+A list of international observatories is provided as well as a SIMBAD-querier to easily import targets.
+This package is based on pyephem ephemeris calculations. The main difference with this latter package is that astroobs provides a very straight-forward library for the observer to get the critical information in order to plan an observation.
+e.g. plotting airmass vs date-time of "Betelgeuse" at "VLT" on 2015/12/25 takes a couple of lines only.

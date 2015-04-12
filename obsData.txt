@@ -1,0 +1,40 @@
+#Initial obs list by Daniel Magee on 2008-01-29.
+#Copyright (c) 2008 UCO/Lick Observatory. All rights reserved.
+#
+# logitudes +W -E, latitudes +N -0
+
+#heads#ID ; name ; long (ddd:mm:ss.s) ; lat (dd:mm:ss.s) ; elevation (m) ; temperature (celcius) ; pressure (hPa) ; timezone ; Moon avoid radius (degree)
+
+mwo;Mount Wilson Observatory;-118:03:42.0624;+34:13:21.2873;1742.;8.0;1010.0;America/Los_Angeles;5
+kpno;Kitt Peak National Observatory;-111:36.0;31:57.8;2120.;15.0;760.0;US/Mountain;0
+ctio;Cerro Tololo Interamerican Observatory;-70:48:54.00;-30:09:55.00;2215.;7.0;740.0;Chile/Continental;0
+lasilla;European Southern Observatory: La Silla;-70:43.8;-29:15.4;2347;10.0;770.0;Chile/Continental;0
+paranal;European Southern Observatory: Paranal;-70:24.2;-24:37.5;2635;10.0;750.0;Chile/Continental;0
+lick;Lick Observatory;-121:38.2;37:20.6;1290;15.0;1000.0;US/Pacific;0
+mmto;MMT Observatory;-110:53.1;31:41.3;2600;14.0;980.0;US/Mountain;0
+cfht;Canada-France-Hawaii Telescope;-155:28.3;19:49.6;4215;0.0;615.0;US/Aleutian;0
+lapalma;Roque de los Muchachos, La Palma;-17:52.8;28:45.5;2327;8.0;768.0;Atlantic/Canary;0
+mso;Mt. Stromlo Observatory;149:01:27.60;-35:19:14.34;767;15.0;1010.0;Australia/Sydney;0
+sso;Siding Spring Observatory;149:03:40.30;-31:16:24.10;1149;15.0;1010.0;Australia/Sydney;0
+aao;Anglo-Australian Observatory;149:03:57.91;-31:16:37.34;1164;15.0;1010.0;Australia/Sydney;0
+mcdonald;McDonald Observatory;-104:01:18.00;30:40:18.00;2075;10.0;800.0;US/Central;0
+lco;Las Campanas Observatory;-70:42.1;-29:0.2;2282;7.0;760.0;Chile/Continental;0
+mtbigelow;Catalina Observatory: 61 inch telescope;-110:43.9;32:25.0;2510.;15.0;1010.0;US/Mountain;0
+dao;Dominion Astrophysical Observatory;-123:25.0;48:31.3;229;15.0;1010.0;US/Pacific;0
+spm;Observatorio Astronomico Nacional, San Pedro Martir;-115:29:13;31:01:45;2830;15.0;1010.0;US/Pacific;0
+tona;Observatorio Astronomico Nacional, Tonantzintla;-98:18:50;19:01:58;0;15.0;1010.0;US/Central;0
+palomar;The Hale Telescope;-116:51:46.80;33:21:21.6;1706.;15.0;1010.0;US/Pacific;0
+mdm;Michigan-Dartmouth-MIT Observatory;-111:37.0;31:57.0;1938.5;15.0;760.0;US/Mountain;0
+bmo;Black Moshannon Observatory;-78:00.3;40:55.3;738;15.0;1010.0;US/Eastern;0
+keck;W. M. Keck Observatory;-155:28:28.11;19:49:34.51;4160;0.0;615.0;US/Aleutian;0
+subaru;Subaru Telescope;-155:28:33.67;19:49:31.81;4163;0.0;615.0;US/Aleutian;30
+apo;Apache Point Observatory;-105:49.2;32:46.8;2798.;10.0;760.0;US/Mountain;0
+lowell;Lowell Observatory;-111:32.1;35:05.8;2198.;15.0;1010.0;US/Mountain;0
+flwo;Whipple Observatory;-110:52:39;31:40:51.4;2320;14.0;980.0;US/Mountain;0
+irtf;NASA Infrared Telescope Facility;-155:28:19.19564;19:49:34.38594;4168;0.0;615.0;US/Aleutian;0
+gemn;Gemini North Observatory;-155:28:08.56831;19:49:25.68521;4213.4;0.0;615.0;US/Aleutian;0
+gems;Gemini South Observatory;-70:43.4;-30:13.7;2737.;5.0;735.0;Chile/Continental;0
+esontt;European Southern Observatory, NTT, La Silla;-70:43:54.272;-29:15:18.440;2375;10.0;770.0;Chile/Continental;0
+eso36m;European Southern Observatory, 3.6m Telescope, La Silla;-70:43:46.606;-29:15:25.814;2400;10.0;770.0;Chile/Continental;0
+vlt;European Southern Observatory, VLT, Paranal;-70:24:10.1;-24:37:31.5;2648;10.0;750.0;Chile/Continental;0
+mgo;Mount Graham Observatory;-109:53:30;32:42:06;3181;15.0;760.0;US/Mountain;0

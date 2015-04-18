@@ -1,7 +1,11 @@
-#Initial obs list by Daniel Magee on 2008-01-29.
-#Copyright (c) 2008 UCO/Lick Observatory. All rights reserved.
+# -*- coding: utf-8 -*-
+# Initial obs list by Daniel Magee on 2008-01-29.
+# Copyright (c) 2008 UCO/Lick Observatory. All rights reserved.
 #
-# logitudes +W -E, latitudes +N -0
+# Heavily modified by Guillaume SCHWORER, 2015
+#
+#
+# logitudes -W +E, latitudes +N -0
 
 #heads#ID ; name ; long (ddd:mm:ss.s) ; lat (dd:mm:ss.s) ; elevation (m) ; temperature (celcius) ; pressure (hPa) ; timezone ; Moon avoid radius (degree)
 
@@ -38,3 +42,4 @@ esontt;European Southern Observatory, NTT, La Silla;-70:43:54.272;-29:15:18.440;
 eso36m;European Southern Observatory, 3.6m Telescope, La Silla;-70:43:46.606;-29:15:25.814;2400;10.0;770.0;Chile/Continental;0
 vlt;European Southern Observatory, VLT, Paranal;-70:24:10.1;-24:37:31.5;2648;10.0;750.0;Chile/Continental;0
 mgo;Mount Graham Observatory;-109:53:30;32:42:06;3181;15.0;760.0;US/Mountain;0
+ohp;Observatoire de Haute Provence;5:42:48;43:55:51;650;15.0;1010.0;Europe/Paris;0

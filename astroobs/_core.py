@@ -1,5 +1,25 @@
 # -*- coding: utf-8 -*-
-# Written by Guillaume, 2015
+# 
+# Copyright (c) 2015 Guillaume SCHWORER
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+# 
 
 import ephem as E
 import numpy as np
@@ -7,7 +27,61 @@ from pytz import timezone
 from datetime import datetime
 from time import struct_time
 import os
+from astropy.coordinates.angles import Angle
+from astroquery.simbad import Simbad
+import re
 
+def radecFromStr(txt):
+    """
+    Takes a string that contains ra in decimal degrees or in hh:mm:ss.s and dec in decimal degrees or dd:mm:ss.s
+    returns (ra, dec) in decimal degrees
+    """
+    def check_str(text, rem_char=None):
+        if not isinstance(rem_char, str): raise Exception, "rem_char argument must be a string"
+        reps={}
+        for elmt in rem_char:
+            reps.update({elmt:""})
+        text = replace_multi(text, reps)
+        return text
+    def replace_multi(text, reps):
+        """
+        Return the string obtained by replacing the leftmost non-overlapping occurrences of pattern in string by the replacement repl.
+        """
+        rep = dict((re.escape(k).lower(), v) for k, v in reps.iteritems())
+        pattern = re.compile("|".join(rep.keys()), re.IGNORECASE)
+        return pattern.sub(lambda m: rep[re.escape(m.group(0)).lower()], text)
+    deli = check_str(txt, rem_char="+-.,0123456789abcdefghijklmnopqrstuvwxyz")
+    if len(deli)==1:
+        ra, dec = txt.split(deli)
+    elif len(deli)<5:
+        raise ValueError, "Could not understand ra-dec formating"
+    elif len(deli)==5 or (deli[0]==deli[1] and deli[3]==deli[4]):
+        ra = txt[:txt.find(deli[2], txt.find(deli[0], txt.find(deli[0]) +1) +1)].strip()
+        txt = txt.replace(ra,"")
+        dec = txt[txt.find(deli[2])+1:].strip()
+    else:
+        raise ValueError, "Could not understand ra-dec formating"
+    try:
+        ra = E.degrees(float(ra)) # test si decmal degrees
+    except:
+        try:
+            ra = Angle(ra+'h').deg # hourangle
+        except:
+            raise ValueError, "Could not understand ra-dec formating"
+    try:
+        dec = E.degrees(dec) # decimal degrees or hms
+    except:
+        raise ValueError, "Could not understand ra-dec formating"
+    return ra, dec
+
+def make_num(numstr):
+    """
+    Removes any non-number character from numstr. Keeps also decimal separator "." and signs "-", "+".
+    Returns float
+    """
+    decimal = re.compile(r'[^\d.\-\+]+').sub('', numstr)
+    # there might still be one or several + or - in the middle of the string, or several dots
+    return float(re.compile(r'^[\+\-]?[0-9]*\.?[0-9]*').match(decimal).group())
 
 def cleanTime(t, format=None):
     """

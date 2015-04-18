@@ -2,6 +2,6 @@
 setup.cfg
 setup.py
 astroobs/__init__.py
+astroobs/_core.py
 astroobs/astroobs.py
-astroobs/core.py
 astroobs/obsData.txt

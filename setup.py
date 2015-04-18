@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-from sys import argv
+from sys import argv, exit
 
 if "upl" in argv[1:]:
     import os
     os.system("python setup.py register -r pypi")
     os.system("python setup.py sdist upload -r pypi")
-    sys.exit()
+    exit()
 
 
 from distutils.core import setup
 setup(
     name = 'astroobs',
     packages = ['astroobs'],
-    version = '1.1.2',
+    version = '1.1.3',
     description = 'Provides astronomy ephemeris to plan telescope observations',
     author = 'Guillaume Schworer',
     author_email = 'guillaume.schworer@obspm.fr',

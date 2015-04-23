@@ -1,7 +1,20 @@
+# -*- coding: utf-8 -*-
 """
 Provides astronomy ephemeris to plan telescope observations
+
+.. note::
+  * All altitudes, azimuth, hour angle are in degrees
+  * All times are in UT, except for ``Observatory.localnight``
+
+.. warning::
+  * it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to ``None``
+
+Real-life example use:
+>>> 
+
+
+
 """
+__all__ = ['obs']
 
-#__all__ = ['astroobs'] # and all new files that should appear in "misc." listing
-
-#from astroobs import *
+import obs

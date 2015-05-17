@@ -574,7 +574,8 @@ class Target(object):
         else:
             toDate = _core.cleanTime(toDate, format='ed')
         old_date = obs.date
-        dates = _core.np.arange(fromDate, toDate, max(1, int(dday)))
+        dday = max(1, int(dday))
+        dates = _core.np.arange(fromDate, toDate, dday)
         if plot is True:
             fig = _core.plt.figure()
             ax = fig.add_axes([0.09,0.15,0.85,0.8])
@@ -625,9 +626,9 @@ class Target(object):
             datestr = [daymon(item) for item in dates]
             for key in retkeys:
                 if legend.get(key, '')!='':
-                    ax.bar(dates, retval[key], bottom=bottombar, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0, label=legend.get(key, ''))
+                    ax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0, label=legend.get(key, ''))
                 else:
-                    ax.bar(dates, retval[key], bottom=bottombar, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0)
+                    ax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0)
                 bottombar += retval[key]
             _core.plt.xticks(dates[0::2]+0.5, datestr[0::2], rotation='vertical')
             ax.bar(dates, _core.np.zeros(dates.size), bottom=0, color='w', hatch='//', edgecolor='k', label='Moon')

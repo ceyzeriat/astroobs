@@ -31,7 +31,13 @@ class ObservatoryList(object):
 
     Args:
       * dataFile (str): path+file to the observatories database. If left to ``None``, the standard package database will be used
-    
+
+    Kwargs:
+      * raise (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+
+    Raises:
+      * KeyError: if a mandatory input parameter is missing
+
     Use :func:`add`, :func:`rem`, :func:`mod` to add, remove or modify an observatory to the database.
     
     >>> import astroobs.obs as obs
@@ -57,7 +63,7 @@ class ObservatoryList(object):
      'temp': 15.0,
      'timezone': 'Europe/Paris'}
     """
-    def __init__(self, dataFile=None):
+    def __init__(self, dataFile=None, **kwargs):
         if dataFile is not None:
             self.dataFile = dataFile
         else:
@@ -66,9 +72,10 @@ class ObservatoryList(object):
                 self.dataFile = _core.os.path.join(this_dir, _obsDataFile[_obsDataFile.find('/')+1:])
             except:
                 self.dataFile = _obsDataFile
-        self._load()
+        self._raise = bool(kwargs.get('raise', False))
+        self._load(**kwargs)
 
-    def _load(self):
+    def _load(self, **kwargs):
         """
         Loads the list of observatories from the database using dataFile property
         """
@@ -82,7 +89,10 @@ class ObservatoryList(object):
             try:
                 self.obsdic.update({item[0]:{'name':str(item[1]),'long':_core.E.degrees(item[2]),'lat':_core.E.degrees(item[3]),'elevation':float(item[4]),'temp':float(item[5]),'pressure':float(item[6]),'timezone':str(item[7]),'moonAvoidRadius':float(item[8])}})
             except:
-                raise KeyError, "Missing parameter for '%s' (obsid '%s')" % (item[1], item[0])
+                if bool(kwargs.get('raise', self._raise)) is True:
+                    raise KeyError, "Missing parameter for '%s' (obsid '%s')" % (item[1], item[0])
+                else:
+                    print "\033[31mMissing parameter for '%s' (obsid '%s')\033[39m" % (item[1], item[0])
 
     def _info(self):
         return "List of %s observatories" % (len(self.obsids))
@@ -94,7 +104,7 @@ class ObservatoryList(object):
     def __getitem__(self, key):
         return self.obsdic[key]
 
-    def add(self, obsid, name, long, lat, elevation, timezone, temp=15.0, pressure=1010.0, moonAvoidRadius=0):
+    def add(self, obsid, name, long, lat, elevation, timezone, temp=15.0, pressure=1010.0, moonAvoidRadius=0, **kwargs):
         """
         Adds an observatory to the current observatories database.
 
@@ -109,6 +119,12 @@ class ObservatoryList(object):
           * pressure (float - hPa) [optional]: pressure at the observatory
           * moonAvoidRadius (float - degrees) [optional]: minimum distance at which a target must sit from the moon to be observed
 
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * NameError: if the observatory ID already exists
+
         .. note::
           To view all available timezones, run:
           >>> import pytz
@@ -116,42 +132,63 @@ class ObservatoryList(object):
           >>>     print tz
         """
         if str(obsid).lower() in self.obsids or str(obsid).strip().find(' ')!=-1 or str(obsid).strip().find(';')!=-1:
-            print "\033[31mThe observatory ID provided already exists.\033[39m"
+            if bool(kwargs.get('raise', self._raise)) is True:
+                raise NameError, "The observatory ID provided already exists."
+            else:    
+                print "\033[31mThe observatory ID provided already exists.\033[39m"
         else:
             f = open(self.dataFile, 'a')
             newobs = '\n%s;%s;%s;%s;%4.1f;%2.1f;%4.1f;%s;%3.1f' % (str(obsid).lower().strip(), str(name).replace(";",""), str(long).replace(";",""), str(lat).replace(";",""), float(elevation), float(temp), float(pressure), str(timezone).replace(";",""), float(moonAvoidRadius))
             f.write(newobs)
             f.close()
-            self._load()
+            self._load(**kwargs)
 
-    def rem(self, obsid):
+    def rem(self, obsid, **kwargs):
         """
         Removes an observatory from the current observatories database.
 
         Args:
           * obsid (str): id of the observatory to remove
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * NameError: if the observatory ID does not exists
         """
         if str(obsid).lower() not in self.obsids:
-            print "\033[31mThe observatory ID provided was not found.\033[39m"
+            if bool(kwargs.get('raise', self._raise)) is True:
+                raise NameError, "The observatory ID provided was not found."
+            else:
+                print "\033[31mThe observatory ID provided was not found.\033[39m"
         else:
             newlines = '\n'.join([item.strip() for item in self._wholefile if item.split(';')[0].lower()!=str(obsid).lower()])
             f = open(self.dataFile, 'w')
             f.writelines(newlines)
             f.close()
-            self._load()
+            self._load(**kwargs)
 
-    def mod(self, obsid, name, long, lat, elevation, timezone, temp=15.0, pressure=1010.0, moonAvoidRadius=0):
+    def mod(self, obsid, name, long, lat, elevation, timezone, temp=15.0, pressure=1010.0, moonAvoidRadius=0, **kwargs):
         """
         Modifies an observatory in the current observatories database.
 
         Args:
           * obsid (str): id of the observatory to modify. All other parameters redefine the observatory
 
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * NameError: if the observatory ID does not exists
+
         .. note::
           Refer to :func:`add` for details on input parameters
         """
         if str(obsid).lower() not in self.obsids:
-            print "\033[31mThe observatory ID was not found.\033[39m"
+            if bool(kwargs.get('raise', self._raise)) is True:
+                raise NameError, "The observatory ID was not found."
+            else:
+                print "\033[31mThe observatory ID was not found.\033[39m"
         else:
             newobs = '\n%s;%s;%s;%s;%4.1f;%2.1f;%4.1f;%s;%3.1f' % (str(obsid).lower().strip(), str(name).replace(";",""), str(long).replace(";",""), str(lat).replace(";",""), float(elevation), float(temp), float(pressure), str(timezone).replace(";",""), float(moonAvoidRadius))
             newlines = '\n'.join([item.strip() for item in self._wholefile if item.split(';')[0].lower()!=str(obsid).lower()])
@@ -159,7 +196,7 @@ class ObservatoryList(object):
             f = open(self.dataFile, 'w')
             f.writelines(newlines)
             f.close()
-            self._load()
+            self._load(**kwargs)
 
     def nameList(self):
         """
@@ -220,11 +257,11 @@ class Observatory(_core.E.Observer, object):
             o.sunriseastro+o.localTimeOffest), '...', o.len_nightastro
     2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949
     """
-    def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None):
+    def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None, **kwargs):
         _core.E.Observer.__init__(self) # first init
 
         if long is None and lat is None and elevation is None and timezone is None: # gave directly an obsid, supposely
-            obslist = ObservatoryList(dataFile=dataFile)
+            obslist = ObservatoryList(dataFile=dataFile, **kwargs)
             if str(obs).lower() in obslist.obsids: # if correct id
                 for k, v in obslist.obsdic[str(obs).lower()].items(): # copy the site info to self
                     setattr(self, k, v)
@@ -261,10 +298,10 @@ class Observatory(_core.E.Observer, object):
         else:
             self.horizon_obs = float(horizon_obs)
         # initialise the date
-        self.upd_date(local_date=local_date, ut_date=ut_date, force=True)
+        self.upd_date(local_date=local_date, ut_date=ut_date, force=True, **kwargs)
 
 
-    def _calc_sunRiseSet(self, mode=''):
+    def _calc_sunRiseSet(self, mode='', **kwargs):
         """
         Processes sunrise, sunset in UTC and night duration in hour and adds info to the object as attributes
         mode can be: '' (horizon), 'astro' (-18 degrees), 'nautical' (-12 degrees),'civil' (-6 degrees)
@@ -292,8 +329,7 @@ class Observatory(_core.E.Observer, object):
         self.horizon, self.date = s1, s2 # restore initial obs values
 
 
-
-    def upd_date(self, ut_date=None, local_date=None, force=False):
+    def upd_date(self, ut_date=None, local_date=None, force=False, **kwargs):
         """
         Updates the date of the observatory, and re-process the observatory parameters if the date is different.
 
@@ -335,11 +371,11 @@ class Observatory(_core.E.Observer, object):
             self.localTimeOffest = _core.convertTime(_core.E.now(), self.timezone, 'utc', format='ed')-_core.E.now()
             self.localnight = local_date.replace(hour=23, minute=59, second=59) # midnight in local time
             self.date = _core.convertTime(self.localnight, 'utc', self.timezone, format='ed') # midnight in UT time
-            self.process_obs()
+            self.process_obs(**kwargs)
             return True
 
 
-    def process_obs(self, pts=200, margin=15, fullhour=False):
+    def process_obs(self, pts=200, margin=15, fullhour=False, **kwargs):
         """
         Processes all twilights as well as moon rise, set and position through night for the given observatory and date.
         Creates the vector ``observatory.dates`` which is the vector containing all timestamps at which the moon and the targets will be processed.
@@ -364,7 +400,7 @@ class Observatory(_core.E.Observer, object):
         if not hasattr(self, "date"): raise Exception, "No date specified, 'date' attribute must exist as ephem.date" # checks if date exists
         self.date = _core.cleanTime(self.date, format='ed')
         for mode in ['','astro','nautical','civil']: # gets sunrise and sunsets for all modes
-            self._calc_sunRiseSet(mode=mode)
+            self._calc_sunRiseSet(mode=mode, **kwargs)
         if self.sunset is not None and self.sunrise is not None:
             self.dates = set_data_range(sunset=self.sunset, sunrise=self.sunrise, numdates=pts, margin=margin, fullhour=fullhour) # gets linearly spaced dates along the night
         else: # no sunrise or sunset, observatory in polar regions
@@ -418,7 +454,7 @@ class Target(object):
       * name (str): the name of the target, for display
       * obs (:class:`Observatory`) [optional]: the observatory for which to process the target
     """
-    def __init__(self, ra, dec, name, obs=None):
+    def __init__(self, ra, dec, name, obs=None, **kwargs):
         if isinstance(ra, (float, int)):
             self._ra = _core.Angle(ra, 'deg')
         else:
@@ -480,7 +516,7 @@ class Target(object):
     def decStr(self, value):
         raise AttributeError, "Read-only"
 
-    def _set_RiseSetTransit(self, target, obs):
+    def _set_RiseSetTransit(self, target, obs, **kwargs):
         """
         Adds to self the attributes set_time, set_az, rise_time, rise_az, transit_az, transit_alt, transit_time of a target given an observatory.
         Set to rise/set attributes to None in case the target does not rise/set
@@ -514,7 +550,7 @@ class Target(object):
         self.transit_alt = _core.np.rad2deg(target.alt)
         obs.date = s1 # restore initial obs values
 
-    def process(self, obs):
+    def process(self, obs, **kwargs):
         """
         Processes the target for the given observatory and date.
 
@@ -548,7 +584,7 @@ class Target(object):
         self.moondist = []
         targetdb = "star,f|V|G2,%s,%s,0.0,2000.0" % (':'.join(map(str, self.ra)), ':'.join(map(str, self.dec)))
         target = _core.E.readdb(targetdb)
-        self._set_RiseSetTransit(target=target, obs=obs)
+        self._set_RiseSetTransit(target=target, obs=obs, **kwargs)
         for t in range(len(obs.dates)):
             obs.date = obs.dates[t] # forces the obs date for target calculation
             target.compute(obs)
@@ -564,7 +600,7 @@ class Target(object):
         self.airmass = _core.np.asarray(self.airmass)
         self.moondist = _core.np.rad2deg(self.moondist)
 
-    def whenobs(self, obs, fromDate="now", toDate="now+30day", plot=True, ret=False, dday=1):
+    def whenobs(self, obs, fromDate="now", toDate="now+30day", plot=True, ret=False, dday=1, **kwargs):
         if fromDate=="now":
             fromDate = _core.E.now()
         else:
@@ -582,7 +618,7 @@ class Target(object):
             bottombar = _core.np.zeros(dates.size)
         retval = []
         for date in dates:
-            obs.upd_date(ut_date=_core.E.Date(date))
+            obs.upd_date(ut_date=_core.E.Date(date), **kwargs)
             # checks for polar night/day
             if obs.sunset is None or obs.sunrise is None: # if polar
                 if obs.alwaysDark is True:
@@ -593,7 +629,7 @@ class Target(object):
             else:
                 gooddates = ((obs.dates>obs.sunset) & (obs.dates<obs.sunrise))
             dt = (obs.dates[1]-obs.dates[0])*24
-            self.process(obs=obs)
+            self.process(obs=obs, **kwargs)
             badalt = (self.alt[gooddates]<obs.horizon_obs)
             if obs.sunsetastro is None or obs.sunriseastro is None: # no astro set or rise of target
                 badsunsetting = _core.np.ones(gooddates.sum(), dtype=bool)
@@ -612,7 +648,9 @@ class Target(object):
             darkbadalt = ((badalt) & (_core.np.logical_not(badsunrising)) & (_core.np.logical_not(badsunsetting)))
             twighlightbadalt = ((badalt) & ((badsunrising) | (badsunsetting)))
             retval.append((obsgoodmoon.sum()*dt, obsbadmoon.sum()*dt, sunsettinggoodmoon.sum()*dt, sunsettingbadmoon.sum()*dt, sunrisinggoodmoon.sum()*dt, sunrisingbadmoon.sum()*dt, darkbadalt.sum()*dt, twighlightbadalt.sum()*dt))
-
+        # set the date back
+        obs.upd_date(ut_date=old_date, **kwargs)
+        # prepare outputing
         retkeys = ['obs','moon','dusk','duskmoon','dawn','dawnmoon','darklow','twighlightlow']
         retval = _core.np.asarray(retval, dtype=[(key, 'f8') for key in retkeys])
         if plot is True:
@@ -636,8 +674,25 @@ class Target(object):
             ax.set_ylabel('Duration (hour)')
             ax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)))
             ax.legend(loc=1)
-        obs.upd_date(ut_date=old_date)
         if ret is not False: return dates, retval
+
+    def plot(self, obs, **kwargs):
+        timestr = [str(_core.E.Date(item)).split()[1][:-3] for item in obs.dates]
+        fig = _core.plt.figure()
+        ax = fig.add_axes([0.1,0.1,0.8,0.8])
+        ylim = [self.alt.min(), self.alt.max()]
+        ax.plot(obs.dates, self.alt, 'k', lw=2)
+        ax.plot([obs.sunset, obs.sunset], ylim, 'y-')
+        ax.plot([obs.sunsetastro, obs.sunsetastro], ylim, 'b-')
+        ax.plot([obs.sunrise, obs.sunrise], ylim, 'y-')
+        ax.plot([obs.sunriseastro, obs.sunriseastro], ylim, 'b-')
+        #ax.plot(obs.dates, self.moondist,'g-')
+        #ax.plot([obs.dates[0], obs.dates[-1]], [obs.moonAvoidRadius, obs.moonAvoidRadius], 'g--')
+        ax.plot([obs.dates[0], obs.dates[-1]], [obs.horizon_obs, obs.horizon_obs], 'k-')
+        _core.plt.xticks(obs.dates[0::10], timestr[0::10], rotation='vertical')
+        ax.set_ylim([0, 90])
+        ax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)) +' - '+str(obs.localnight).split()[0])
+        ax.set_ylabel('Elevation (degrees) vs time (UT)')
 
 
 class Moon(Target):
@@ -647,9 +702,9 @@ class Moon(Target):
     Args:
       * obs (:class:`Observatory`): the observatory for which to process the Moon
     """
-    def __init__(self, obs=None):
+    def __init__(self, obs=None, **kwargs):
         self.name = 'Moon'
-        if obs is not None: self.process(obs=obs)
+        if obs is not None: self.process(obs=obs, **kwargs)
 
     def _info(self):
         return "Moon - phase: %2.1f%%" % (self.phase.mean())
@@ -673,7 +728,7 @@ class Moon(Target):
     def dec(self, value):
         raise AttributeError, "Read-only"
 
-    def process(self, obs):
+    def process(self, obs, **kwargs):
         """
         Processes the moon for the given observatory and date.
 
@@ -709,7 +764,7 @@ class Moon(Target):
         self._ra = []
         self._dec = []
         target = _core.E.Moon()
-        self._set_RiseSetTransit(target=target, obs=obs)
+        self._set_RiseSetTransit(target=target, obs=obs, **kwargs)
         for t in range(len(obs.dates)):
             obs.date = obs.dates[t] # forces obs date for target calculations
             target.compute(obs) # target calculation
@@ -748,7 +803,7 @@ class TargetSIMBAD(Target):
       * ``hr``: if applicable, the HR number of the target
       * ``hip``: if applicable, the HIP number of the target
     """
-    def __init__(self, name, obs=None):
+    def __init__(self, name, obs=None, **kwargs):
         self.name = str(name)
         customSimbad = _core.Simbad()
         customSimbad.add_votable_fields('fluxdata(U)', 'fluxdata(B)', 'fluxdata(V)', 'fluxdata(R)', 'fluxdata(I)', 'fluxdata(J)', 'fluxdata(H)', 'fluxdata(K)', 'plx', 'sptype')
@@ -787,7 +842,7 @@ class TargetSIMBAD(Target):
 
         self.link = "http://simbad.u-strasbg.fr/simbad/sim-id?Ident=" + self.name.replace("+","%2B").replace("#","%23").replace(" ","+")
         self.linkbib = self.link + "&submit=display&bibdisplay=refsum&bibyear1=1950&bibyear2=%24currentYear#lab_bib"
-        if obs is not None: self.process(obs=obs)
+        if obs is not None: self.process(obs=obs, **kwargs)
 
 
 class Observation(Observatory):
@@ -855,7 +910,7 @@ class Observation(Observatory):
             self._targets = value
             for item in self._targets:
                 item._ticked = True
-                item.process(obs=self)
+                item.process(obs=self, **kwargs)
 
     @property
     def ticked(self):
@@ -893,10 +948,10 @@ class Observation(Observatory):
             self._targets[tgt]._ticked = bool(forceTo)
         else:
             self._targets[tgt]._ticked = not bool(self._targets[tgt]._ticked)
-        if self._targets[tgt]._ticked is True: self._targets[tgt].process(self)
+        if self._targets[tgt]._ticked is True: self._targets[tgt].process(self, **kwargs)
     
 
-    def add_target(self, tgt, ra=None, dec=None, name=""):
+    def add_target(self, tgt, ra=None, dec=None, name="", **kwargs):
         """
         Adds a target to the observation list
         
@@ -931,17 +986,17 @@ class Observation(Observatory):
         if isinstance(tgt, Target):
             self._targets += [tgt]
         elif ra is not None and dec is not None:
-            self._targets += [Target(ra=ra, dec=dec, name=tgt)]
+            self._targets += [Target(ra=ra, dec=dec, name=tgt, **kwargs)]
         elif isinstance(tgt, (int, float, str)): # if we have a ra-dec string
             try:
                 ra, dec = _core.radecFromStr(str(tgt))
-                self._targets += [Target(ra=ra, dec=dec, name=name)]
+                self._targets += [Target(ra=ra, dec=dec, name=name, **kwargs)]
             except:
                 self._targets += [TargetSIMBAD(name=tgt)]
         self._targets[-1]._ticked = True
-        self._targets[-1].process(obs=self)
+        self._targets[-1].process(obs=self, **kwargs)
 
-    def rem_target(self, tgt):
+    def rem_target(self, tgt, **kwargs):
         """
         Removes a target from the observation list
 
@@ -951,7 +1006,7 @@ class Observation(Observatory):
         if not hasattr(self, '_targets'): return None
         if isinstance(tgt, int): self._targets.pop(tgt)
 
-    def change_obs(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, horizon_obs=None, dataFile=None, recalcAll=False):
+    def change_obs(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, horizon_obs=None, dataFile=None, recalcAll=False, **kwargs):
         """
         Changes the observatory and optionaly re-processes all target for the new observatory and same date
 
@@ -962,22 +1017,22 @@ class Observation(Observatory):
           * Refer to :func:`ObservatoryList.add` for details on other input parameters
         """
         targets = self._targets
-        Observation.__init__(self, obs=obs, long=long, lat=lat, elevation=elevation, timezone=timezone, temp=temp, pressure=pressure, moonAvoidRadius=moonAvoidRadius, local_date=self.localnight, horizon_obs=horizon_obs, dataFile=dataFile)
+        Observation.__init__(self, obs=obs, long=long, lat=lat, elevation=elevation, timezone=timezone, temp=temp, pressure=pressure, moonAvoidRadius=moonAvoidRadius, local_date=self.localnight, horizon_obs=horizon_obs, dataFile=dataFile, **kwargs)
         self._targets = targets
-        if recalcAll is not None: self._process(recalcAll=recalcAll)
+        if recalcAll is not None: self._process(recalcAll=recalcAll, **kwargs)
 
 
-    def _process(self, recalcAll=False):
+    def _process(self, recalcAll=False, **kwargs):
         """
         Processes all target for the given observatory and date
         Args:
           * recalcAll (bool or None): if ``False``: only selected targets for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
         """
         for item in self.targets:
-            if item._ticked or recalcAll: item.process(self)
+            if item._ticked or recalcAll: item.process(self, **kwargs)
         
 
-    def change_date(self, ut_date=None, local_date=None, recalcAll=False):
+    def change_date(self, ut_date=None, local_date=None, recalcAll=False, **kwargs):
         """
         Changes the date of the observation and optionaly re-processes targets for the same observatory and new date
 
@@ -986,5 +1041,5 @@ class Observation(Observatory):
           * local_date: Refer to :func:`Observatory.upd_date`
           * recalcAll (bool or None): if ``False``: only selected targets for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
         """
-        self.upd_date(ut_date=ut_date, local_date=local_date)
-        if recalcAll is not None: self._process(recalcAll=recalcAll)
+        self.upd_date(ut_date=ut_date, local_date=local_date, **kwargs)
+        if recalcAll is not None: self._process(recalcAll=recalcAll, **kwargs)

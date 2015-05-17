@@ -177,15 +177,17 @@ class Observatory(_core.E.Observer, object):
     Defines an observatory from which the ephemeris of the twilights or a night-sky target are processed. The *night-time* is base on the given date. It ends at the next sunrise and starts at the sunset preceeding this next sunrise.
 
     Args:
-      * obs (str): id of the observatory to pick from the observatories database OR the name of the custom observatory (in that case, long, lat, elevation, timezone, [temp, pressure, moonAvoidRadius] must also be given)
+      * obs (str): id of the observatory to pick from the observatories database OR the name of the custom observatory (in that case, ``long``, ``lat``, ``elevation``, ``timezone`` must also be given, ``temp``, ``pressure``, ``moonAvoidRadius`` are optional)
       * local_date (see below): the date of observation in local time
       * ut_date (see below): the date of observation in UT time
-      * horizon_obs (float - degrees): minimum altitude at which a target can be observed
+      * horizon_obs (float - degrees): minimum altitude at which a target can be observed, default is 30 degrees altitude
 
     .. note::
-      * Refer to :func:`Observatory.upd_date` for details on ``local_date`` and ``ut_date``
-      * Refer to :func:`ObservatoryList.add` for details on other input parameters
-      * The :class:`Observatory` automatically manages a :class:`Moon` target under ``obs.moon`` attribute
+      * For details on ``local_date`` and ``ut_date``, refer to :func:`Observatory.upd_date`
+      * For details on other input parameters, refer to :func:`ObservatoryList.add`
+      * The :class:`Observatory` automatically creates and manages a :class:`Moon` target under ``moon`` attribute
+      * If ``obs`` is the id of an observatory to pick in the database, the user can still provide ``temp``, ``pressure``, ``moonAvoidRadius`` attributes which will override the database default values
+      * ``horizon`` is given in radian
 
     Main attributes:
       * ``localnight``: gives the local midnight time in local time (YYYY, MM, DD, 23, 59, 59)
@@ -196,9 +198,9 @@ class Observatory(_core.E.Observer, object):
       * ``moon``: points to the :class:`Moon` target processed for the given observatory and date
     Twilight attributes:
       * For the next three attributes, ``XXX`` shall be replaced by {'' (blank), 'civil', 'nautical', 'astro'} for, respectively, horizon, -6, -12, and -18 degrees altitude
-      * ``sunriseXXX``: gives the sunrise time for different twilights, in Dublin Julian Dates. e.g.: observatory.sunrise
-      * ``sunsetXXX``: gives the sunset time for different twilights, in Dublin Julian Dates.e.g.: observatory.sunsetcivial
-      * ``len_nightXXX``: gives the night duration for different twilights (between corresponding sunset and sunrise), in hours. e.g.: observatory.len_nightnautical
+      * ``sunriseXXX``: gives the sunrise time for different twilights, in Dublin Julian Dates. e.g.: ``observatory.sunrise``
+      * ``sunsetXXX``: gives the sunset time for different twilights, in Dublin Julian Dates. e.g.: ``observatory.sunsetcivil``
+      * ``len_nightXXX``: gives the night duration for different twilights (between corresponding sunset and sunrise), in hours. e.g.: ``observatory.len_nightnautical``
 
     .. warning::
       * it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to ``None``
@@ -221,12 +223,12 @@ class Observatory(_core.E.Observer, object):
     def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None):
         _core.E.Observer.__init__(self) # first init
 
-        obslist = ObservatoryList(dataFile=dataFile)
-
         if long is None and lat is None and elevation is None and timezone is None: # gave directly an obsid, supposely
+            obslist = ObservatoryList(dataFile=dataFile)
             if str(obs).lower() in obslist.obsids: # if correct id
                 for k, v in obslist.obsdic[str(obs).lower()].items(): # copy the site info to self
                     setattr(self, k, v)
+                self.id = str(obs).lower()
             else: # if not correct id
                 raise KeyError, "Could not find observatory id %s in database" % (str(obs).lower())
         elif long is not None and lat is not None and elevation is not None and timezone is not None: # gave the details of a valid observatory
@@ -248,16 +250,16 @@ class Observatory(_core.E.Observer, object):
         if temp is not None: self.temp = float(temp)
         if pressure is not None: self.pressure = float(pressure)
         if moonAvoidRadius is not None: self.moonAvoidRadius = float(moonAvoidRadius)
-        # checks if values exist
+        # checks if values exist and sets default if not
         if not hasattr(self, 'temp'): self.temp = 15.0
         if not hasattr(self, 'pressure'): self.pressure = 1010.0
         if not hasattr(self, 'moonAvoidRadius'): self.moonAvoidRadius = 0.
         self.epoch = _core.E.J2000 # set epoch
         self.horizon = -_core.np.sqrt(2*self.elevation/_core.E.earth_radius)
         if horizon_obs is None:
-            self.horizon_obs = self.horizon
+            self.horizon_obs = 30. # default value
         else:
-            self.horizon_obs = _core.np.deg2rad(horizon_obs)
+            self.horizon_obs = float(horizon_obs)
         # initialise the date
         self.upd_date(local_date=local_date, ut_date=ut_date, force=True)
 
@@ -400,6 +402,9 @@ class Observatory(_core.E.Observer, object):
         deltadates = (self.dates[1]-self.dates[0])/2.
         if now<self.dates[0]-deltadates or now>self.dates[-1]+deltadates: return None
         return (_core.np.abs(self.dates-_core.E.now())).argmin()
+    @nowArg.setter
+    def nowArg(self, value):
+        raise AttributeError, "Read-only"
 
 
 
@@ -426,7 +431,7 @@ class Target(object):
         return getattr(self, str(key).lower(), None)
 
     def _info(self):
-        return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], (self._dec.dms[0]>0)*'+', self._dec.dms[0], self._dec.hms[1], self._dec.hms[2], hasattr(self, "_ticked")*(', '+getattr(self, "_ticked", False)*'O'+(not getattr(self, "_ticked", False))*'-'))
+        return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], (self._dec.dms[0]>0)*'+', self._dec.dms[0], _core.np.abs(self._dec.hms[1]), _core.np.abs(self._dec.hms[2]), hasattr(self, "_ticked")*(', '+getattr(self, "_ticked", False)*'O'+(not getattr(self, "_ticked", False))*'-'))
     def __repr__(self):
         return self._info()
     def __str__(self):
@@ -461,6 +466,9 @@ class Target(object):
         """
         hms = self._ra.hms
         return "%ih%im%2.1fs" % (hms[0], hms[1], hms[2])
+    @raStr.setter
+    def raStr(self, value):
+        raise AttributeError, "Read-only"
     @property
     def decStr(self):
         """
@@ -468,6 +476,9 @@ class Target(object):
         """
         dms = self._dec.dms
         return "%s%i°%i'%2.1f\"" % ((dms[0]>0)*'+', dms[0], dms[1], dms[2])
+    @decStr.setter
+    def decStr(self, value):
+        raise AttributeError, "Read-only"
 
     def _set_RiseSetTransit(self, target, obs):
         """
@@ -518,7 +529,7 @@ class Target(object):
           * ``moondist``: the angular distance between the moon and the target (degrees)
 
         .. note::
-          * All previous attributes are vectors related to the time vector of the observatory used for processing: ``obs.dates``
+          * All previous attributes are vectors related to the time vector of the observatory used for processing, stored under ``dates`` attribute
 
         Other attributes:
           * ``rise_time``, ``rise_az``: the time (ephem.Date) and the azimuth (degree) of the rise of the target
@@ -545,7 +556,7 @@ class Target(object):
             self.alt.append(target.alt)
             self.az.append(target.az)
             self.ha.append(obs.lst[t] - target.ra)
-            self.moondist.append(_core.E.separation([self.az[t], self.alt[t]], [obs.moon.az[t], obs.moon.alt[t]]))
+            self.moondist.append(_core.E.separation([self.az[t], self.alt[t]], [_core.np.deg2rad(obs.moon.az[t]), _core.np.deg2rad(obs.moon.alt[t])]))
         obs.date = save_date # sets obs date back
         self.alt = _core.np.rad2deg(self.alt)
         self.az = _core.np.rad2deg(self.az)
@@ -553,6 +564,79 @@ class Target(object):
         self.airmass = _core.np.asarray(self.airmass)
         self.moondist = _core.np.rad2deg(self.moondist)
 
+    def whenobs(self, obs, fromDate="now", toDate="now+30day", plot=True, ret=False, dday=1):
+        if fromDate=="now":
+            fromDate = _core.E.now()
+        else:
+            fromDate = _core.cleanTime(fromDate, format='ed')
+        if toDate=="now+30day":
+            toDate = _core.E.Date(fromDate+30)
+        else:
+            toDate = _core.cleanTime(toDate, format='ed')
+        old_date = obs.date
+        dates = _core.np.arange(fromDate, toDate, max(1, int(dday)))
+        if plot is True:
+            fig = _core.plt.figure()
+            ax = fig.add_axes([0.09,0.15,0.85,0.8])
+            bottombar = _core.np.zeros(dates.size)
+        retval = []
+        for date in dates:
+            obs.upd_date(ut_date=_core.E.Date(date))
+            # checks for polar night/day
+            if obs.sunset is None or obs.sunrise is None: # if polar
+                if obs.alwaysDark is True:
+                    gooddates = _core.np.ones(len(obs.dates), dtype=bool)
+                else:
+                    retval.append((0., 0., obs.dates.size*dt, 0., 0., 0., 0.))
+                    continue
+            else:
+                gooddates = ((obs.dates>obs.sunset) & (obs.dates<obs.sunrise))
+            dt = (obs.dates[1]-obs.dates[0])*24
+            self.process(obs=obs)
+            badalt = (self.alt[gooddates]<obs.horizon_obs)
+            if obs.sunsetastro is None or obs.sunriseastro is None: # no astro set or rise of target
+                badsunsetting = _core.np.ones(gooddates.sum(), dtype=bool)
+                badsunrising = _core.np.ones(gooddates.sum(), dtype=bool)
+            else:
+                badsunsetting = (obs.dates[gooddates]<obs.sunsetastro)
+                badsunrising = (obs.dates[gooddates]>obs.sunriseastro)
+            badmoon = (self.moondist[gooddates]<obs.moonAvoidRadius)
+            # get statistics for target
+            sunsettinggoodmoon = ((badsunsetting) & (_core.np.logical_not(badmoon)) & (_core.np.logical_not(badalt)))
+            sunsettingbadmoon = ((badsunsetting) & (badmoon) & (_core.np.logical_not(badalt)))
+            sunrisinggoodmoon = ((badsunrising) & (_core.np.logical_not(badmoon)) & (_core.np.logical_not(badalt)))
+            sunrisingbadmoon = ((badsunrising) & (badmoon) & (_core.np.logical_not(badalt)))
+            obsgoodmoon = ((_core.np.logical_not(badsunrising)) & (_core.np.logical_not(badsunsetting)) & (_core.np.logical_not(badalt)) & (_core.np.logical_not(badmoon)))
+            obsbadmoon = ((_core.np.logical_not(badsunrising)) & (_core.np.logical_not(badsunsetting)) & (_core.np.logical_not(badalt)) & (badmoon))
+            darkbadalt = ((badalt) & (_core.np.logical_not(badsunrising)) & (_core.np.logical_not(badsunsetting)))
+            twighlightbadalt = ((badalt) & ((badsunrising) | (badsunsetting)))
+            retval.append((obsgoodmoon.sum()*dt, obsbadmoon.sum()*dt, sunsettinggoodmoon.sum()*dt, sunsettingbadmoon.sum()*dt, sunrisinggoodmoon.sum()*dt, sunrisingbadmoon.sum()*dt, darkbadalt.sum()*dt, twighlightbadalt.sum()*dt))
+
+        retkeys = ['obs','moon','dusk','duskmoon','dawn','dawnmoon','darklow','twighlightlow']
+        retval = _core.np.asarray(retval, dtype=[(key, 'f8') for key in retkeys])
+        if plot is True:
+            color = {'obs':'#02539C', 'moon':'#02539C', 'twighlightlow':'#AB6E50', 'darklow':'#6E2D0D', 'dusk':'#FACF50', 'duskmoon':'#FACF50', 'dawnmoon':'#A1E6E2', 'dawn':'#A1E6E2'}
+            legend = {'obs':'Optimal','twighlightlow':'Low+Twighlight', 'darklow':'Low+Dark', 'dusk':'Up+Dusk','dawn':'Up+Dawn'}
+            hatch = {'duskmoon':'//', 'moon':'//', 'dawnmoon':'//'}
+            def daymon(t):
+                months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                t = str(_core.E.Date(t)).split()[0].split('/')[1:][::-1]
+                return t[0]+' '+months[int(t[1])]
+            datestr = [daymon(item) for item in dates]
+            for key in retkeys:
+                if legend.get(key, '')!='':
+                    ax.bar(dates, retval[key], bottom=bottombar, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0, label=legend.get(key, ''))
+                else:
+                    ax.bar(dates, retval[key], bottom=bottombar, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0)
+                bottombar += retval[key]
+            _core.plt.xticks(dates[0::2]+0.5, datestr[0::2], rotation='vertical')
+            ax.bar(dates, _core.np.zeros(dates.size), bottom=0, color='w', hatch='//', edgecolor='k', label='Moon')
+            ax.set_xlim([dates[0]-1, dates[-1]+2])
+            ax.set_ylabel('Duration (hour)')
+            ax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)))
+            ax.legend(loc=1)
+        obs.upd_date(ut_date=old_date)
+        if ret is not False: return dates, retval
 
 
 class Moon(Target):
@@ -667,7 +751,11 @@ class TargetSIMBAD(Target):
         self.name = str(name)
         customSimbad = _core.Simbad()
         customSimbad.add_votable_fields('fluxdata(U)', 'fluxdata(B)', 'fluxdata(V)', 'fluxdata(R)', 'fluxdata(I)', 'fluxdata(J)', 'fluxdata(H)', 'fluxdata(K)', 'plx', 'sptype')
-        result = customSimbad.query_object(str(self.name))
+        try:
+            result = customSimbad.query_object(str(self.name))
+        except:
+            print "\033[31mThe given object was not found in SIMBAD.\033[39m"
+            return
         self._ra = _core.Angle(str(result['RA'][0])+'h')
         self._dec = _core.Angle(str(result['DEC'][0])+'d')
 

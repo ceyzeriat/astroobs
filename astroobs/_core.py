@@ -25,11 +25,12 @@ import ephem as E
 import numpy as np
 from pytz import timezone
 from datetime import datetime
-from time import struct_time
-import os
+from time import struct_time, mktime
 from astropy.coordinates.angles import Angle
 from astroquery.simbad import Simbad
 import re
+import os
+import matplotlib.pyplot as plt
 
 def radecFromStr(txt):
     """
@@ -106,7 +107,7 @@ def cleanTime(t, format=None):
     else:
         raise TypeError, "Wrong date format, must be ephem.Date, datetime, timestamp (float), tuple, or time.struct_time"
     format = str(format).lower()
-    if format=='ts': return time.mktime(t.datetime().timetuple())
+    if format=='ts': return mktime(t.datetime().timetuple())
     if format=='dt': return t.datetime()
     if format=='tu': return t.tuple()
     if format=='ed': return t

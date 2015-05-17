@@ -24,3 +24,5 @@ setup(
     package_data={'': ['obsData.txt']},
     include_package_data=True
 )
+
+# http://peterdowns.com/posts/first-time-with-pypi.html

@@ -24,6 +24,7 @@
 import _core
 
 _obsDataFile = './obsData.txt'
+_many_color = ['#40AC1E','#4E9FCC','#9A4ECC','#CC7B4E','#4E2ECC','#CC9EBD','#8EDCCD','#DC1ED2','#F21616','#2816F2','#3BF216','#F2E016']
 
 class ObservatoryList(object):
     """
@@ -33,10 +34,10 @@ class ObservatoryList(object):
       * dataFile (str): path+file to the observatories database. If left to ``None``, the standard package database will be used
 
     Kwargs:
-      * raise (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
 
     Raises:
-      * KeyError: if a mandatory input parameter is missing
+      * Exception: if a mandatory input parameter is missing when loading all observatories
 
     Use :func:`add`, :func:`rem`, :func:`mod` to add, remove or modify an observatory to the database.
     
@@ -72,7 +73,7 @@ class ObservatoryList(object):
                 self.dataFile = _core.os.path.join(this_dir, _obsDataFile[_obsDataFile.find('/')+1:])
             except:
                 self.dataFile = _obsDataFile
-        self._raise = bool(kwargs.get('raise', False))
+        self._raiseError = bool(kwargs.get('raiseError', False))
         self._load(**kwargs)
 
     def _load(self, **kwargs):
@@ -89,8 +90,8 @@ class ObservatoryList(object):
             try:
                 self.obsdic.update({item[0]:{'name':str(item[1]),'long':_core.E.degrees(item[2]),'lat':_core.E.degrees(item[3]),'elevation':float(item[4]),'temp':float(item[5]),'pressure':float(item[6]),'timezone':str(item[7]),'moonAvoidRadius':float(item[8])}})
             except:
-                if bool(kwargs.get('raise', self._raise)) is True:
-                    raise KeyError, "Missing parameter for '%s' (obsid '%s')" % (item[1], item[0])
+                if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                    raise Exception, "Missing parameter for '%s' (obsid '%s')" % (item[1], item[0])
                 else:
                     print "\033[31mMissing parameter for '%s' (obsid '%s')\033[39m" % (item[1], item[0])
 
@@ -124,6 +125,7 @@ class ObservatoryList(object):
 
         Raises:
           * NameError: if the observatory ID already exists
+          * Exception: if a mandatory input parameter is missing when reloading all observatories
 
         .. note::
           To view all available timezones, run:
@@ -132,10 +134,11 @@ class ObservatoryList(object):
           >>>     print tz
         """
         if str(obsid).lower() in self.obsids or str(obsid).strip().find(' ')!=-1 or str(obsid).strip().find(';')!=-1:
-            if bool(kwargs.get('raise', self._raise)) is True:
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
                 raise NameError, "The observatory ID provided already exists."
             else:    
                 print "\033[31mThe observatory ID provided already exists.\033[39m"
+                return
         else:
             f = open(self.dataFile, 'a')
             newobs = '\n%s;%s;%s;%s;%4.1f;%2.1f;%4.1f;%s;%3.1f' % (str(obsid).lower().strip(), str(name).replace(";",""), str(long).replace(";",""), str(lat).replace(";",""), float(elevation), float(temp), float(pressure), str(timezone).replace(";",""), float(moonAvoidRadius))
@@ -154,13 +157,15 @@ class ObservatoryList(object):
           See class constructor
 
         Raises:
-          * NameError: if the observatory ID does not exists
+          * NameError: if the observatory ID does not exist
+          * Exception: if a mandatory input parameter is missing when reloading all observatories
         """
         if str(obsid).lower() not in self.obsids:
-            if bool(kwargs.get('raise', self._raise)) is True:
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
                 raise NameError, "The observatory ID provided was not found."
             else:
                 print "\033[31mThe observatory ID provided was not found.\033[39m"
+                return
         else:
             newlines = '\n'.join([item.strip() for item in self._wholefile if item.split(';')[0].lower()!=str(obsid).lower()])
             f = open(self.dataFile, 'w')
@@ -179,16 +184,18 @@ class ObservatoryList(object):
           See class constructor
 
         Raises:
-          * NameError: if the observatory ID does not exists
+          * NameError: if the observatory ID does not exist
+          * Exception: if a mandatory input parameter is missing when reloading all observatories
 
         .. note::
           Refer to :func:`add` for details on input parameters
         """
         if str(obsid).lower() not in self.obsids:
-            if bool(kwargs.get('raise', self._raise)) is True:
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
                 raise NameError, "The observatory ID was not found."
             else:
                 print "\033[31mThe observatory ID was not found.\033[39m"
+                return
         else:
             newobs = '\n%s;%s;%s;%s;%4.1f;%2.1f;%4.1f;%s;%3.1f' % (str(obsid).lower().strip(), str(name).replace(";",""), str(long).replace(";",""), str(lat).replace(";",""), float(elevation), float(temp), float(pressure), str(timezone).replace(";",""), float(moonAvoidRadius))
             newlines = '\n'.join([item.strip() for item in self._wholefile if item.split(';')[0].lower()!=str(obsid).lower()])
@@ -218,13 +225,24 @@ class Observatory(_core.E.Observer, object):
       * local_date (see below): the date of observation in local time
       * ut_date (see below): the date of observation in UT time
       * horizon_obs (float - degrees): minimum altitude at which a target can be observed, default is 30 degrees altitude
+      * epoch (str): the 'YYYY' year in which all ra-dec coordinates are converted
+
+    Kwargs:
+      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+      * fig: TBD
+
+    Raises:
+      * NameError: if a mandatory input parameter is missing
+      * KeyError: if the observatory ID does not exist
+      * KeyError: if the twilight keyword is unknown
+      * Exception: if the observatory object has no date
 
     .. note::
       * For details on ``local_date`` and ``ut_date``, refer to :func:`Observatory.upd_date`
       * For details on other input parameters, refer to :func:`ObservatoryList.add`
       * The :class:`Observatory` automatically creates and manages a :class:`Moon` target under ``moon`` attribute
       * If ``obs`` is the id of an observatory to pick in the database, the user can still provide ``temp``, ``pressure``, ``moonAvoidRadius`` attributes which will override the database default values
-      * ``horizon`` is given in radian
+      * ``horizon`` attribute is in radian
 
     Main attributes:
       * ``localnight``: gives the local midnight time in local time (YYYY, MM, DD, 23, 59, 59)
@@ -257,9 +275,9 @@ class Observatory(_core.E.Observer, object):
             o.sunriseastro+o.localTimeOffest), '...', o.len_nightastro
     2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949
     """
-    def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None, **kwargs):
-        _core.E.Observer.__init__(self) # first init
-
+    def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None, epoch='2000', **kwargs):
+        super(Observatory, self).__init__() # first init
+        self._raiseError = bool(kwargs.get('raiseError', False))
         if long is None and lat is None and elevation is None and timezone is None: # gave directly an obsid, supposely
             obslist = ObservatoryList(dataFile=dataFile, **kwargs)
             if str(obs).lower() in obslist.obsids: # if correct id
@@ -267,7 +285,11 @@ class Observatory(_core.E.Observer, object):
                     setattr(self, k, v)
                 self.id = str(obs).lower()
             else: # if not correct id
-                raise KeyError, "Could not find observatory id %s in database" % (str(obs).lower())
+                if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                    raise KeyError, "Could not find observatory id %s in database" % (str(obs).lower())
+                else:
+                    print "\033[31mCould not find observatory id %s in database.\033[39m" % (str(obs).lower())
+                    return
         elif long is not None and lat is not None and elevation is not None and timezone is not None: # gave the details of a valid observatory
             self.name = str(obs)
             self.timezone = str(timezone)
@@ -282,7 +304,11 @@ class Observatory(_core.E.Observer, object):
             else:
                 self.lat = _core.E.degrees(lat)
         else: # a parameter is missing
-            raise Exception, "One or more input parameter missing. All 'long', 'lat', 'elevation', and 'timezone' are mandatory."
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                raise Exception, "One or more input parameter missing. All 'long', 'lat', 'elevation', and 'timezone' are mandatory."
+            else:
+                print "\033[31mOne or more input parameter missing. All 'long', 'lat', 'elevation', and 'timezone' are mandatory.\033[39m"
+                return
         # overwrite observatory value
         if temp is not None: self.temp = float(temp)
         if pressure is not None: self.pressure = float(pressure)
@@ -291,7 +317,13 @@ class Observatory(_core.E.Observer, object):
         if not hasattr(self, 'temp'): self.temp = 15.0
         if not hasattr(self, 'pressure'): self.pressure = 1010.0
         if not hasattr(self, 'moonAvoidRadius'): self.moonAvoidRadius = 0.
-        self.epoch = _core.E.J2000 # set epoch
+        epoch = str(int(epoch)) # set epoch
+        if epoch == '2000':
+            self.epoch = _core.E.J2000
+        elif epoch == '1950':
+            self.epoch = _core.E.B1950
+        else:
+            self.epoch = epoch
         self.horizon = -_core.np.sqrt(2*self.elevation/_core.E.earth_radius)
         if horizon_obs is None:
             self.horizon_obs = 30. # default value
@@ -309,7 +341,12 @@ class Observatory(_core.E.Observer, object):
         assumption: self.date is local midnight of the observation date and is expressed in UT
         """
         horizs = {'':self.horizon, 'astro':-0.314159, 'nautical':-0.2094395, 'civil':-0.104719} # 18, 12 and 6 degrees
-        if mode.lower() not in horizs.keys(): raise KeyError, "Unknown twilight %s" % mode # checks for mode
+        if mode.lower() not in horizs.keys():
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                raise KeyError, "Unknown twilight '%s'" % mode # checks for mode
+            else:
+                print "\033[31mUnknown twilight '%s'\033[39m" % mode
+                return
         s1, s2 = self.horizon, self.date # save initial obs values
         self.horizon = horizs[mode.lower()] # set horizon from mode
         # init in case of error
@@ -338,16 +375,23 @@ class Observatory(_core.E.Observer, object):
           * local_date (see below): the date of observation in local time
           * force (bool): if ``False``, the observatory is re-processed only if the date changed
 
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * KeyError: if the twilight keyword is unknown
+          * Exception: if the observatory object has no date
+
         Returns:
           ``True`` if the date was changed, otherwise ``False``
 
         .. note::
-          * ``local_date`` and ``ut_date`` can be date-tuples ``(yyyy, mm, dd, hh, mm, ss)``, timestamps, datetime structures or ephem.Date instances.
+          * ``local_date`` and ``ut_date`` can be date-tuples ``(yyyy, mm, dd, [hh, mm, ss])``, timestamps, datetime structures or ephem.Date instances.
           * If both are given, ``ut_date`` has higher priority
           * If neither of those are given, the date is automatically set to *tonight* or *now* (whether the sun has already set or not)
         """
         stored_date = getattr(self, 'localnight', _core.datetime(2000, 1, 1))
-        s1 = self.date # saves initial date value
+        s1 = self.date # saves initiprocess_obsal date value
         # set the local_date to this night's sunset time in local time so we can get the local day/month/year
         if local_date is None and ut_date is None: # default set to tonight midnight if date not provided
             self.date = _core.E.now() # takes the now for temporary calculation
@@ -381,9 +425,16 @@ class Observatory(_core.E.Observer, object):
         Creates the vector ``observatory.dates`` which is the vector containing all timestamps at which the moon and the targets will be processed.
 
         Args:
-          * pts (int): the size of the ``dates`` vector, whose elements are linearly spaced in time
-          * margin (float - minutes): the margin between the first element of the vector ``dates`` and the sunset, and between the sunrise and its last element
-          * fullhour (bool): if ``True``, then the vector ``dates`` will start and finish on the first full hour preceeding sunset and following sunrise
+          * pts (int) [optional]: the size of the ``dates`` vector, whose elements are linearly spaced in time
+          * margin (float - minutes) [optional]: the margin between the first element of the vector ``dates`` and the sunset, and between the sunrise and its last element
+          * fullhour (bool) [optional]: if ``True``, then the vector ``dates`` will start and finish on the first full hour preceeding sunset and following sunrise
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * KeyError: if the twilight keyword is unknown
+          * Exception: if the observatory object has no date
 
         .. note::
           In case the observatory is in polar regions where the sun does not alway set and rise everyday, the first and last elements of the ``dates`` vector are set to local midday right before and after the local midnight of the observation date. e.g.: 24h night centered on the local midnight.
@@ -397,7 +448,12 @@ class Observatory(_core.E.Observer, object):
                 ss = _core.E.Date(float(sunset) - margin*_core.E.minute)
                 sr = _core.E.Date(float(sunrise) + margin*_core.E.minute)
             return _core.np.linspace(ss, sr, int(numdates))
-        if not hasattr(self, "date"): raise Exception, "No date specified, 'date' attribute must exist as ephem.date" # checks if date exists
+        if not hasattr(self, "date"):
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                raise Exception, "No date specified, 'date' attribute must exist as ephem.date" # checks if date exists
+            else:
+                print "\033[31mNo date specified, 'date' attribute must exist as ephem.date.\033[39m"
+                return
         self.date = _core.cleanTime(self.date, format='ed')
         for mode in ['','astro','nautical','civil']: # gets sunrise and sunsets for all modes
             self._calc_sunRiseSet(mode=mode, **kwargs)
@@ -443,6 +499,105 @@ class Observatory(_core.E.Observer, object):
         raise AttributeError, "Read-only"
 
 
+    def plot(self, **kwargs):
+        """
+        Plots the observatory diagram
+
+        Kwargs:
+          * See class constructor
+          * dt (float - hour): the spacing of tick-label of x-axis, default is 1 hour
+          * t0 (float - DJD): the date of the first tick-label of x-axis, default is sunsetastro
+          * xlim ([xmin, xmax]): bounds for x-axis, default is full night span
+          * ylim ([ymin, ymax]): bounds for y-axis, default is [horizon_obs-10, 90]
+          * xlabel (str): label for x-axis, default 'Time (UT)'
+          * ylabel (str): label for y-axis, default 'Elevation (°)'
+          * title (str): title of the diagram, default is observatory name or coordinates
+          * ymin_margin (float): margin between xmin of graph and horizon_obs. Low priority vs ylim, default is 10
+          * retfignum (bool): if ``True``, the figure number will be returned, default is ``False``
+          * fignum (int): figure number on which to plot, default is ``False``
+          * retaxnum (bool): if ``True``, the ax index as in ``figure.axes[n]`` will be returned, default is ``False``
+          * axnum (int): axes index on which to plot, default is ``None`` (create new ax)
+          * retfig (bool): if ``True``, the figure number will be returned, default is ``False``
+          * fig (figure): figure on which to plot, default is ``None`` (use fignum)
+          * retaxnum (bool): if ``True``, the ax index as in ``figure.axes[n]`` will be returned, default is ``False``
+          * ax (axes): ax on which to plot, default is ``None``
+          * now (bool): if ``True`` and within range, a vertical line as indication of "now" will be shown, default is True
+          * retnow (bool): returns the line object (``nowline`` key) corresponding to the 'now-line', default is ``False``
+          * legend (bool): whether to add a legend or not, default is ``True``
+          * loc: location of the legend, default is 8 (top right), refer to plt.legend
+          * ncol: number of columns in the legend, default is 3, refer to plt.legend
+          * columnspacing: spacing between columns in the legend, refer to plt.legend
+          * lfs: legend font size, default is 11
+          * textlbl (bool): if ``True``, a text label with target name or coordinates will be added near transit, default is ``False``
+
+        Raises:
+          N/A
+        """
+        self._plot()
+
+    def _plot(self, **kwargs):
+        if kwargs.get('fignum', None) is None and kwargs.get('fig', None) is None and kwargs.get('axnum', None) is None and kwargs.get('ax', None) is None: # no fig and no ax given, need to create
+            thefig = _core.plt.figure()
+        elif kwargs.get('fignum', None) is not None:
+            thefig = _core.plt.figure(kwargs['fignum'])
+        elif kwargs.get('fig', None) is None and kwargs.get('ax', None) is not None:
+            thefig = _core.plt.figure(kwargs['ax'].figure.number)
+        else:
+            thefig = kwargs['fig']
+        if kwargs.get('axnum', None) is None and kwargs.get('ax', None) is None:
+            theax = thefig.add_axes([0.1,0.1,0.8,0.8])
+        elif kwargs.get('axnum', None) is not None:
+            theax = thefig.axes[kwargs['ax']]
+        else:
+            theax = kwargs['ax']
+        retkwargs = {}
+        if kwargs.get('retfignum', False) is True: retkwargs.update({'fignum':thefig.number})
+        if kwargs.get('retaxnum', False) is True: retkwargs.update({'axnum':thefig.axes.index(theax)})
+        if kwargs.get('retfig', False) is True: retkwargs.update({'fig':thefig})
+        if kwargs.get('retax', False) is True: retkwargs.update({'ax':theax})
+        if kwargs.get('simpleplt', False) is not False:
+            if retkwargs!={}:
+                return retkwargs
+            else:
+                return
+        # set min and max on y axis to most min and most max of any plot-able parameter, or ylim
+        minmin, maxmax = theax.set_ylim(kwargs.get('ylim', [-180, 360]))
+        # if polar night
+        if (self.sunrise is None or self.sunset is None) and getattr(self, 'alwaysDark', False) is True:
+            bgcolor = 'w'
+        else:
+            bgcolor = '#04031C'
+        theax.add_patch(_core.Rectangle((self.dates[0], minmin), self.dates[-1]-self.dates[0], maxmax, facecolor=bgcolor, edgecolor=bgcolor))
+        if self.sunset is not None and self.sunrise is not None:
+            theax.add_patch(_core.Rectangle((self.sunset, minmin), self.sunrise-self.sunset, maxmax, facecolor='#1814A3', edgecolor='#1814A3'))
+        if self.sunsetcivil is not None and self.sunrisecivil is not None:
+            theax.add_patch(_core.Rectangle((self.sunsetcivil, minmin), self.sunrisecivil-self.sunsetcivil, maxmax, facecolor='#6F6BE8', edgecolor='#6F6BE8'))
+        if self.sunsetnautical is not None and self.sunrisenautical is not None:
+            theax.add_patch(_core.Rectangle((self.sunsetnautical, minmin), self.sunrisenautical-self.sunsetnautical, maxmax, facecolor='#C1BFF2', edgecolor='#C1BFF2'))
+        if self.sunsetastro is not None and self.sunriseastro is not None:
+            theax.add_patch(_core.Rectangle((self.sunsetastro, minmin), self.sunriseastro-self.sunsetastro, maxmax, facecolor='w', edgecolor='w'))
+        theax.set_xlim(kwargs.get('xlim', [self.dates[0], self.dates[-1]]))
+        if kwargs.has_key('ylim'):
+            theax.set_ylim(kwargs['ylim'])
+        else:
+            theax.set_ylim([self.horizon_obs-float(kwargs.get('ymin_margin', 10)), 90])
+            theax.add_patch(_core.Rectangle((self.dates[0], minmin), self.dates[-1]-self.dates[0], self.horizon_obs-minmin, facecolor='k', edgecolor='None', alpha=0.3))
+        dt = float(kwargs.get('dt', 1))
+        t0 = min(max(float(kwargs.get('t0', self.sunsetastro)), self.sunset), self.sunrise)
+        datetick = _core.np.r_[_core.np.arange(t0, self.dates[0], -dt/24.)[::-1], _core.np.arange(t0, self.dates[-1], dt/24.)[1:]]
+        datetickstr = [str(_core.E.Date(item)).split()[1][:-3] for item in datetick]
+        _core.plt.xticks(datetick, datetickstr, rotation='horizontal', size='10')
+        theax.grid(True)
+        theax.set_xlabel(kwargs.get('xlabel', 'Time (UT)'))
+        theax.set_ylabel(kwargs.get('ylabel', 'Elevation (°)'))
+        theax.set_title(kwargs.get('title', getattr(self, 'name', str(self.lat)+' '+str(self.lon))+' - '+str(self.localnight).split()[0]))
+        if kwargs.get('now') is True and obs.nowArg is not None:
+            thenowline = theax.plot([_core.E.now(), _core.E.now()], theax.get_ylim(), 'r-')
+        else:
+            thenowline = ''
+        if kwargs.get('retnow', False) is True: retkwargs.update({'nowline':thenowline})
+        if retkwargs!={}: return retkwargs
+
 
 class Target(object):
     """
@@ -453,21 +608,30 @@ class Target(object):
       * dec (str '+/-dd:mm:ss.s' or float - degrees): the declination of the target
       * name (str): the name of the target, for display
       * obs (:class:`Observatory`) [optional]: the observatory for which to process the target
+      * input_epoch (str): the 'YYYY' year of epoch in which the ra-dec coordinates are given. These coordinates will corrected with precession if the epoch of observatory is different
+
+    Kwargs:
+      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+
+    Raises:
+      N/A
     """
-    def __init__(self, ra, dec, name, obs=None, **kwargs):
+    def __init__(self, ra, dec, name, input_epoch='2000', obs=None, **kwargs):
+        self._raiseError = bool(kwargs.get('raiseError', False))
         if isinstance(ra, (float, int)):
             self._ra = _core.Angle(ra, 'deg')
         else:
             self._ra = _core.Angle(str(ra)+'h')
         self._dec = _core.Angle(str(dec)+'d')
         self.name = str(name)
-        if obs is not None: self.process(obs=obs)
+        self.input_epoch = str(int(input_epoch))
+        if obs is not None: self.process(obs=obs, **kwargs)
 
     def __getitem__(self, key):
         return getattr(self, str(key).lower(), None)
 
     def _info(self):
-        return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], (self._dec.dms[0]>0)*'+', self._dec.dms[0], _core.np.abs(self._dec.hms[1]), _core.np.abs(self._dec.hms[2]), hasattr(self, "_ticked")*(', '+getattr(self, "_ticked", False)*'O'+(not getattr(self, "_ticked", False))*'-'))
+        return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], (self._dec.dms[0]>0)*'+', self._dec.dms[0], _core.np.abs(self._dec.dms[1]), _core.np.abs(self._dec.dms[2]), hasattr(self, "_ticked")*(', '+getattr(self, "_ticked", False)*'O'+(not getattr(self, "_ticked", False))*'-'))
     def __repr__(self):
         return self._info()
     def __str__(self):
@@ -542,7 +706,8 @@ class Target(object):
             self.alwaysUp = False
         if self.rise_time is not None:
             obs.date = self.rise_time
-        else: obs.date = obs.dates[0]
+        else:
+            obs.date = obs.dates[0]
         self.transit_time = obs.next_transit(target)
         obs.date = self.transit_time
         target.compute(obs)
@@ -556,6 +721,12 @@ class Target(object):
 
         Args:
           * obs (:class:`Observatory`): the observatory for which to process the target
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          N/A
 
         Creates vector attributes:
           * ``airmass``: the airmass of the target
@@ -582,7 +753,7 @@ class Target(object):
         self.alt = []
         self.az = []
         self.moondist = []
-        targetdb = "star,f|V|G2,%s,%s,0.0,2000.0" % (':'.join(map(str, self.ra)), ':'.join(map(str, self.dec)))
+        targetdb = "star,f|V|G2,%s,%s%s,0.0,%s" % (':'.join(map(str, self.ra)), '-'*(self.dec[0]<0), ':'.join(map(str, map(abs, self.dec))), int(self.input_epoch))
         target = _core.E.readdb(targetdb)
         self._set_RiseSetTransit(target=target, obs=obs, **kwargs)
         for t in range(len(obs.dates)):
@@ -591,8 +762,11 @@ class Target(object):
             self.airmass.append(_core.rad_to_airmass(target.alt))
             self.alt.append(target.alt)
             self.az.append(target.az)
-            self.ha.append(obs.lst[t] - target.ra)
+            self.ha.append(obs.lst[t] - target.a_ra)
             self.moondist.append(_core.E.separation([self.az[t], self.alt[t]], [_core.np.deg2rad(obs.moon.az[t]), _core.np.deg2rad(obs.moon.alt[t])]))
+        # set radec to obs epoch
+        self._ra = _core.np.rad2deg(_core.Angle(target.a_ra, unit='rad'))
+        self._dec = _core.np.rad2deg(_core.Angle(target.a_dec, unit='rad'))
         obs.date = save_date # sets obs date back
         self.alt = _core.np.rad2deg(self.alt)
         self.az = _core.np.rad2deg(self.az)
@@ -600,7 +774,10 @@ class Target(object):
         self.airmass = _core.np.asarray(self.airmass)
         self.moondist = _core.np.rad2deg(self.moondist)
 
-    def whenobs(self, obs, fromDate="now", toDate="now+30day", plot=True, ret=False, dday=1, **kwargs):
+    def _whenobs(self, obs, fromDate="now", toDate="now+30day", plot=True, ret=False, dday=1, **kwargs):
+        """
+        Does the calculations for whenobs method
+        """
         if fromDate=="now":
             fromDate = _core.E.now()
         else:
@@ -612,10 +789,6 @@ class Target(object):
         old_date = obs.date
         dday = max(1, int(dday))
         dates = _core.np.arange(fromDate, toDate, dday)
-        if plot is True:
-            fig = _core.plt.figure()
-            ax = fig.add_axes([0.09,0.15,0.85,0.8])
-            bottombar = _core.np.zeros(dates.size)
         retval = []
         for date in dates:
             obs.upd_date(ut_date=_core.E.Date(date), **kwargs)
@@ -650,49 +823,106 @@ class Target(object):
             retval.append((obsgoodmoon.sum()*dt, obsbadmoon.sum()*dt, sunsettinggoodmoon.sum()*dt, sunsettingbadmoon.sum()*dt, sunrisinggoodmoon.sum()*dt, sunrisingbadmoon.sum()*dt, darkbadalt.sum()*dt, twighlightbadalt.sum()*dt))
         # set the date back
         obs.upd_date(ut_date=old_date, **kwargs)
+        self.process(obs=obs, **kwargs)
         # prepare outputing
         retkeys = ['obs','moon','dusk','duskmoon','dawn','dawnmoon','darklow','twighlightlow']
         retval = _core.np.asarray(retval, dtype=[(key, 'f8') for key in retkeys])
+        return dates, retval, retkeys
+
+    def whenobs(self, obs, fromDate="now", toDate="now+30day", plot=True, ret=False, dday=1, **kwargs):
+        """
+        Processes the target for the given observatory and dat.
+
+        Args:
+          * obs (:class:`Observatory`): the observatory for which to process the target
+          * fromDate (see below): the start date of the range
+          * toDate (see below): the end date of the range
+          * plot: whether it plots the diagram
+          * ret: whether it returns the values
+          * dday: the 
+
+        Kwargs:
+          See class constructor
+          * legend (bool): whether to add a legend or not, default is ``True``
+          * loc: location of the legend, default is 8 (top right), refer to plt.legend
+          * ncol: number of columns in the legend, default is 3, refer to plt.legend
+          * columnspacing: spacing between columns in the legend, refer to plt.legend
+          * lfs: legend font size, default is 11
+
+        Raises:
+          N/A
+
+        .. note::
+          * ``local_date`` and ``ut_date`` can be date-tuples ``(yyyy, mm, dd, [hh, mm, ss])``, timestamps, datetime structures or ephem.Date instances.
+        """
+        defaultlegend = True
+        dates, retval, retkeys = self._whenobs(obs=obs, fromDate=fromDate, toDate=toDate, plot=plot, ret=ret, dday=dday, **kwargs)
         if plot is True:
-            color = {'obs':'#02539C', 'moon':'#02539C', 'twighlightlow':'#AB6E50', 'darklow':'#6E2D0D', 'dusk':'#FACF50', 'duskmoon':'#FACF50', 'dawnmoon':'#A1E6E2', 'dawn':'#A1E6E2'}
-            legend = {'obs':'Optimal','twighlightlow':'Low+Twighlight', 'darklow':'Low+Dark', 'dusk':'Up+Dusk','dawn':'Up+Dawn'}
-            hatch = {'duskmoon':'//', 'moon':'//', 'dawnmoon':'//'}
             def daymon(t):
                 months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 t = str(_core.E.Date(t)).split()[0].split('/')[1:][::-1]
                 return t[0]+' '+months[int(t[1])]
+            thefig = _core.plt.figure()
+            theax = thefig.add_axes([0.09,0.15,0.85,0.8])
+            bottombar = _core.np.zeros(dates.size)
+            color = {'obs':'#02539C', 'moon':'#02539C', 'twighlightlow':'#AB6E50', 'darklow':'#6E2D0D', 'dusk':'#FACF50', 'duskmoon':'#FACF50', 'dawnmoon':'#A1E6E2', 'dawn':'#A1E6E2'}
+            legend = {'obs':'Optimal','twighlightlow':'Low+Dusk/Dawn', 'darklow':'Low+Dark', 'dusk':'Up+Dusk','dawn':'Up+Dawn'}
+            hatch = {'duskmoon':'//', 'moon':'//', 'dawnmoon':'//'}
             datestr = [daymon(item) for item in dates]
             for key in retkeys:
-                if legend.get(key, '')!='':
-                    ax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0, label=legend.get(key, ''))
+                if legend.get(key, '')!='' and kwargs.get('legend', defaultlegend) is True:
+                    theax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0, label=legend.get(key, ''))
                 else:
-                    ax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0)
+                    theax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0)
                 bottombar += retval[key]
             _core.plt.xticks(dates[0::2]+0.5, datestr[0::2], rotation='vertical')
-            ax.bar(dates, _core.np.zeros(dates.size), bottom=0, color='w', hatch='//', edgecolor='k', label='Moon')
-            ax.set_xlim([dates[0]-1, dates[-1]+2])
-            ax.set_ylabel('Duration (hour)')
-            ax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)))
-            ax.legend(loc=1)
+            theax.bar(dates, _core.np.zeros(dates.size), bottom=0, color='w', hatch='//', edgecolor='k', label='Moon')
+            theax.set_xlim([dates[0]-1, dates[-1]+2])
+            theax.set_ylabel('Duration (hour)')
+            theax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)))
+            if kwargs.get('legend', defaultlegend) is True:
+                theax.legend(loc=kwargs.get('loc', 8), frameon=True, ncol=kwargs.get('ncol', 3), columnspacing=kwargs.get('columnspacing', 0.2))
+                theax.get_legend().texts[0].set_fontsize(kwargs.get('lfs', 11))
         if ret is not False: return dates, retval
 
-    def plot(self, obs, **kwargs):
-        timestr = [str(_core.E.Date(item)).split()[1][:-3] for item in obs.dates]
-        fig = _core.plt.figure()
-        ax = fig.add_axes([0.1,0.1,0.8,0.8])
-        ylim = [self.alt.min(), self.alt.max()]
-        ax.plot(obs.dates, self.alt, 'k', lw=2)
-        ax.plot([obs.sunset, obs.sunset], ylim, 'y-')
-        ax.plot([obs.sunsetastro, obs.sunsetastro], ylim, 'b-')
-        ax.plot([obs.sunrise, obs.sunrise], ylim, 'y-')
-        ax.plot([obs.sunriseastro, obs.sunriseastro], ylim, 'b-')
-        #ax.plot(obs.dates, self.moondist,'g-')
-        #ax.plot([obs.dates[0], obs.dates[-1]], [obs.moonAvoidRadius, obs.moonAvoidRadius], 'g--')
-        ax.plot([obs.dates[0], obs.dates[-1]], [obs.horizon_obs, obs.horizon_obs], 'k-')
-        _core.plt.xticks(obs.dates[0::10], timestr[0::10], rotation='vertical')
-        ax.set_ylim([0, 90])
-        ax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)) +' - '+str(obs.localnight).split()[0])
-        ax.set_ylabel('Elevation (degrees) vs time (UT)')
+    def plot(self, obs, y='alt', **kwargs):
+        """
+        Plots the y-parameter vs time diagram for the target at the given observatory and date
+
+        Args:
+          * obs (:class:`Observatory`): the observatory for which to plot the target
+
+        Kwargs:
+          * See class constructor
+          * See :func:`Observatory.plot`
+          * simpleplt (bool): if ``True``, the observatory plot will not be plotted, default is ``False``
+          * color (str or #XXXXXX): the color of the target curve, default is 'k'
+          * lw (float): the linewidth, default is 1
+        
+        Raises:
+          N/A
+        """
+        self._plot(obs=obs, y=y, **kwargs)
+
+    def _plot(self, obs, y='alt', **kwargs):
+        defaultlegend = False
+        kwargs['title'] = kwargs.get('title', getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)) +' - '+str(obs.localnight).split()[0])
+        kwargs['ylabel'] = kwargs.get('ylabel', 'Elevation (°) vs time (UT)')
+        saveretax = kwargs.get('retax', False)
+        kwargs['retax'] = True
+        retkwargs = obs._plot(**kwargs)
+        if kwargs.get('legend', defaultlegend) is True:
+            retkwargs['ax'].plot(obs.dates, getattr(self, y), kwargs.get('color', 'k'), lw=kwargs.get('lw', 1), label=getattr(self, 'name', self.raStr+' '+self.decStr))
+        else:
+            retkwargs['ax'].plot(obs.dates, getattr(self, y), kwargs.get('color', 'k'), lw=kwargs.get('lw', 1))
+        if kwargs.get('legend', defaultlegend) is True:
+            retkwargs['ax'].legend(loc=kwargs.get('loc', 8), frameon=True, ncol=kwargs.get('ncol', 3), columnspacing=kwargs.get('columnspacing', 0.2))
+            retkwargs['ax'].get_legend().texts[0].set_fontsize(kwargs.get('lfs', 11))
+        if kwargs.get('textlbl', False) is True:
+            retkwargs['ax'].text(obs.dates[:-30][self.alt[:-30].argmax()], self.alt[:-30].max(), getattr(self, 'name', self.raStr+' '+self.decStr))
+        if saveretax is False: retkwargs.pop('ax')
+        if retkwargs!={}: return retkwargs
+        
 
 
 class Moon(Target):
@@ -700,10 +930,18 @@ class Moon(Target):
     Initialises the Moon. Optionaly, processes the Moon for the observatory and date given (refer to :func:`Moon.process`).
 
     Args:
-      * obs (:class:`Observatory`): the observatory for which to process the Moon
+      * obs (:class:`Observatory`) [optional]: the observatory for which to process the Moon
+
+    Kwargs:
+      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+
+    Raises:
+      N/A
     """
-    def __init__(self, obs=None, **kwargs):
+    def __init__(self, obs=None, input_epoch='2000', **kwargs):
+        self._raiseError = bool(kwargs.get('raiseError', False))
         self.name = 'Moon'
+        self.input_epoch = str(int(input_epoch))
         if obs is not None: self.process(obs=obs, **kwargs)
 
     def _info(self):
@@ -728,12 +966,59 @@ class Moon(Target):
     def dec(self, value):
         raise AttributeError, "Read-only"
 
+    @property
+    def raStr(self):
+        """
+        A pretty printable version of the mean of the right ascension of the moon
+        """
+        hms = self._ra.hms
+        return "%ih%im%2.1fs" % (hms[0].mean(), hms[1].mean(), hms[2].mean())
+    @raStr.setter
+    def raStr(self, value):
+        raise AttributeError, "Read-only"
+    @property
+    def decStr(self):
+        """
+        A pretty printable version of the mean of the declination of the moon
+        """
+        dms = self._dec.dms
+        return "%s%i°%i'%2.1f\"" % ((dms[0].mean()>0)*'+', dms[0].mean(), dms[1].mean(), dms[2].mean())
+    @decStr.setter
+    def decStr(self, value):
+        raise AttributeError, "Read-only"
+
+    def plot(self, obs, y='alt', **kwargs):
+        """
+        Plots the y-parameter vs time diagram for the moon at the given observatory and date
+
+        Args:
+          * obs (:class:`Observatory`): the observatory for which to plot the moon
+
+        Kwargs:
+          * See class constructor
+          * See :func:`Observatory.plot`
+          * simpleplt (bool): if ``True``, the observatory plot will not be plotted, default is ``False``
+          * color (str or #XXXXXX): the color of the moon curve, default is '#777777'
+          * lw (float): the linewidth, default is 1
+        
+        Raises:
+          N/A
+        """
+        kwargs['color'] = kwargs.get('color', '#777777')
+        self._plot(obs=obs, y=y, **kwargs)
+
     def process(self, obs, **kwargs):
         """
         Processes the moon for the given observatory and date.
 
         Args:
           * obs (:class:`Observatory`): the observatory for which to process the moon
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          N/A
 
         Creates vector attributes:
           * ``airmass``: the airmass of the moon
@@ -772,16 +1057,15 @@ class Moon(Target):
             self.airmass.append(_core.rad_to_airmass(target.alt))
             self.alt.append(target.alt)
             self.az.append(target.az)
-            ra, dec = obs.radec_of(self.az[-1], self.alt[-1])
-            self._ra.append(ra)
-            self._dec.append(dec)
-            self.ha.append(obs.lst[t] - target.ra)
+            self._ra.append(target.a_ra)
+            self._dec.append(target.a_dec)
+            self.ha.append(obs.lst[t] - target.a_ra)
         obs.date = save_date # sets obs date back
         self.alt = _core.np.rad2deg(self.alt)
         self.az = _core.np.rad2deg(self.az)
         self.ha = _core.np.rad2deg(self.ha)
-        self._ra = _core.Angle(self._ra, 'rad')
-        self._dec = _core.Angle(self._dec, 'rad')
+        self._ra = _core.np.rad2deg(_core.Angle(self._ra, 'rad'))
+        self._dec = _core.np.rad2deg(_core.Angle(self._dec, 'rad'))
         self.airmass = _core.np.asarray(self.airmass)
         self.phase = _core.np.asarray(self.phase)
 
@@ -793,8 +1077,14 @@ class TargetSIMBAD(Target):
 
     Args:
       * name (str): the name of the target as if performing an online SIMBAD search
-      * obs (:class:`Observatory`): the observatory for which to process the target
+      * obs (:class:`Observatory`) [optional]: the observatory for which to process the target
     
+    Kwargs:
+      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+
+    Raises:
+      N/A
+
     Creates attributes:
       * ``flux``: a dictionary of the magnitudes of the target. Keys are part or all of ['U','B','V','R','I','J','H','K']
       * ``link``: the link to paste into a web-browser to display the SIMBAD page of the target
@@ -803,8 +1093,10 @@ class TargetSIMBAD(Target):
       * ``hr``: if applicable, the HR number of the target
       * ``hip``: if applicable, the HIP number of the target
     """
-    def __init__(self, name, obs=None, **kwargs):
+    def __init__(self, name, obs=None, input_epoch='2000', **kwargs):
+        self._raiseError = bool(kwargs.get('raiseError', False))
         self.name = str(name)
+        self.input_epoch = str(int(input_epoch))
         customSimbad = _core.Simbad()
         customSimbad.add_votable_fields('fluxdata(U)', 'fluxdata(B)', 'fluxdata(V)', 'fluxdata(R)', 'fluxdata(I)', 'fluxdata(J)', 'fluxdata(H)', 'fluxdata(K)', 'plx', 'sptype')
         try:
@@ -812,6 +1104,12 @@ class TargetSIMBAD(Target):
         except:
             print "\033[31mThe given object was not found in SIMBAD.\033[39m"
             return
+        if result is None:
+            if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                raise NameError, "The given object was not found in SIMBAD"
+            else:
+                print "\033[31mThe given object was not found in SIMBAD.\033[39m"
+                return
         self._ra = _core.Angle(str(result['RA'][0])+'h')
         self._dec = _core.Angle(str(result['DEC'][0])+'d')
 
@@ -849,11 +1147,18 @@ class Observation(Observatory):
     """
     Assembles together an :class:`Observatory` (including itself the :class:`Moon` target), and a list of :class:`Target`.
 
-    Use and refer to:
+    For use and docs refer to:
       * :func:`add_target` to add a target to the list
       * :func:`rem_target` to remove one
       * :func:`change_obs` to change the observatory
       * :func:`change_date` to change the date of observation
+
+    Kwargs:
+      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``
+      * fig: TBD
+
+    Raises:
+      See :class:`Observatory`
 
     .. warning::
       * it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to ``None``
@@ -901,12 +1206,21 @@ class Observation(Observatory):
     @targets.setter
     def targets(self, value):
         if not isinstance(value, (list, tuple)): # single element
-            if not isinstance(value, Target): raise AttributeError, "Can't add non-Target object to target list"
+            if not isinstance(value, Target):
+                if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                    raise AttributeError, "Can't add non-Target object to target list"
+                else:
+                    print "\033[31mCan't add non-Target object to target list\033[39m"
+                    return
             self._targets = [value] # adds the moon and the element
             self._targets._ticked = True
         else:
             for item in value:
-                if not isinstance(item, Target): raise AttributeError, "Can't add non-Target object to target list"
+                if bool(kwargs.get('raiseError', self._raiseError)) is True:
+                    raise AttributeError, "Can't add non-Target object to target list"
+                else:
+                    print "\033[31mCan't add non-Target object to target list\033[39m"
+                    return
             self._targets = value
             for item in self._targets:
                 item._ticked = True
@@ -923,14 +1237,20 @@ class Observation(Observatory):
     def ticked(self, value):
         raise AttributeError, "Read-only"
 
-    def tick(self, tgt, forceTo=None):
+    def tick(self, tgt, forceTo=None, **kwargs):
         """
         Changes the ticked property of a target (whether it is selected for observation)
 
         Args:
           * tgt (int): the index of the target in the ``Observation.targets`` list
-          * forceTo (bool): if ``True``, selects the target for observation, if ``False``, unselects it, if ``None``, the value of the selection is inverted
+          * forceTo (bool) [optional]: if ``True``, selects the target for observation, if ``False``, unselects it, if ``None``, the value of the selection is inverted
         
+        Kwargs:
+          See class constructor
+
+        Raises:
+          N/A
+
         .. note::
           * Automatically reprocesses the target for the given observatory and date if it is selected for observation
 
@@ -965,6 +1285,12 @@ class Observation(Observatory):
           * a :class:`Target` instance: all other parameters are ignored
           * a target name (string): if ``ra`` and ``dec`` are not ``None``, the target is added with the provided coordinates; if ``None``, a SIMBAD search is performed on ``tgt``. ``name`` is ignored
           * a ra-dec string ('hh:mm:ss.s +/-dd:mm:ss.s'): in that case, ``ra`` and ``dec`` will be ignored and ``name`` will be the name of the target
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * ValueError: if ra-dec formating was not understood
 
         .. note::
           * Automatically processes the target for the given observatory and date
@@ -1002,6 +1328,12 @@ class Observation(Observatory):
 
         Args:
           * tgt (int): the index of the target in the ``Observation.targets`` list
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          N/A
         """
         if not hasattr(self, '_targets'): return None
         if isinstance(tgt, int): self._targets.pop(tgt)
@@ -1011,7 +1343,10 @@ class Observation(Observatory):
         Changes the observatory and optionaly re-processes all target for the new observatory and same date
 
         Args:
-          * recalcAll (bool or None): if ``False``: only selected targets for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
+          * recalcAll (bool or None) [optional]: if ``False`` (default): only targets selected for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
+
+        Kwargs:
+          See class constructor
 
         .. note::
           * Refer to :func:`ObservatoryList.add` for details on other input parameters
@@ -1026,7 +1361,7 @@ class Observation(Observatory):
         """
         Processes all target for the given observatory and date
         Args:
-          * recalcAll (bool or None): if ``False``: only selected targets for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
+          * recalcAll (bool or None) [optional]: if ``False`` (default): only targets selected for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
         """
         for item in self.targets:
             if item._ticked or recalcAll: item.process(self, **kwargs)
@@ -1039,7 +1374,44 @@ class Observation(Observatory):
         Args:
           * ut_date: Refer to :func:`Observatory.upd_date`
           * local_date: Refer to :func:`Observatory.upd_date`
-          * recalcAll (bool or None): if ``False``: only selected targets for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
+          * recalcAll (bool or None) [optional]: if ``False`` (default): only targets selected for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
+
+        Kwargs:
+          See class constructor
+
+        Raises:
+          * KeyError: if the twilight keyword is unknown
+          * Exception: if the observatory object has no date
+
         """
         self.upd_date(ut_date=ut_date, local_date=local_date, **kwargs)
         if recalcAll is not None: self._process(recalcAll=recalcAll, **kwargs)
+
+    def plot(self, y='alt', **kwargs):
+        """
+        Plots the y-parameter vs time diagram for the target at the given observatory and date
+
+        Kwargs:
+          * See class constructor
+          * See :func:`Observatory.plot`
+          * moon (bool): if ``True``, adds the moon to the graph, default is ``True``
+          * autocolor (bool): if ``True``, sets curves-colors automatically, default is ``True``
+
+        Raises:
+          N/A
+        """
+        saveretax = kwargs.get('retax', False)
+        kwargs['retax'] = True
+        retkwargs = self._plot(**kwargs)
+        kwargs['ax'] = retkwargs['ax']
+        kwargs['simpleplt'] = True
+        colindex = 0
+        for item in self.targets:
+            if item._ticked is True and item.name.lower()!="moon":
+                if kwargs.get('autocolor', True): kwargs['color'] = _many_color[colindex%len(_many_color)]
+                item.plot(self, y=y, **kwargs)
+                colindex += 1
+        if kwargs.has_key('color'): kwargs.pop('color')
+        if kwargs.get('moon', True) is True: self.moon.plot(self, y=y, **kwargs)
+        if saveretax is False: retkwargs.pop('ax')
+        if retkwargs!={}: return retkwargs

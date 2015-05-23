@@ -31,6 +31,10 @@ from astroquery.simbad import Simbad
 import re
 import os
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def radecFromStr(txt):
     """
@@ -39,7 +43,7 @@ def radecFromStr(txt):
     """
     def check_str(text, rem_char=None):
         if not isinstance(rem_char, str): raise Exception, "rem_char argument must be a string"
-        reps={}
+        reps = {}
         for elmt in rem_char:
             reps.update({elmt:""})
         text = replace_multi(text, reps)

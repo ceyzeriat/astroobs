@@ -20,7 +20,7 @@ setup(
     download_url = 'https://github.com/ceyzeriat/astroobs/tree/master/dist',
     keywords = ['astronomy','ephemeris','pyephem','iobserve','observatory','telescope','observer','target','airmass'], # arbitrary keywords
     classifiers = ['Development Status :: 4 - Beta','Environment :: Console','Intended Audience :: Education','Intended Audience :: Science/Research','License :: OSI Approved :: MIT License','Operating System :: Unix','Programming Language :: Python :: 2.7','Topic :: Documentation :: Sphinx', 'Topic :: Scientific/Engineering :: Physics'],
-    install_requires=['pyephem','pytz'],
+    install_requires=[],
     package_data={'': ['obsData.txt']},
     include_package_data=True
 )

@@ -19,8 +19,8 @@ It is released under the MIT license.
     import astroobs.obs as obs
 
     o=obs.Observation('vlt', local_date=(2015, 1, 1), moonAvoidRadius=15, horizon_obs = 40)
-    o.add_target('aldebaran') # internet connection required
-    o.add_target('canopus') # internet connection required
+    o.add_target('aldebaran')
+    o.add_target('canopus')
     o.plot(legend=True)
 
 .. image:: https://raw.githubusercontent.com/ceyzeriat/astroobs/master/img/obs_ex.png
@@ -62,12 +62,12 @@ install astroobs using `conda <http://conda.io>`_::
 
   $ conda install astroobs --channel astroobs
 
-You can also `install astroobs from PyPI`_ using pip, given that you already
+You can also install astroobs from PyPI using pip, given that you already
 have all the requirements::
 
   $ pip install astroobs
 
-You can also `download astroobs source from GitHub`_ and type::
+You can also download astroobs source from GitHub and type::
 
   $ python setup.py install
 

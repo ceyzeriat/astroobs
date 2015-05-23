@@ -3,15 +3,7 @@
 :Name: astroobs
 :Website: https://github.com/ceyzeriat/astroobs
 :Author: Guillaume Schworer
-:Version: 1.4beta
-
-.. image:: https://pypip.in/v/$REPO/badge.png
-    :target: https://crate.io/packages/$REPO/
-    :alt: Latest PyPI version
-
-.. image:: https://pypip.in/d/$REPO/badge.png
-    :target: https://crate.io/packages/$REPO/
-    :alt: Number of PyPI downloads
+:Version: 1.3.3beta
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
     :target: https://github.com/ceyzeriat/astroobs/blob/master/LICENSE.txt

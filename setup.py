@@ -4,9 +4,6 @@ from sys import argv, exit
 if "upl" in argv[1:]:
     import os
     os.system("python setup.py register -r pypi")
-    exit()
-if "dist" in argv[1:]:
-    import os
     os.system("python setup.py sdist upload -r pypi")
     exit()
 

@@ -1,1 +1,126 @@
-/media/DATA/Dropbox/phd/gits/astroobs/info
+.. astroobs
+
+:Name: astroobs
+:Website: https://github.com/ceyzeriat/astroobs
+:Author: Guillaume Schworer
+:Version: 1.4beta
+
+.. image:: https://pypip.in/v/astroobs/badge.png?style=flat
+    :alt: Latest release
+    :target: https://pypi.python.org/pypi/astroobs/
+
+.. image:: https://pypip.in/d/astroobs/badge.png?style=flat
+    :alt: PyPI downloads count
+    :target: https://pypi.python.org/pypi/astroobs/
+
+.. image:: https://pypip.in/license/astroobs/badge.png?style=flat
+    :alt: astroobs license
+    :target: https://pypi.python.org/pypi/astroobs/
+
+.. image:: https://img.shields.io/badge/license-MIT-blue.svg
+    :target: https://github.com/ceyzeriat/astroobs/blob/master/LICENSE.txt
+
+https://github.com/ceyzeriat/astroobs
+
+Astroobs provides astronomy ephemeris (airmass, azimuth, altitude, moon separation, etc) of a night sky target as a function of the date-time and the longitude/latitude of the observer.
+A list of international observatories is provided as well as a SIMBAD-querier to easily import targets.
+This package is based on pyephem ephemeris calculations. The main difference with this latter package is that astroobs provides a very straight-forward library for the observer to get the critical information in order to plan an observation.
+It also provides convenient turn-key tools to convert epochs and plot diagrams.
+It is released under the MIT license.
+
+.. code-block:: python
+
+    import astroobs.obs as obs
+
+    o=obs.Observation('vlt', local_date=(2015, 1, 1), moonAvoidRadius=15, horizon_obs = 40)
+    o.add_target('aldebaran') # internet connection required
+    o.add_target('canopus') # internet connection required
+    o.plot(legend=True)
+
+.. image:: https://github.com/ceyzeriat/astroobs/tree/master/img/obs_ex.png
+   :align: center
+
+.. code-block:: python
+
+    aldebaran = o.targets[0]
+    aldebaran.whenobs(o, (2015,1,1), (2015, 2, 1))
+
+.. image:: https://github.com/ceyzeriat/astroobs/tree/master/img/aldebaran_when.png
+   :align: center
+
+Requirements
+============
+
+astroobs requires the following Python packages:
+
+* NumPy: for basic numerical routines
+* Astropy: for angle units
+* pyephem: for the calculations of ephemeris
+* matplotlib: for plotting
+* pytz: for timezones management
+* re, os, sys, datetime, time: for basic stuff
+
+astroobs is tested on Linux and Python 2.7 only, but should cross-plateform without too many issues.
+
+Installation
+============
+
+If you use anaconda, the easiest and fastest way to get the package up and running is to
+install astroobs using `conda <http://conda.io>`_::
+
+  $ conda install astroobs --channel astroobs
+
+You can also `install astroobs from PyPI`_ using pip, given that you already
+have all the requirements::
+
+  $ pip install astroobs
+
+You can also `download astroobs source from GitHub`_ and type::
+
+  $ python setup.py install
+
+
+It is recommended that you **never ever use sudo** with distutils, pip,
+setuptools and friends in Linux because you might seriously break your
+system [1_][2_][3_][4_]. Options are `per user directories`_, `virtualenv`_
+or `local installations`_.
+
+.. _1: http://wiki.python.org/moin/CheeseShopTutorial#Distutils_Installation
+.. _2: http://stackoverflow.com/questions/4314376/how-can-i-install-a-python-egg-file/4314446#comment4690673_4314446
+.. _3: http://workaround.org/easy-install-debian
+.. _4: http://matplotlib.1069221.n5.nabble.com/Why-is-pip-not-mentioned-in-the-Installation-Documentation-tp39779p39812.html
+
+.. _`per user directories`: http://stackoverflow.com/a/7143496/554319
+.. _`virtualenv`: http://pypi.python.org/pypi/virtualenv
+.. _`local installations`: http://stackoverflow.com/a/4325047/554319
+
+Contributing
+============
+
+Code writing
+------------
+
+Code contributions are welcome! Just send a pull request on GitHub and we will discuss it. In the `issue tracker`_ you may find pending tasks.
+
+Bug reporting
+-------------
+
+If you think you've found one please refer to the `issue tracker`_ on GitHub.
+
+.. _`issue tracker`: https://github.com/ceyzeriat/astroobs/issues
+
+Additional options
+------------------
+
+You can either send me an e-mail or add it to the issues/wishes list on GitHub.
+
+Citing
+======
+
+If you use astroobs on your project, please
+`drop me a line <mailto:{my first name}.{my family name}@obspm.fr>`, you will get fixes and additional options earlier.
+
+License
+=======
+
+astroobs is released under the MIT license, hence allowing commercial use of the library. Please refer to the LICENSE.txt file.

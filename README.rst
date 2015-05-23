@@ -1,1 +1,1 @@
-/media/DATA/Dropbox/phd/gits/astroobs/info
+/media/DATA/Dropbox/phd/gits/astroobs/README

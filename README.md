@@ -7,21 +7,18 @@
 
 .. image:: https://pypip.in/v/astroobs/badge.png?style=flat
     :alt: Latest release
-    :target: https://pypi.python.org/pypi/astroobs
+    :target: https://pypi.python.org/pypi/astroobs/
 
 .. image:: https://pypip.in/d/astroobs/badge.png?style=flat
     :alt: PyPI downloads count
-    :target: https://pypi.python.org/pypi/astroobs
+    :target: https://pypi.python.org/pypi/astroobs/
 
 .. image:: https://pypip.in/license/astroobs/badge.png?style=flat
     :alt: astroobs license
     :target: https://pypi.python.org/pypi/astroobs/
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target: https://raw.githubusercontent.com/poliastro/poliastro/master/COPYING
-
-.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.17461.svg
-    :target: http://dx.doi.org/10.5281/zenodo.17461
+    :target: https://github.com/ceyzeriat/astroobs/blob/master/LICENSE.txt
 
 https://github.com/ceyzeriat/astroobs
 

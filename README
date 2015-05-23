@@ -5,17 +5,13 @@
 :Author: Guillaume Schworer
 :Version: 1.4beta
 
-.. image:: https://pypip.in/v/astroobs/badge.png?style=flat
-    :alt: Latest release
-    :target: https://pypi.python.org/pypi/astroobs/
+.. image:: https://pypip.in/v/$REPO/badge.png
+    :target: https://crate.io/packages/$REPO/
+    :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/astroobs/badge.png?style=flat
-    :alt: PyPI downloads count
-    :target: https://pypi.python.org/pypi/astroobs/
-
-.. image:: https://pypip.in/license/astroobs/badge.png?style=flat
-    :alt: astroobs license
-    :target: https://pypi.python.org/pypi/astroobs/
+.. image:: https://pypip.in/d/$REPO/badge.png
+    :target: https://crate.io/packages/$REPO/
+    :alt: Number of PyPI downloads
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
     :target: https://github.com/ceyzeriat/astroobs/blob/master/LICENSE.txt

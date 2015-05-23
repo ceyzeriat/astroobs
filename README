@@ -37,7 +37,7 @@ It is released under the MIT license.
     o.add_target('canopus') # internet connection required
     o.plot(legend=True)
 
-.. image:: https://github.com/ceyzeriat/astroobs/tree/master/img/obs_ex.png
+.. image:: https://raw.githubusercontent.com/ceyzeriat/astroobs/master/img/obs_ex.png
    :align: center
 
 .. code-block:: python
@@ -45,7 +45,7 @@ It is released under the MIT license.
     aldebaran = o.targets[0]
     aldebaran.whenobs(o, (2015,1,1), (2015, 2, 1))
 
-.. image:: https://github.com/ceyzeriat/astroobs/tree/master/img/aldebaran_when.png
+.. image:: https://raw.githubusercontent.com/ceyzeriat/astroobs/master/img/aldebaran_when.png
    :align: center
 
 Documentation

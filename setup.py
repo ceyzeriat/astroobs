@@ -12,7 +12,7 @@ from distutils.core import setup
 setup(
     name = 'astroobs',
     packages = ['astroobs'],
-    version = '1.3.3',
+    version = '1.3.4',
     description = 'Provides astronomy ephemeris to plan telescope observations',
     author = 'Guillaume Schworer',
     author_email = 'guillaume.schworer@obspm.fr',

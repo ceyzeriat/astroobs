@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Written by Guillaume Schworer, 2015
 """
 Provides astronomy ephemeris to plan telescope observations
 
@@ -16,6 +17,15 @@ Real-life example use:
 
 
 """
-__all__ = ['obs']
+__all__ = ['ObservatoryList', 'Observatory', 'Target', 'Moon', 'TargetSIMBAD', 'Observation', 'version']
 
-import obs
+import obs # left for backward v <= 1.3.7 compatibility
+
+from ObservatoryList import ObservatoryList
+from Observatory import Observatory
+from Target import Target
+from Moon import Moon
+from TargetSIMBAD import TargetSIMBAD
+from Observation import Observation
+
+from version import __version__, __major__, __minor__

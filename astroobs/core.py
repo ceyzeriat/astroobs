@@ -36,6 +36,9 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+obsDataFile = './obsData.txt'
+many_color = ['#40AC1E','#4E9FCC','#9A4ECC','#CC7B4E','#4E2ECC','#CC9EBD','#8EDCCD','#DC1ED2','#F21616','#2816F2','#3BF216','#F2E016']
+
 def radecFromStr(txt):
     """
     Takes a string that contains ra in decimal degrees or in hh:mm:ss.s and dec in decimal degrees or dd:mm:ss.s
@@ -97,7 +100,7 @@ def cleanTime(t, format=None):
     - 'ed': ephem.Date
     - 'st': time.struct_time
 
-    ND: does not keep the tzinfo of datetime
+    NB: does not keep the tzinfo of datetime
     """
     if format is None: return t
     if isinstance(t, E.Date):
@@ -144,22 +147,22 @@ def convertTime(t, tzTo, tzFrom='utc', format=None):
     return cleanTime(t, format=format)
 
 
-def airmass_to_rad(x):
+def airmass_to_rad(arr):
     """
     Transforms airmass to radians
     """
-    if np.size(x)>1: x = np.asarray(x)
-    return np.arcsin(np.true_divide(1, x))
+    if np.size(arr)>1: arr = np.asarray(arr)
+    return np.arcsin(np.true_divide(1, arr))
 
 
-def rad_to_airmass(x):
+def rad_to_airmass(arr):
     """
     Transforms radians to airmass
     """
-    if np.size(x)>1:
-        x = np.asarray(x).copy()
-        if (x<0.05).any(): x[x<0.05] = 0.05
+    if np.size(arr)>1:
+        arr = np.asarray(x).copy()
+        if (arr<0.05).any(): arr[arr<0.05] = 0.05
     else:
-        if x<0.05: x=0.05
-    sz = np.true_divide(1, np.sin(x)) - 1.0
+        if arr<0.05: arr = 0.05
+    sz = np.true_divide(1, np.sin(arr)) - 1.0
     return 1.0 + sz*(0.9981833 - sz*(0.002875 + sz*0.0008083))

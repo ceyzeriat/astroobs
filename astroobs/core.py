@@ -30,8 +30,12 @@ from astropy.coordinates.angles import Angle
 from astroquery.simbad import Simbad
 import re
 import os
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import Rectangle
+    NOPLOT = False
+except:
+    NOPLOT = True
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -45,7 +49,7 @@ def radecFromStr(txt):
     returns (ra, dec) in decimal degrees
     """
     def check_str(text, rem_char=None):
-        if not isinstance(rem_char, str): raise Exception, "rem_char argument must be a string"
+        if not isinstance(rem_char, str): raise(Exception, "rem_char argument must be a string")
         reps = {}
         for elmt in rem_char:
             reps.update({elmt:""})
@@ -62,24 +66,24 @@ def radecFromStr(txt):
     if len(deli)==1:
         ra, dec = txt.split(deli)
     elif len(deli)<5:
-        raise ValueError, "Could not understand ra-dec formating"
+        raise(ValueError, "Could not understand ra-dec formating")
     elif len(deli)==5 or (deli[0]==deli[1] and deli[3]==deli[4]):
         ra = txt[:txt.find(deli[2], txt.find(deli[0], txt.find(deli[0]) +1) +1)].strip()
         txt = txt.replace(ra,"")
         dec = txt[txt.find(deli[2])+1:].strip()
     else:
-        raise ValueError, "Could not understand ra-dec formating"
+        raise(ValueError, "Could not understand ra-dec formating")
     try:
         ra = E.degrees(float(ra)) # test si decmal degrees
     except:
         try:
             ra = Angle(ra+'h').deg # hourangle
         except:
-            raise ValueError, "Could not understand ra-dec formating"
+            raise(ValueError, "Could not understand ra-dec formating")
     try:
         dec = E.degrees(dec) # decimal degrees or hms
     except:
-        raise ValueError, "Could not understand ra-dec formating"
+        raise(ValueError, "Could not understand ra-dec formating")
     return ra, dec
 
 def make_num(numstr):
@@ -112,14 +116,14 @@ def cleanTime(t, format=None):
     elif isinstance(t, datetime):
         t = E.Date(t)
     else:
-        raise TypeError, "Wrong date format, must be ephem.Date, datetime, timestamp (float), tuple, or time.struct_time"
+        raise(TypeError, "Wrong date format, must be ephem.Date, datetime, timestamp (float), tuple, or time.struct_time")
     format = str(format).lower()
     if format=='ts': return mktime(t.datetime().timetuple())
     if format=='dt': return t.datetime()
     if format=='tu': return t.tuple()
     if format=='ed': return t
     if format=='st': return t.datetime().timetuple()
-    raise KeyError, "Unknown date format: %s" % str(format)
+    raise(KeyError, "Unknown date format: %s" % str(format))
 
 def convertTime(t, tzTo, tzFrom='utc', format=None):
     """

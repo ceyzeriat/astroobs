@@ -57,11 +57,7 @@ class Target(object):
 
     def _info(self):
         if not hasattr(self,'_ra') or not hasattr(self,'_dec') or not hasattr(self,'name'):
-            e = _exc.NonTarget()
-            if self._raiseError is True:
-                raise e
-            else:
-                return "\033[31m"+e.message+"\033[39m"
+            if raiseIt(_exc.NonTarget, self._raiseError): return
         return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], (self._dec.dms[0]>0)*'+', self._dec.dms[0], _core.np.abs(self._dec.dms[1]), _core.np.abs(self._dec.dms[2]), hasattr(self, "_ticked")*(', '+getattr(self, "_ticked", False)*'O'+(not getattr(self, "_ticked", False))*'-'))
     def __repr__(self):
         return self._info()
@@ -77,7 +73,7 @@ class Target(object):
         return [int(ra[0]), int(ra[1]), ra[2]]
     @ra.setter
     def ra(self, value):
-        raise _exc.ReadOnly("ra")
+        if raiseIt(_exc.ReadOnly, self._raiseError, "ra"): return
 
     @property
     def dec(self):
@@ -88,7 +84,7 @@ class Target(object):
         return [int(dec[0]), int(dec[1]), dec[2]]
     @dec.setter
     def dec(self, value):
-        raise _exc.ReadOnly('dec')
+        if raiseIt(_exc.ReadOnly, self._raiseError, "dec"): return
 
     @property
     def raStr(self):
@@ -99,7 +95,7 @@ class Target(object):
         return "%ih%im%2.1fs" % (hms[0], hms[1], hms[2])
     @raStr.setter
     def raStr(self, value):
-        raise _exc.ReadOnly('raStr')
+        if raiseIt(_exc.ReadOnly, self._raiseError, "raStr"): return
     @property
     def decStr(self):
         """
@@ -109,7 +105,7 @@ class Target(object):
         return "%s%i°%i'%2.1f\"" % ((dms[0]>0)*'+', dms[0], dms[1], dms[2])
     @decStr.setter
     def decStr(self, value):
-        raise _exc.ReadOnly('decStr')
+        if raiseIt(_exc.ReadOnly, self._raiseError, "dectr"): return
 
     def _set_RiseSetTransit(self, target, obs, **kwargs):
         """
@@ -289,6 +285,8 @@ class Target(object):
         defaultlegend = True
         dates, retval, retkeys = self._whenobs(obs=obs, fromDate=fromDate, toDate=toDate, plot=plot, ret=ret, dday=dday, **kwargs)
         if plot is True:
+            if _core.NOPLOT:
+                if raiseIt(_exc.NoPlotMode, self._raiseError): return
             def daymon(t):
                 months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 t = str(_core.E.Date(t)).split()[0].split('/')[1:][::-1]
@@ -335,6 +333,8 @@ class Target(object):
         Raises:
           N/A
         """
+        if _core.NOPLOT:
+            if raiseIt(_exc.NoPlotMode, self._raiseError): return
         kwargs['polar'] = False
         return self._plot(obs=obs, y=y, **kwargs)
 
@@ -354,6 +354,8 @@ class Target(object):
         Raises:
           N/A
         """
+        if _core.NOPLOT:
+            if raiseIt(_exc.NoPlotMode, self._raiseError): return
         kwargs['polar'] = True
         return self._plot(obs=obs, **kwargs)
 

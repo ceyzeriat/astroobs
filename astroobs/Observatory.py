@@ -88,7 +88,7 @@ class Observatory(_core.E.Observer, object):
     """
     def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None, epoch='2000', **kwargs):
         super(Observatory, self).__init__() # first init
-        self._raiseError = bool(kwargs.get('raiseError', False))
+        self._raiseError = bool(kwargs.pop('raiseError', False))
         if long is None and lat is None and elevation is None and timezone is None: # gave directly an obsid, supposely
             obslist = ObservatoryList(dataFile=dataFile, **kwargs)
             obs = str(obs).lower()
@@ -97,12 +97,7 @@ class Observatory(_core.E.Observer, object):
                     setattr(self, k, v)
                 self.id = obs
             else: # if not correct id
-                e = _exc.UnknownObservatory(obs)
-                if bool(kwargs.get('raiseError', self._raiseError)) is True:
-                    raise e
-                else:
-                    print "\033[31m"+e.message+"\033[39m"
-                    return
+                if raiseIt(_exc.UnknownObservatory, self._raiseError, obs): return
         elif long is not None and lat is not None and elevation is not None and timezone is not None: # gave the details of a valid observatory
             self.name = str(obs)
             self.timezone = str(timezone)
@@ -117,12 +112,7 @@ class Observatory(_core.E.Observer, object):
             else:
                 self.lat = _core.E.degrees(lat)
         else: # a parameter is missing
-            e = _exc.UncompleteObservatory(obs)
-            if bool(kwargs.get('raiseError', self._raiseError)) is True:
-                raise e
-            else:
-                print "\033[31m"+e.message+"\033[39m"
-                return
+            if raiseIt(_exc.UncompleteObservatory, self._raiseError, obs): return
         # overwrite observatory value
         if temp is not None: self.temp = float(temp)
         if pressure is not None: self.pressure = float(pressure)
@@ -157,12 +147,7 @@ class Observatory(_core.E.Observer, object):
         horizs = {'':self.horizon, 'astro':-0.314159, 'nautical':-0.2094395, 'civil':-0.104719} # 18, 12 and 6 degrees in radian
         mode = str(mode).lower()
         if mode not in horizs.keys():
-            e = _exc.UnknownTwilight(mode)
-            if bool(kwargs.get('raiseError', self._raiseError)) is True:
-                raise e
-            else:
-                print "\033[31m"+e.message+"\033[39m"
-                return
+            if raiseIt(_exc.UnknownTwilight, self._raiseError, mode): return
         s1, s2 = self.horizon, self.date # save initial obs values
         self.horizon = horizs[mode.lower()] # set horizon from mode
         # init in case of error
@@ -265,12 +250,7 @@ class Observatory(_core.E.Observer, object):
                 sr = _core.E.Date(float(sunrise) + margin*_core.E.minute)
             return _core.np.linspace(ss, sr, int(numdates))
         if not hasattr(self, "date"):
-            e = _exc.NoObservatoryDate()
-            if bool(kwargs.get('raiseError', self._raiseError)) is True:
-                raise e
-            else:
-                print "\033[31m"+e.message+"\033[39m"
-                return
+            if raiseIt(_exc.NoObservatoryDate, self._raiseError, obs): return
         self.date = _core.cleanTime(self.date, format='ed')
         for mode in ['','astro','nautical','civil']: # gets sunrise and sunsets for all modes
             self._calc_sunRiseSet(mode=mode, **kwargs)
@@ -313,7 +293,7 @@ class Observatory(_core.E.Observer, object):
         return (_core.np.abs(self.dates-_core.E.now())).argmin()
     @nowArg.setter
     def nowArg(self, value):
-        raise _exc.ReadOnly("nowArg")
+        if raiseIt(_exc.ReadOnly, self._raiseError, "nowArg"): return
 
 
     def plot(self, **kwargs):
@@ -353,6 +333,8 @@ class Observatory(_core.E.Observer, object):
         Raises:
           N/A
         """
+        if _core.NOPLOT:
+            if raiseIt(_exc.NoPlotMode, self._raiseError): return
         return self._plot()
 
     def _plot(self, **kwargs):

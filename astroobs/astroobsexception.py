@@ -21,6 +21,15 @@
 # THE SOFTWARE.
 # 
 
+def raiseIt(exc, raiseoupas, *args):
+    exc = exc(*args)
+    if raiseoupas:
+        raise exc
+    else:
+        print("\033[31m"+exc.message+"\033[39m")
+        return True
+    return False
+
 class AstroobsException(Exception):
     """
     Root for astroobs Exceptions, only used to except any astroobs error, never raised
@@ -34,6 +43,14 @@ class TargetMissingSIMBAD(AstroobsException):
     def __init__(self, target="", *args):
         self.message = "The given object '%s' was not found in SIMBAD" % (target)
         self.args = [target] + [a for a in args]
+
+class NoPlotMode(AstroobsException):
+    """
+    If the user doesn't have matplotlib
+    """
+    def __init__(self, *args):
+        self.message = "The Matplotlib library could not be imported: you are running Astroobs in NoPlot mode"
+        self.args = [a for a in args]
 
 class NonTarget(AstroobsException):
     """

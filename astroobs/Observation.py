@@ -72,11 +72,7 @@ class Observation(Observatory):
     """
     def _info(self):
         if not hasattr(self,'localnight') or not hasattr(self,'name') or not hasattr(self,'moon'):
-            e = _exc.NonObservatory()
-            if self._raiseError is True:
-                raise e
-            else:
-                return "\033[31m"+e.message+"\033[39m"
+            if raiseIt(_exc.NonObservatory, self._raiseError, obs): return
         nextday = _core.E.Date(_core.E.Date(self.localnight)+1).datetime()
         nextdaystr = [str(nextday.day)]
         if nextday.month!=self.localnight.month: nextdaystr = [str(nextday.month)] + nextdaystr
@@ -99,24 +95,14 @@ class Observation(Observatory):
         if not isinstance(value, (list, tuple)): # single element
             # check if the target is not valid
             if not isinstance(value, Target):
-                e = _exc.NonTarget(value)
-                if bool(kwargs.get('raiseError', self._raiseError)) is True:
-                    raise e
-                else:
-                    print "\033[31m"+e.message+"\033[39m"
-                    return
+                if raiseIt(_exc.NonTarget, self._raiseError, value): return
             self._targets = [value]
             self._targets[0]._ticked = True
         else: # list of elements
             # check if any of the target is not valid
             for item in value:
                 if not isinstance(item, Target):
-                    e = _exc.NonTarget(item)
-                    if bool(kwargs.get('raiseError', self._raiseError)) is True:
-                        raise e
-                    else:
-                        print "\033[31m"+e.message+"\033[39m"
-                        return
+                    if raiseIt(_exc.NonTarget, self._raiseError, item): return
             self._targets = value
             for item in self._targets:
                 item._ticked = True
@@ -131,7 +117,7 @@ class Observation(Observatory):
         return [item._ticked for item in self._targets]
     @ticked.setter
     def ticked(self, value):
-        raise _exc.ReadOnly('ticked')
+        if raiseIt(_exc.ReadOnly, self._raiseError, "ticked"): return
 
     def tick(self, tgt, forceTo=None, **kwargs):
         """

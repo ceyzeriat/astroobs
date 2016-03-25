@@ -47,23 +47,18 @@ astroobs requires the following Python packages:
 
 * NumPy: for basic numerical routines
 * Astropy: for angle units
+* Astroquery: for querying Simbad
 * pyephem: for the calculations of ephemeris
-* matplotlib: for plotting
+* matplotlib: for plotting (optional)
 * pytz: for timezones management
 * re, os, sys, datetime, time: for basic stuff
 
-astroobs is tested on Linux and Python 2.7 only, but should cross-plateform without too many issues.
+astroobs is tested on Linux and Python 2.7 only, but should cross-plateform and python3 friendly without too many issues.
 
 Installation
 ============
 
-If you use anaconda, the easiest and fastest way to get the package up and running is to
-install astroobs using `conda <http://conda.io>`_::
-
-  $ conda install astroobs --channel astroobs
-
-You can also install astroobs from PyPI using pip, given that you already
-have all the requirements::
+The easiest and fastest way for you to get the package and run is to install astroobs through pip::
 
   $ pip install astroobs
 
@@ -71,20 +66,7 @@ You can also download astroobs source from GitHub and type::
 
   $ python setup.py install
 
-
-It is recommended that you **never ever use sudo** with distutils, pip,
-setuptools and friends in Linux because you might seriously break your
-system [1_][2_][3_][4_]. Options are `per user directories`_, `virtualenv`_
-or `local installations`_.
-
-.. _1: http://wiki.python.org/moin/CheeseShopTutorial#Distutils_Installation
-.. _2: http://stackoverflow.com/questions/4314376/how-can-i-install-a-python-egg-file/4314446#comment4690673_4314446
-.. _3: http://workaround.org/easy-install-debian
-.. _4: http://matplotlib.1069221.n5.nabble.com/Why-is-pip-not-mentioned-in-the-Installation-Documentation-tp39779p39812.html
-
-.. _`per user directories`: http://stackoverflow.com/a/7143496/554319
-.. _`virtualenv`: http://pypi.python.org/pypi/virtualenv
-.. _`local installations`: http://stackoverflow.com/a/4325047/554319
+Dependencies will not be installed automatically. Refer to the requirements section. If you have an anaconda distribution, you will only need to install astroquery and pyephem.
 
 Contributing
 ============

@@ -44,6 +44,14 @@ class TargetMissingSIMBAD(AstroobsException):
         self.message = "The given object '%s' was not found in SIMBAD" % (target)
         self.args = [target] + [a for a in args]
 
+class InputNotUnderstood(AstroobsException):
+    """
+    If the input was not understood
+    """
+    def __init__(self, ipt="", *args):
+        self.message = "The input given '%s' was not understood" % (ipt)
+        self.args = [ipt] + [a for a in args]
+
 class NoPlotMode(AstroobsException):
     """
     If the user doesn't have matplotlib

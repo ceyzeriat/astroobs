@@ -60,7 +60,8 @@ class TargetSIMBAD(Target):
         except:
             self._error = True
         if self._error is True or result is None:
-            if raiseIt(_exc.TargetMissingSIMBAD, self._raiseError, self.name): return
+            self._error = True
+            if _exc.raiseIt(_exc.TargetMissingSIMBAD, self._raiseError, self.name): return
         self._ra = _core.Angle(str(result['RA'][0])+'h')
         self._dec = _core.Angle(str(result['DEC'][0])+'d')
 

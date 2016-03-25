@@ -29,10 +29,9 @@ def showall(dataFile=None, **kwargs):
     A quick function to view all available observatories
     """
     dum = ObservatoryList(dataFile=dataFile, **kwargs)
-    print '*'*80
-    for k, v in dum.nameList():
-        print k.ljust(10)+" => "+v
-    print '*'*80
+    print('*'*80)
+    for k, v in dum.nameList(): print(k.ljust(10)+" => "+v)
+    print('*'*80)
 
 
 class ObservatoryList(object):
@@ -99,11 +98,11 @@ class ObservatoryList(object):
             try:
                 self.obsdic.update({item[0]:{'name':str(item[1]),'long':_core.E.degrees(item[2]),'lat':_core.E.degrees(item[3]),'elevation':float(item[4]),'temp':float(item[5]),'pressure':float(item[6]),'timezone':str(item[7]),'moonAvoidRadius':float(item[8])}})
             except:
-              if raiseIt(_exc.UncompleteObservatory, self._raiseError, item[1]+" ("+item[0]+")"): return
+              if _exc.raiseIt(_exc.UncompleteObservatory, self._raiseError, item[1]+" ("+item[0]+")"): return
 
     def _info(self):
         if not hasattr(self,'obsids'):
-            if raiseIt(_exc.NonObservatoryList, self._raiseError): return
+            if _exc.raiseIt(_exc.NonObservatoryList, self._raiseError): return
         return "List of %s observatories" % (len(self.obsids))
     def __repr__(self):
         return self._info()
@@ -113,7 +112,7 @@ class ObservatoryList(object):
     def __getitem__(self, key):
         key = str(key).lower()
         if key not in self.obsids:
-            if raiseIt(_exc.UnknownObservatory, self._raiseError, key): return
+            if _exc.raiseIt(_exc.UnknownObservatory, self._raiseError, key): return
         return self.obsdic[key]
 
     def add(self, obsid, name, long, lat, elevation, timezone, temp=15.0, pressure=1010.0, moonAvoidRadius=0.25, **kwargs):
@@ -146,7 +145,7 @@ class ObservatoryList(object):
         """
         obsid = str(obsid).lower().strip()
         if obsid in self.obsids or obsid.find(' ')!=-1 or obsid.find(';')!=-1:
-            if raiseIt(_exc.DuplicateObservatory, self._raiseError, obsid): return
+            if _exc.raiseIt(_exc.DuplicateObservatory, self._raiseError, obsid): return
         else:
             f = open(self.dataFile, 'a')
             newobs = '\n%s;%s;%s;%s;%4.1f;%2.1f;%4.1f;%s;%3.1f' % (obsid, str(name).replace(";",""), str(long).replace(";",""), str(lat).replace(";",""), float(elevation), float(temp), float(pressure), str(timezone).replace(";",""), float(moonAvoidRadius))
@@ -170,7 +169,7 @@ class ObservatoryList(object):
         """
         obsid = str(obsid).lower().strip()
         if obsid not in self.obsids:
-            if raiseIt(_exc.UnknownObservatory, self._raiseError, obsid): return
+            if _exc.raiseIt(_exc.UnknownObservatory, self._raiseError, obsid): return
         else:
             newlines = '\n'.join([item.strip() for item in self._wholefile if item.split(';')[0].lower()!=obsid])
             f = open(self.dataFile, 'w')
@@ -197,7 +196,7 @@ class ObservatoryList(object):
         """
         obsid = str(obsid).lower().strip()
         if obsid not in self.obsids:
-            if raiseIt(_exc.UnknownObservatory, self._raiseError): return
+            if _exc.raiseIt(_exc.UnknownObservatory, self._raiseError): return
         else:
             newobs = '\n%s;%s;%s;%s;%4.1f;%2.1f;%4.1f;%s;%3.1f' % (str(obsid).lower().strip(), str(name).replace(";",""), str(long).replace(";",""), str(lat).replace(";",""), float(elevation), float(temp), float(pressure), str(timezone).replace(";",""), float(moonAvoidRadius))
             newlines = '\n'.join([item.strip() for item in self._wholefile if item.split(';')[0].lower()!=str(obsid).lower()])

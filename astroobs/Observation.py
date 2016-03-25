@@ -72,7 +72,7 @@ class Observation(Observatory):
     """
     def _info(self):
         if not hasattr(self,'localnight') or not hasattr(self,'name') or not hasattr(self,'moon'):
-            if raiseIt(_exc.NonObservatory, self._raiseError, obs): return
+            if _exc.raiseIt(_exc.NonObservatory, self._raiseError, obs): return
         nextday = _core.E.Date(_core.E.Date(self.localnight)+1).datetime()
         nextdaystr = [str(nextday.day)]
         if nextday.month!=self.localnight.month: nextdaystr = [str(nextday.month)] + nextdaystr
@@ -95,14 +95,14 @@ class Observation(Observatory):
         if not isinstance(value, (list, tuple)): # single element
             # check if the target is not valid
             if not isinstance(value, Target):
-                if raiseIt(_exc.NonTarget, self._raiseError, value): return
+                if _exc.raiseIt(_exc.NonTarget, self._raiseError, value): return
             self._targets = [value]
             self._targets[0]._ticked = True
         else: # list of elements
             # check if any of the target is not valid
             for item in value:
                 if not isinstance(item, Target):
-                    if raiseIt(_exc.NonTarget, self._raiseError, item): return
+                    if _exc.raiseIt(_exc.NonTarget, self._raiseError, item): return
             self._targets = value
             for item in self._targets:
                 item._ticked = True
@@ -117,7 +117,7 @@ class Observation(Observatory):
         return [item._ticked for item in self._targets]
     @ticked.setter
     def ticked(self, value):
-        if raiseIt(_exc.ReadOnly, self._raiseError, "ticked"): return
+        if _exc.raiseIt(_exc.ReadOnly, self._raiseError, "ticked"): return
 
     def tick(self, tgt, forceTo=None, **kwargs):
         """
@@ -182,7 +182,7 @@ class Observation(Observatory):
         >>> arc = obs.TargetSIMBAD('arcturus')
         >>> o.add_target(arc)
         >>> o.add_target('arcturus')
-        >>> o.add_target('arcturus', dec=19.1824, ra=213.9153)
+        >>> o.add_target('arcturusILoveYou', dec=19.1824, ra=213.9153)
         >>> o.add_target('14:15:39.67 +10:10:56.67', name='arcturus')
         >>> o.targets 
         [Target: 'arcturus', 14h15m39.7s +19°16'43.8", O,
@@ -191,21 +191,24 @@ class Observation(Observatory):
          Target: 'arcturus', 14h15m39.7s +19°16'43.8", O]
         """
         if not hasattr(self, '_targets'): self._targets = []
-        if isinstance(tgt, Target):
+        if isinstance(tgt, Target): # if we got a target
             self._targets += [tgt]
-        elif ra is not None and dec is not None:
+        elif ra is not None and dec is not None: # if we got some ra and dec coordinates
             self._targets += [Target(ra=ra, dec=dec, name=tgt, **kwargs)]
-        elif isinstance(tgt, (int, float, str)): # if we have a ra-dec string
+        elif isinstance(tgt, str): # if we got random shit or string
             try:
-                ra, dec = _core.radecFromStr(str(tgt))
+                ra, dec = _core.radecFromStr(str(tgt)) # does it look like a coordinates string?
                 tt = Target(ra=ra, dec=dec, name=name, **kwargs)
                 self._targets += [tt]
-            except:
-                tt = TargetSIMBAD(name=tgt)
-                if getattr(tt, '_error', False) is False:
+            except: # let's try simbad
+                tt = TargetSIMBAD(name=tgt, **kwargs)
+                if not getattr(tt, '_error', False):
                     self._targets += [tt]
                 else:
                     return
+        else:
+            _exc.raiseIt(_exc.InputNotUnderstood, self._raiseError, tgt)
+            return
         self._targets[-1]._ticked = True
         self._targets[-1].process(obs=self, **kwargs)
 

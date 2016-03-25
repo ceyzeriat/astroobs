@@ -47,7 +47,7 @@ class Moon(Target):
 
     def _info(self):
         if not hasattr(self,'phase'):
-            if raiseIt(_exc.NonTarget, self._raiseError): return
+            if _exc.raiseIt(_exc.NonTarget, self._raiseError): return
         return "Moon - phase: %2.1f%%" % (self.phase.mean())
     @property
     def ra(self):
@@ -57,7 +57,7 @@ class Moon(Target):
         return self._ra.hms
     @ra.setter
     def ra(self, value):
-        if raiseIt(_exc.ReadOnly, self._raiseError, 'ra'): return
+        if _exc.raiseIt(_exc.ReadOnly, self._raiseError, 'ra'): return
 
     @property
     def dec(self):
@@ -67,7 +67,7 @@ class Moon(Target):
         return self._dec.dms
     @dec.setter
     def dec(self, value):
-        if raiseIt(_exc.ReadOnly, self._raiseError, 'dec'): return
+        if _exc.raiseIt(_exc.ReadOnly, self._raiseError, 'dec'): return
 
     @property
     def raStr(self):
@@ -78,7 +78,7 @@ class Moon(Target):
         return "%ih%im%2.1fs" % (hms[0].mean(), hms[1].mean(), hms[2].mean())
     @raStr.setter
     def raStr(self, value):
-        if raiseIt(_exc.ReadOnly, self._raiseError, 'raStr'): return
+        if _exc.raiseIt(_exc.ReadOnly, self._raiseError, 'raStr'): return
     @property
     def decStr(self):
         """
@@ -88,7 +88,7 @@ class Moon(Target):
         return "%s%i°%i'%2.1f\"" % ((dms[0].mean()>0)*'+', dms[0].mean(), dms[1].mean(), dms[2].mean())
     @decStr.setter
     def decStr(self, value):
-        if raiseIt(_exc.ReadOnly, self._raiseError, 'decStr'): return
+        if _exc.raiseIt(_exc.ReadOnly, self._raiseError, 'decStr'): return
 
     def plot(self, obs, y='alt', **kwargs):
         """

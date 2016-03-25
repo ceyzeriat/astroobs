@@ -11,7 +11,7 @@
 # 
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# F
+# 
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -97,7 +97,7 @@ class Observatory(_core.E.Observer, object):
                     setattr(self, k, v)
                 self.id = obs
             else: # if not correct id
-                if raiseIt(_exc.UnknownObservatory, self._raiseError, obs): return
+                if _exc.raiseIt(_exc.UnknownObservatory, self._raiseError, obs): return
         elif long is not None and lat is not None and elevation is not None and timezone is not None: # gave the details of a valid observatory
             self.name = str(obs)
             self.timezone = str(timezone)
@@ -112,7 +112,7 @@ class Observatory(_core.E.Observer, object):
             else:
                 self.lat = _core.E.degrees(lat)
         else: # a parameter is missing
-            if raiseIt(_exc.UncompleteObservatory, self._raiseError, obs): return
+            if _exc.raiseIt(_exc.UncompleteObservatory, self._raiseError, obs): return
         # overwrite observatory value
         if temp is not None: self.temp = float(temp)
         if pressure is not None: self.pressure = float(pressure)
@@ -147,7 +147,7 @@ class Observatory(_core.E.Observer, object):
         horizs = {'':self.horizon, 'astro':-0.314159, 'nautical':-0.2094395, 'civil':-0.104719} # 18, 12 and 6 degrees in radian
         mode = str(mode).lower()
         if mode not in horizs.keys():
-            if raiseIt(_exc.UnknownTwilight, self._raiseError, mode): return
+            if _exc.raiseIt(_exc.UnknownTwilight, self._raiseError, mode): return
         s1, s2 = self.horizon, self.date # save initial obs values
         self.horizon = horizs[mode.lower()] # set horizon from mode
         # init in case of error
@@ -250,7 +250,7 @@ class Observatory(_core.E.Observer, object):
                 sr = _core.E.Date(float(sunrise) + margin*_core.E.minute)
             return _core.np.linspace(ss, sr, int(numdates))
         if not hasattr(self, "date"):
-            if raiseIt(_exc.NoObservatoryDate, self._raiseError, obs): return
+            if _exc.raiseIt(_exc.NoObservatoryDate, self._raiseError, obs): return
         self.date = _core.cleanTime(self.date, format='ed')
         for mode in ['','astro','nautical','civil']: # gets sunrise and sunsets for all modes
             self._calc_sunRiseSet(mode=mode, **kwargs)
@@ -293,7 +293,7 @@ class Observatory(_core.E.Observer, object):
         return (_core.np.abs(self.dates-_core.E.now())).argmin()
     @nowArg.setter
     def nowArg(self, value):
-        if raiseIt(_exc.ReadOnly, self._raiseError, "nowArg"): return
+        if _exc.raiseIt(_exc.ReadOnly, self._raiseError, "nowArg"): return
 
 
     def plot(self, **kwargs):
@@ -334,7 +334,7 @@ class Observatory(_core.E.Observer, object):
           N/A
         """
         if _core.NOPLOT:
-            if raiseIt(_exc.NoPlotMode, self._raiseError): return
+            if _exc.raiseIt(_exc.NoPlotMode, self._raiseError): return
         return self._plot()
 
     def _plot(self, **kwargs):

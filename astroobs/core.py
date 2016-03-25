@@ -97,7 +97,7 @@ def make_num(numstr):
 
 def cleanTime(t, format=None):
     """
-    Raises an error if t not among (ephem.Date, datetime, timestamp, tuple, time.struct_time) date type, and optionaly returns the date into the format:
+    Raises an error if t not among (ephem.Date, datetime, timestamp, tuple, time.struct_time) date types, and optionaly returns the date into the format:
     - 'ts': unix timestamp (float)
     - 'dt': datetime
     - 'du': date tuple
@@ -106,7 +106,7 @@ def cleanTime(t, format=None):
 
     NB: does not keep the tzinfo of datetime
     """
-    if format is None: return t
+    tinit = t
     if isinstance(t, E.Date):
         pass
     elif isinstance(t, float):
@@ -117,6 +117,7 @@ def cleanTime(t, format=None):
         t = E.Date(t)
     else:
         raise(TypeError, "Wrong date format, must be ephem.Date, datetime, timestamp (float), tuple, or time.struct_time")
+    if format is None: return tinit
     format = str(format).lower()
     if format=='ts': return mktime(t.datetime().timetuple())
     if format=='dt': return t.datetime()
@@ -131,7 +132,7 @@ def convertTime(t, tzTo, tzFrom='utc', format=None):
 
     tzFrom and tzTo are like 'America/Los_Angeles'
 
-    CF cleanTime method to see possible types for 't' and output.
+    cf cleanTime method to see possible types for 't' and output.
     """
     if format is None:
         if isinstance(t, E.Date):

@@ -10,7 +10,7 @@
 
 Check the `astroobs.eu`_ website for a friendly web-interface of that library! (soon)
 
-.. _`web interface`: http://astroobs.eu/
+.. _`astroobs.eu`: http://astroobs.eu/
 
 Astroobs provides astronomy ephemeris (airmass, azimuth, altitude, moon separation, etc) of a night sky target as a function of the date-time and the longitude/latitude of the observer.
 A list of international observatories is provided as well as a SIMBAD-querier to easily import targets.

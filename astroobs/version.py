@@ -23,4 +23,4 @@
 
 __major__ = 1
 __minor__ = 3
-__version__ = "v1.4.2beta"
+__version__ = "v1.4.3beta"

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astroobs.TargetSIMBAD &mdash; astroobs  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="astroobs  documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">astroobs  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for astroobs.TargetSIMBAD</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c">#</span>
+<span class="c"># Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER</span>
+<span class="c"># </span>
+<span class="c"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c"># in the Software without restriction, including without limitation the rights</span>
+<span class="c"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c"># furnished to do so, subject to the following conditions:</span>
+<span class="c"># </span>
+<span class="c"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c"># all copies or substantial portions of the Software.</span>
+<span class="c"># </span>
+<span class="c"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c"># THE SOFTWARE.</span>
+<span class="c"># </span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">_core</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">astroobsexception</span> <span class="k">as</span> <span class="n">_exc</span>
+
+<span class="kn">from</span> <span class="nn">.Target</span> <span class="kn">import</span> <span class="n">Target</span>
+
+<div class="viewcode-block" id="TargetSIMBAD"><a class="viewcode-back" href="../../docs/astroobs.html#astroobs.TargetSIMBAD.TargetSIMBAD">[docs]</a><span class="k">class</span> <span class="nc">TargetSIMBAD</span><span class="p">(</span><span class="n">Target</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialises a target object from an online SIMBAD database name-search. Optionaly, processes the target for the observatory and date given (refer to :func:`TargetSIMBAD.process`).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      * name (str): the name of the target as if performing an online SIMBAD search</span>
+<span class="sd">      * obs (:class:`Observatory`) [optional]: the observatory for which to process the target</span>
+<span class="sd">    </span>
+<span class="sd">    Kwargs:</span>
+<span class="sd">      * raiseError (bool): if ``True``, errors will be raised; if ``False``, they will be printed. Default is ``False``</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      N/A</span>
+
+<span class="sd">    Creates attributes:</span>
+<span class="sd">      * ``flux``: a dictionary of the magnitudes of the target. Keys are part or all of [&#39;U&#39;,&#39;B&#39;,&#39;V&#39;,&#39;R&#39;,&#39;I&#39;,&#39;J&#39;,&#39;H&#39;,&#39;K&#39;]</span>
+<span class="sd">      * ``link``: the link to paste into a web-browser to display the SIMBAD page of the target</span>
+<span class="sd">      * ``linkbib``: the link to paste into a web-browser to display the references on the SIMBAD page of the target</span>
+<span class="sd">      * ``hd``: if applicable, the HD number of the target</span>
+<span class="sd">      * ``hr``: if applicable, the HR number of the target</span>
+<span class="sd">      * ``hip``: if applicable, the HIP number of the target</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">input_epoch</span><span class="o">=</span><span class="s">&#39;2000&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;raiseError&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_epoch</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">input_epoch</span><span class="p">))</span>
+        <span class="n">customSimbad</span> <span class="o">=</span> <span class="n">_core</span><span class="o">.</span><span class="n">Simbad</span><span class="p">()</span>
+        <span class="n">customSimbad</span><span class="o">.</span><span class="n">add_votable_fields</span><span class="p">(</span><span class="s">&#39;fluxdata(U)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(B)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(V)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(R)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(I)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(J)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(H)&#39;</span><span class="p">,</span> <span class="s">&#39;fluxdata(K)&#39;</span><span class="p">,</span> <span class="s">&#39;plx&#39;</span><span class="p">,</span> <span class="s">&#39;sptype&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">customSimbad</span><span class="o">.</span><span class="n">query_object</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">or</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_error</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">_exc</span><span class="o">.</span><span class="n">raiseIt</span><span class="p">(</span><span class="n">_exc</span><span class="o">.</span><span class="n">TargetMissingSIMBAD</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">):</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ra</span> <span class="o">=</span> <span class="n">_core</span><span class="o">.</span><span class="n">Angle</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;RA&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s">&#39;h&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dec</span> <span class="o">=</span> <span class="n">_core</span><span class="o">.</span><span class="n">Angle</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;DEC&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s">&#39;d&#39;</span><span class="p">)</span>
+
+        <span class="c"># copies the fluxes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flux</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_U&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;U&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_U&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_B&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_B&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_V&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_V&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_R&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_R&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_I&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;I&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_I&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_J&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;J&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_J&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_H&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_H&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_K&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;mask&#39;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">[</span><span class="s">&#39;K&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;FLUX_K&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sptype</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;SP_TYPE&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;PLX_VALUE&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="s">&#39;mask&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plx</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">&#39;PLX_VALUE&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">plx</span>
+
+        <span class="c"># searches for HD, HR, and HIP numbers</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_core</span><span class="o">.</span><span class="n">Simbad</span><span class="o">.</span><span class="n">query_objectids</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)[</span><span class="s">&#39;ID&#39;</span><span class="p">]:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;HD &#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hd</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_core</span><span class="o">.</span><span class="n">make_num</span><span class="p">(</span><span class="n">_core</span><span class="o">.</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;^(HD)&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;HR &#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_core</span><span class="o">.</span><span class="n">make_num</span><span class="p">(</span><span class="n">_core</span><span class="o">.</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;^(HR)&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;HIP &#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hip</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_core</span><span class="o">.</span><span class="n">make_num</span><span class="p">(</span><span class="n">_core</span><span class="o">.</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;^(HIP)&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">link</span> <span class="o">=</span> <span class="s">&quot;http://simbad.u-strasbg.fr/simbad/sim-id?Ident=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;+&quot;</span><span class="p">,</span><span class="s">&quot;%2B&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;#&quot;</span><span class="p">,</span><span class="s">&quot;%23&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="s">&quot;+&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkbib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">link</span> <span class="o">+</span> <span class="s">&quot;&amp;submit=display&amp;bibdisplay=refsum&amp;bibyear1=1950&amp;bibyear2=</span><span class="si">%24c</span><span class="s">urrentYear#lab_bib&quot;</span>
+        <span class="k">if</span> <span class="n">obs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

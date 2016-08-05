@@ -1,0 +1,2203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astroobs package &mdash; astroobs  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="astroobs  documentation" href="index.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="Welcome to astroobs’s documentation!" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="setup module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to astroobs’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">astroobs  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="astroobs-package">
+<h1>astroobs package<a class="headerlink" href="#astroobs-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-astroobs.Moon">
+<span id="astroobs-moon-module"></span><h2>astroobs.Moon module<a class="headerlink" href="#module-astroobs.Moon" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astroobs.Moon.Moon">
+<em class="property">class </em><code class="descclassname">astroobs.Moon.</code><code class="descname">Moon</code><span class="sig-paren">(</span><em>obs=None</em>, <em>input_epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.Moon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.Target.Target" title="astroobs.Target.Target"><code class="xref py py-class docutils literal"><span class="pre">astroobs.Target.Target</span></code></a></p>
+<p>Initialises the Moon. Optionaly, processes the Moon for the observatory and date given (refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Moon.Moon.process" title="astroobs.Moon.Moon.process"><code class="xref py py-func docutils literal"><span class="pre">Moon.process()</span></code></a>).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>) [optional]: the observatory for which to process the Moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<dl class="attribute">
+<dt id="astroobs.Moon.Moon.dec">
+<code class="descname">dec</code><a class="headerlink" href="#astroobs.Moon.Moon.dec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The declination of the Moon, displayed as tuple of np.array (+/-dd, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Moon.Moon.decStr">
+<code class="descname">decStr</code><a class="headerlink" href="#astroobs.Moon.Moon.decStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the mean of the declination of the moon</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Moon.Moon.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>obs</em>, <em>y='alt'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.Moon.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the moon at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to plot the moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Target.plot()</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Moon.Moon.polar">
+<code class="descname">polar</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon.polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.Moon.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the moon at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to plot the moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Target.plot()</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Moon.Moon.process">
+<code class="descname">process</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.Moon.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the moon for the given observatory and date.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to process the moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+<dt>Creates vector attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">airmass</span></code>: the airmass of the moon</li>
+<li><code class="docutils literal"><span class="pre">ha</span></code>: the hour angle of the moon (degrees)</li>
+<li><code class="docutils literal"><span class="pre">alt</span></code>: the altitude of the moon (degrees - horizon is 0)</li>
+<li><code class="docutils literal"><span class="pre">az</span></code>: the azimuth of the moon (degrees)</li>
+<li><code class="docutils literal"><span class="pre">ra</span></code>: the right ascension of the moon, see <a class="reference internal" href="docs/astroobs.html#astroobs.Moon.Moon.ra" title="astroobs.Moon.Moon.ra"><code class="xref py py-func docutils literal"><span class="pre">Moon.ra()</span></code></a></li>
+<li><code class="docutils literal"><span class="pre">dec</span></code>: the declination of the moon, see <a class="reference internal" href="docs/astroobs.html#astroobs.Moon.Moon.dec" title="astroobs.Moon.Moon.dec"><code class="xref py py-func docutils literal"><span class="pre">Moon.dec()</span></code></a></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>All previous attributes are vectors related to the time vector of the observatory used for processing: <code class="docutils literal"><span class="pre">obs.dates</span></code></li>
+</ul>
+</div>
+<dl class="docutils">
+<dt>Other attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the rise of the moon</li>
+<li><code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the setting of the moon</li>
+<li><code class="docutils literal"><span class="pre">transit_time</span></code>, <code class="docutils literal"><span class="pre">transit_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the transit of the moon</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the moon does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code>, i.e. <code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>, <code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>. In that case, an additional parameter is added to the Moon object: <code class="docutils literal"><span class="pre">Moon.alwaysUp</span></code> which is <code class="docutils literal"><span class="pre">True</span></code> if the Moon never sets and <code class="docutils literal"><span class="pre">False</span></code> if it never rises above the horizon.</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Moon.Moon.ra">
+<code class="descname">ra</code><a class="headerlink" href="#astroobs.Moon.Moon.ra" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right ascension of the Moon, displayed as tuple of np.array (hh, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Moon.Moon.raStr">
+<code class="descname">raStr</code><a class="headerlink" href="#astroobs.Moon.Moon.raStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the mean of the right ascension of the moon</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.Observation">
+<span id="astroobs-observation-module"></span><h2>astroobs.Observation module<a class="headerlink" href="#module-astroobs.Observation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astroobs.Observation.Observation">
+<em class="property">class </em><code class="descclassname">astroobs.Observation.</code><code class="descname">Observation</code><span class="sig-paren">(</span><em>obs</em>, <em>long=None</em>, <em>lat=None</em>, <em>elevation=None</em>, <em>timezone=None</em>, <em>temp=None</em>, <em>pressure=None</em>, <em>moonAvoidRadius=None</em>, <em>local_date=None</em>, <em>ut_date=None</em>, <em>horizon_obs=None</em>, <em>dataFile=None</em>, <em>epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.Observatory" title="astroobs.Observatory.Observatory"><code class="xref py py-class docutils literal"><span class="pre">astroobs.Observatory.Observatory</span></code></a></p>
+<p>Assembles together an <code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code> (including itself the <code class="xref py py-class docutils literal"><span class="pre">Moon</span></code> target), and a list of <code class="xref py py-class docutils literal"><span class="pre">Target</span></code>.</p>
+<dl class="docutils">
+<dt>For use and docs refer to:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.add_target" title="astroobs.Observation.add_target"><code class="xref py py-func docutils literal"><span class="pre">add_target()</span></code></a> to add a target to the list</li>
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.rem_target" title="astroobs.Observation.rem_target"><code class="xref py py-func docutils literal"><span class="pre">rem_target()</span></code></a> to remove one</li>
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.change_obs" title="astroobs.Observation.change_obs"><code class="xref py py-func docutils literal"><span class="pre">change_obs()</span></code></a> to change the observatory</li>
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.change_date" title="astroobs.Observation.change_date"><code class="xref py py-func docutils literal"><span class="pre">change_date()</span></code></a> to change the date of observation</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fig: TBD</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>See <code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code></li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observation</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span>
+<span class="go">Observation at Observatoire de Haute Provence on 2015/6/21-22. 0 targets.</span>
+<span class="go">    Moon phase: 89.2%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">moon</span>
+<span class="go">Moon - phase: 89.2%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">o</span><span class="o">.</span><span class="n">sunset</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sunrise</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">len_night</span>
+<span class="go">2015/3/31 18:08:40 ... 2015/4/1 05:13:09 ... 11.0746939826</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ephem</span> <span class="kn">as</span> <span class="nn">E</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">sunsetastro</span><span class="o">+</span><span class="n">o</span><span class="o">.</span><span class="n">localTimeOffest</span><span class="p">),</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+<span class="go">        o.sunriseastro+o.localTimeOffest), &#39;...&#39;, o.len_nightastro)</span>
+<span class="go">2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;vega&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;mystar&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">19.1824</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="mf">213.9153</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span>
+<span class="go">[Target: &#39;vega&#39;, 18h36m56.3s +38°35&#39;8.1&quot;, O,</span>
+<span class="go"> Target: &#39;mystar&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> mags: &#39;K&#39;: </span><span class="si">%2.2f</span><span class="s">, &#39;R&#39;: </span><span class="si">%2.2f</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="go">        o.targets[0].flux[&#39;K&#39;], o.targets[0].flux[&#39;R&#39;]))</span>
+<span class="go">vega mags: &#39;K&#39;: 0.13, &#39;R&#39;: 0.07</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="astroobs.Observation.Observation.add_target">
+<code class="descname">add_target</code><span class="sig-paren">(</span><em>tgt</em>, <em>ra=None</em>, <em>dec=None</em>, <em>name=''</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.add_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.add_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a target to the observation list</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>tgt (see below): the index of the target in the <code class="docutils literal"><span class="pre">Observation.targets</span></code> list</li>
+<li>ra (&#8216;hh:mm:ss.s&#8217; or decimal degree) [optional]: the right ascension of the target to add to the observation list. See below</li>
+<li>dec (&#8216;+/-dd:mm:ss.s&#8217; or decimal degree) [optional]: the declination of the target to add to the observation list. See below</li>
+<li>name (string) [optional]: the name of the target to add to the observation list. See below</li>
+</ul>
+</dd>
+<dt><code class="docutils literal"><span class="pre">tgt</span></code> arg can be:</dt>
+<dd><ul class="first last simple">
+<li>a <code class="xref py py-class docutils literal"><span class="pre">Target</span></code> instance: all other parameters are ignored</li>
+<li>a target name (string): if <code class="docutils literal"><span class="pre">ra</span></code> and <code class="docutils literal"><span class="pre">dec</span></code> are not <code class="docutils literal"><span class="pre">None</span></code>, the target is added with the provided coordinates; if <code class="docutils literal"><span class="pre">None</span></code>, a SIMBAD search is performed on <code class="docutils literal"><span class="pre">tgt</span></code>. <code class="docutils literal"><span class="pre">name</span></code> is ignored</li>
+<li>a ra-dec string (&#8216;hh:mm:ss.s +/-dd:mm:ss.s&#8217;): in that case, <code class="docutils literal"><span class="pre">ra</span></code> and <code class="docutils literal"><span class="pre">dec</span></code> will be ignored and <code class="docutils literal"><span class="pre">name</span></code> will be the name of the target</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>ValueError: if ra-dec formating was not understood</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Automatically processes the target for the given observatory and date</li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observation</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arc</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">TargetSIMBAD</span><span class="p">(</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;arcturusILoveYou&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">19.1824</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="mf">213.9153</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;14:15:39.67 +10:10:56.67&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span> 
+<span class="go">[Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O,</span>
+<span class="go"> Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O,</span>
+<span class="go"> Target: &#39;arcturus&#39;, 14h15m39.7s +10°40&#39;43.8&quot;, O,</span>
+<span class="go"> Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.Observation.change_date">
+<code class="descname">change_date</code><span class="sig-paren">(</span><em>ut_date=None</em>, <em>local_date=None</em>, <em>recalcAll=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.change_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.change_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the date of the observation and optionaly re-processes targets for the same observatory and new date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>ut_date: Refer to <code class="xref py py-func docutils literal"><span class="pre">Observatory.upd_date()</span></code></li>
+<li>local_date: Refer to <code class="xref py py-func docutils literal"><span class="pre">Observatory.upd_date()</span></code></li>
+<li>recalcAll (bool or None) [optional]: if <code class="docutils literal"><span class="pre">False</span></code> (default): only targets selected for observation are re-processed, if <code class="docutils literal"><span class="pre">True</span></code>: all targets are re-processed, if <code class="docutils literal"><span class="pre">None</span></code>: no re-process</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.Observation.change_obs">
+<code class="descname">change_obs</code><span class="sig-paren">(</span><em>obs</em>, <em>long=None</em>, <em>lat=None</em>, <em>elevation=None</em>, <em>timezone=None</em>, <em>temp=None</em>, <em>pressure=None</em>, <em>moonAvoidRadius=None</em>, <em>horizon_obs=None</em>, <em>dataFile=None</em>, <em>recalcAll=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.change_obs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.change_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the observatory and optionaly re-processes all target for the new observatory and same date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>recalcAll (bool or None) [optional]: if <code class="docutils literal"><span class="pre">False</span></code> (default): only targets selected for observation are re-processed, if <code class="docutils literal"><span class="pre">True</span></code>: all targets are re-processed, if <code class="docutils literal"><span class="pre">None</span></code>: no re-process</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Refer to <code class="xref py py-func docutils literal"><span class="pre">ObservatoryList.add()</span></code> for details on other input parameters</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.Observation.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>y='alt'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></li>
+<li>moon (bool): if <code class="docutils literal"><span class="pre">True</span></code>, adds the moon to the graph, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>autocolor (bool): if <code class="docutils literal"><span class="pre">True</span></code>, sets curves-colors automatically, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.Observation.polar">
+<code class="descname">polar</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the sky-view diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></li>
+<li>moon (bool): if <code class="docutils literal"><span class="pre">True</span></code>, adds the moon to the graph, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>autocolor (bool): if <code class="docutils literal"><span class="pre">True</span></code>, sets curves-colors automatically, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.Observation.rem_target">
+<code class="descname">rem_target</code><span class="sig-paren">(</span><em>tgt</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.rem_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.rem_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a target from the observation list</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>tgt (int): the index of the target in the <code class="docutils literal"><span class="pre">Observation.targets</span></code> list</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Observation.Observation.targets">
+<code class="descname">targets</code><a class="headerlink" href="#astroobs.Observation.Observation.targets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows the list of targets recorded into the Observation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.Observation.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><em>tgt</em>, <em>forceTo=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.Observation.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the ticked property of a target (whether it is selected for observation)</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>tgt (int): the index of the target in the <code class="docutils literal"><span class="pre">Observation.targets</span></code> list</li>
+<li>forceTo (bool) [optional]: if <code class="docutils literal"><span class="pre">True</span></code>, selects the target for observation, if <code class="docutils literal"><span class="pre">False</span></code>, unselects it, if <code class="docutils literal"><span class="pre">None</span></code>, the value of the selection is inverted</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Automatically reprocesses the target for the given observatory and date if it is selected for observation</li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observation</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span>
+<span class="go">[Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span>
+<span class="go">[Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, -]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Observation.Observation.ticked">
+<code class="descname">ticked</code><a class="headerlink" href="#astroobs.Observation.Observation.ticked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows whether the target was select for observation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.Observatory">
+<span id="astroobs-observatory-module"></span><h2>astroobs.Observatory module<a class="headerlink" href="#module-astroobs.Observatory" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astroobs.Observatory.Observatory">
+<em class="property">class </em><code class="descclassname">astroobs.Observatory.</code><code class="descname">Observatory</code><span class="sig-paren">(</span><em>obs</em>, <em>long=None</em>, <em>lat=None</em>, <em>elevation=None</em>, <em>timezone=None</em>, <em>temp=None</em>, <em>pressure=None</em>, <em>moonAvoidRadius=None</em>, <em>local_date=None</em>, <em>ut_date=None</em>, <em>horizon_obs=None</em>, <em>dataFile=None</em>, <em>epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.Observatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">ephem.Observer</span></code>, <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Defines an observatory from which the ephemeris of the twilights or a night-sky target are processed. The <em>night-time</em> is base on the given date. It ends at the next sunrise and starts at the sunset preceeding this next sunrise.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (str): id of the observatory to pick from the observatories database OR the name of the custom observatory (in that case, <code class="docutils literal"><span class="pre">long</span></code>, <code class="docutils literal"><span class="pre">lat</span></code>, <code class="docutils literal"><span class="pre">elevation</span></code>, <code class="docutils literal"><span class="pre">timezone</span></code> must also be given, <code class="docutils literal"><span class="pre">temp</span></code>, <code class="docutils literal"><span class="pre">pressure</span></code>, <code class="docutils literal"><span class="pre">moonAvoidRadius</span></code> are optional)</li>
+<li>local_date (see below): the date of observation in local time</li>
+<li>ut_date (see below): the date of observation in UT time</li>
+<li>horizon_obs (float - degrees): minimum altitude at which a target can be observed, default is 30 degrees altitude</li>
+<li>epoch (str): the &#8216;YYYY&#8217; year in which all ra-dec coordinates are converted</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fig: TBD</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if a mandatory input parameter is missing</li>
+<li>KeyError: if the observatory ID does not exist</li>
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>For details on <code class="docutils literal"><span class="pre">local_date</span></code> and <code class="docutils literal"><span class="pre">ut_date</span></code>, refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.Observatory.upd_date" title="astroobs.Observatory.Observatory.upd_date"><code class="xref py py-func docutils literal"><span class="pre">Observatory.upd_date()</span></code></a></li>
+<li>For details on other input parameters, refer to <code class="xref py py-func docutils literal"><span class="pre">ObservatoryList.add()</span></code></li>
+<li>The <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.Observatory" title="astroobs.Observatory.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a> automatically creates and manages a <code class="xref py py-class docutils literal"><span class="pre">Moon</span></code> target under <code class="docutils literal"><span class="pre">moon</span></code> attribute</li>
+<li>If <code class="docutils literal"><span class="pre">obs</span></code> is the id of an observatory to pick in the database, the user can still provide <code class="docutils literal"><span class="pre">temp</span></code>, <code class="docutils literal"><span class="pre">pressure</span></code>, <code class="docutils literal"><span class="pre">moonAvoidRadius</span></code> attributes which will override the database default values</li>
+<li><code class="docutils literal"><span class="pre">horizon</span></code> attribute is in radian</li>
+</ul>
+</div>
+<dl class="docutils">
+<dt>Main attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">localnight</span></code>: gives the local midnight time in local time (YYYY, MM, DD, 23, 59, 59)</li>
+<li><code class="docutils literal"><span class="pre">date</span></code>: gives the local midnight time in UT time</li>
+<li><code class="docutils literal"><span class="pre">dates</span></code>: is a vector of Dublin Julian Dates. Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.process_obs" title="astroobs.Observatory.process_obs"><code class="xref py py-func docutils literal"><span class="pre">process_obs()</span></code></a></li>
+<li><code class="docutils literal"><span class="pre">lst</span></code>: the local sidereal time corresponding to each <code class="docutils literal"><span class="pre">dates</span></code> element</li>
+<li><code class="docutils literal"><span class="pre">localTimeOffest</span></code>: gives the shift in days between UT and local time: local=UT+localTimeOffest</li>
+<li><code class="docutils literal"><span class="pre">moon</span></code>: points to the <code class="xref py py-class docutils literal"><span class="pre">Moon</span></code> target processed for the given observatory and date</li>
+</ul>
+</dd>
+<dt>Twilight attributes:</dt>
+<dd><ul class="first last simple">
+<li>For the next three attributes, <code class="docutils literal"><span class="pre">XXX</span></code> shall be replaced by {&#8216;&#8217; (blank), &#8216;civil&#8217;, &#8216;nautical&#8217;, &#8216;astro&#8217;} for, respectively, horizon, -6, -12, and -18 degrees altitude</li>
+<li><code class="docutils literal"><span class="pre">sunriseXXX</span></code>: gives the sunrise time for different twilights, in Dublin Julian Dates. e.g.: <code class="docutils literal"><span class="pre">observatory.sunrise</span></code></li>
+<li><code class="docutils literal"><span class="pre">sunsetXXX</span></code>: gives the sunset time for different twilights, in Dublin Julian Dates. e.g.: <code class="docutils literal"><span class="pre">observatory.sunsetcivil</span></code></li>
+<li><code class="docutils literal"><span class="pre">len_nightXXX</span></code>: gives the night duration for different twilights (between corresponding sunset and sunrise), in hours. e.g.: <code class="docutils literal"><span class="pre">observatory.len_nightnautical</span></code></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code></li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observatory</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span>
+<span class="go">&lt;ephem.Observer date=&#39;2015/3/31 21:59:59&#39; epoch=&#39;2000/1/1 12:00:00&#39;</span>
+<span class="go">lon=5:42:48.0 lat=43:55:51.0 elevation=650.0m horizon=-0:49:04.8</span>
+<span class="go">temp=15.0C pressure=1010.0mBar&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">moon</span>
+<span class="go">Moon - phase: 89.2%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">sunset</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sunrise</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">len_night</span><span class="p">)</span>
+<span class="go">2015/3/31 18:08:40 ... 2015/4/1 05:13:09 ... 11.0746939826</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ephem</span> <span class="kn">as</span> <span class="nn">E</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">sunsetastro</span><span class="o">+</span><span class="n">o</span><span class="o">.</span><span class="n">localTimeOffest</span><span class="p">),</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+<span class="go">        o.sunriseastro+o.localTimeOffest), &#39;...&#39;, o.len_nightastro)</span>
+<span class="go">2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="astroobs.Observatory.Observatory.nowArg">
+<code class="descname">nowArg</code><a class="headerlink" href="#astroobs.Observatory.Observatory.nowArg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the index of <em>now</em> in the <code class="docutils literal"><span class="pre">observatory.dates</span></code> vector, or None if <em>now</em> is out of its bounds (meaning the observation is not taking place now)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ephem</span> <span class="kn">as</span> <span class="nn">E</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observatory</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="p">,</span> <span class="s">&#39;k-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">now</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">nowArg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">now</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">now</span><span class="p">],</span> <span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="p">[</span><span class="n">now</span><span class="p">],</span> <span class="s">&#39;ro&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">E</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">E</span><span class="o">.</span><span class="n">now</span><span class="p">()],</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span> <span class="s">&#39;r--&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observatory.Observatory.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.Observatory.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the observatory diagram</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>dt (float - hour): the spacing of x-axis labels, default is 1 hour (not with polar mode)</li>
+<li>t0 (float - DJD or [0-24]): the date of the first tick-label of x-axis, default is sunsetastro. The time type must correspond to <code class="docutils literal"><span class="pre">time</span></code> parameter (not with polar mode)</li>
+<li>xlim ([xmin, xmax]): bounds for x-axis, default is full night span (not with polar mode)</li>
+<li>retxdisp (bool): if <code class="docutils literal"><span class="pre">True</span></code>, bounds of x-axis displayed values are returned (<code class="docutils literal"><span class="pre">xdisp</span></code> key)</li>
+<li>ylim ([ymin, ymax]): bounds for y-axis, default is [horizon_obs-10, 90] (not with polar mode)</li>
+<li>xlabel (str): label for x-axis, default &#8216;Time (UT)&#8217;</li>
+<li>ylabel (str): label for y-axis, default &#8216;Elevation (°)&#8217;</li>
+<li>title (str): title of the diagram, default is observatory name or coordinates</li>
+<li>ymin_margin (float): margin between xmin of graph and horizon_obs. Low priority vs ylim, default is 10 (not with polar mode)</li>
+<li>retfignum (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the figure number will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fignum (int): figure number on which to plot, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>retaxnum (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the ax index as in <code class="docutils literal"><span class="pre">figure.axes[n]</span></code> will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>axnum (int): axes index on which to plot, default is <code class="docutils literal"><span class="pre">None</span></code> (create new ax)</li>
+<li>retfig (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the figure object will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fig (figure): figure object on which to plot, default is <code class="docutils literal"><span class="pre">None</span></code> (use fignum)</li>
+<li>retax (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the ax will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>ax (axes): ax on which to plot, default is <code class="docutils literal"><span class="pre">None</span></code></li>
+<li>now (bool): if <code class="docutils literal"><span class="pre">True</span></code> and within range, a vertical line as indication of &#8220;now&#8221; will be shown, default is True</li>
+<li>retnow (bool): returns the line object (<code class="docutils literal"><span class="pre">nowline</span></code> key) corresponding to the &#8216;now-line&#8217;, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>legend (bool): whether to add a legend or not, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>loc: location of the legend, default is 8 (top right), refer to plt.legend</li>
+<li>ncol: number of columns in the legend, default is 3, refer to plt.legend</li>
+<li>columnspacing: spacing between columns in the legend, refer to plt.legend</li>
+<li>lfs: legend font size, default is 11</li>
+<li>textlbl (bool): if <code class="docutils literal"><span class="pre">True</span></code>, a text label with target name or coordinates will be added near transit, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>polar (bool): if <code class="docutils literal"><span class="pre">True</span></code>, plots the sky view, otherwise plots target attribute versus time</li>
+<li>time (str): the type of the x-axis time, <code class="docutils literal"><span class="pre">ut</span></code> for UT, <code class="docutils literal"><span class="pre">loc</span></code> for local time and <code class="docutils literal"><span class="pre">lst</span></code> [0-24] for local sidereal time, default is <code class="docutils literal"><span class="pre">ut</span></code> (not with polar mode)</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observatory.Observatory.process_obs">
+<code class="descname">process_obs</code><span class="sig-paren">(</span><em>pts=200</em>, <em>margin=15</em>, <em>fullhour=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory.process_obs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.Observatory.process_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes all twilights as well as moon rise, set and position through night for the given observatory and date.
+Creates the vector <code class="docutils literal"><span class="pre">observatory.dates</span></code> which is the vector containing all timestamps at which the moon and the targets will be processed.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>pts (int) [optional]: the size of the <code class="docutils literal"><span class="pre">dates</span></code> vector, whose elements are linearly spaced in time</li>
+<li>margin (float - minutes) [optional]: the margin between the first element of the vector <code class="docutils literal"><span class="pre">dates</span></code> and the sunset, and between the sunrise and its last element</li>
+<li>fullhour (bool) [optional]: if <code class="docutils literal"><span class="pre">True</span></code>, then the vector <code class="docutils literal"><span class="pre">dates</span></code> will start and finish on the first full hour preceeding sunset and following sunrise</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In case the observatory is in polar regions where the sun does not alway set and rise everyday, the first and last elements of the <code class="docutils literal"><span class="pre">dates</span></code> vector are set to local midday right before and after the local midnight of the observation date. e.g.: 24h night centered on the local midnight.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observatory.Observatory.upd_date">
+<code class="descname">upd_date</code><span class="sig-paren">(</span><em>ut_date=None</em>, <em>local_date=None</em>, <em>force=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory.upd_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.Observatory.upd_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the date of the observatory, and re-process the observatory parameters if the date is different.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>ut_date (see below): the date of observation in UT time</li>
+<li>local_date (see below): the date of observation in local time</li>
+<li>force (bool): if <code class="docutils literal"><span class="pre">False</span></code>, the observatory is re-processed only if the date changed</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="docutils literal"><span class="pre">True</span></code> if the date was changed, otherwise <code class="docutils literal"><span class="pre">False</span></code></dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">local_date</span></code> and <code class="docutils literal"><span class="pre">ut_date</span></code> can be date-tuples <code class="docutils literal"><span class="pre">(yyyy,</span> <span class="pre">mm,</span> <span class="pre">dd,</span> <span class="pre">[hh,</span> <span class="pre">mm,</span> <span class="pre">ss])</span></code>, timestamps, datetime structures or ephem.Date instances.</li>
+<li>If both are given, <code class="docutils literal"><span class="pre">ut_date</span></code> has higher priority</li>
+<li>If neither of those are given, the date is automatically set to <em>tonight</em> or <em>now</em> (whether the sun has already set or not)</li>
+</ul>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.ObservatoryList">
+<span id="astroobs-observatorylist-module"></span><h2>astroobs.ObservatoryList module<a class="headerlink" href="#module-astroobs.ObservatoryList" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astroobs.ObservatoryList.ObservatoryList">
+<em class="property">class </em><code class="descclassname">astroobs.ObservatoryList.</code><code class="descname">ObservatoryList</code><span class="sig-paren">(</span><em>dataFile=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.ObservatoryList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Manages the database of observatories.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>dataFile (str): path+file to the observatories database. If left to <code class="docutils literal"><span class="pre">None</span></code>, the standard package database will be used</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>Exception: if a mandatory input parameter is missing when loading all observatories</li>
+</ul>
+</dd>
+</dl>
+<p>Use <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.add" title="astroobs.ObservatoryList.add"><code class="xref py py-func docutils literal"><span class="pre">add()</span></code></a>, <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.rem" title="astroobs.ObservatoryList.rem"><code class="xref py py-func docutils literal"><span class="pre">rem()</span></code></a>, <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.mod" title="astroobs.ObservatoryList.mod"><code class="xref py py-func docutils literal"><span class="pre">mod()</span></code></a> to add, remove or modify an observatory to the database.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">ObservatoryList</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span>
+<span class="go">List of 34 observatories</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span><span class="o">.</span><span class="n">obsids</span>
+<span class="go">[&#39;mwo&#39;,</span>
+<span class="go"> &#39;kpno&#39;,</span>
+<span class="go"> &#39;ctio&#39;,</span>
+<span class="go"> &#39;lasilla&#39;,</span>
+<span class="go"> ...</span>
+<span class="go"> &#39;vlt&#39;,</span>
+<span class="go"> &#39;mgo&#39;,</span>
+<span class="go"> &#39;ohp&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span><span class="p">[</span><span class="s">&#39;ohp&#39;</span><span class="p">]</span>
+<span class="go">{&#39;elevation&#39;: 650.0,</span>
+<span class="go"> &#39;lat&#39;: 0.7667376848115423,</span>
+<span class="go"> &#39;long&#39;: 0.09971647793060935,</span>
+<span class="go"> &#39;moonAvoidRadius&#39;: 0.25,</span>
+<span class="go"> &#39;name&#39;: &#39;Observatoire de Haute Provence&#39;,</span>
+<span class="go"> &#39;pressure&#39;: 1010.0,</span>
+<span class="go"> &#39;temp&#39;: 15.0,</span>
+<span class="go"> &#39;timezone&#39;: &#39;Europe/Paris&#39;}</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="astroobs.ObservatoryList.ObservatoryList.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>obsid</em>, <em>name</em>, <em>long</em>, <em>lat</em>, <em>elevation</em>, <em>timezone</em>, <em>temp=15.0</em>, <em>pressure=1010.0</em>, <em>moonAvoidRadius=0.25</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.ObservatoryList.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an observatory to the current observatories database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obsid (str): id of the observatory to add. Must be unique, without spaces or ;</li>
+<li>name (str): name of the observatory</li>
+<li>long (str - &#8216;+/-ddd:mm:ss.s&#8217;): longitude of the observatory. West is negative, East is positive</li>
+<li>lat (str - &#8216;+/-dd:mm:ss.s&#8217;): latitude of the observatory. North is Positive, South is negative</li>
+<li>elevation (float - m): elevation of the observatory</li>
+<li>timezone (str): timezone of the observatory, as in pytz library. See note below</li>
+<li>temp (float - degrees Celcius) [optional]: temperature at the observatory</li>
+<li>pressure (float - hPa) [optional]: pressure at the observatory</li>
+<li>moonAvoidRadius (float - degrees) [optional]: minimum distance at which a target must sit from the moon to be observed</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if the observatory ID already exists</li>
+<li>Exception: if a mandatory input parameter is missing when reloading all observatories</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To view all available timezones, run:
+&gt;&gt;&gt; import pytz
+&gt;&gt;&gt; for tz in pytz.all_timezones:
+&gt;&gt;&gt;     print(tz)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.ObservatoryList.ObservatoryList.mod">
+<code class="descname">mod</code><span class="sig-paren">(</span><em>obsid</em>, <em>name</em>, <em>long</em>, <em>lat</em>, <em>elevation</em>, <em>timezone</em>, <em>temp=15.0</em>, <em>pressure=1010.0</em>, <em>moonAvoidRadius=0.25</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.mod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.ObservatoryList.mod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies an observatory in the current observatories database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obsid (str): id of the observatory to modify. All other parameters redefine the observatory</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if the observatory ID does not exist</li>
+<li>Exception: if a mandatory input parameter is missing when reloading all observatories</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.add" title="astroobs.ObservatoryList.add"><code class="xref py py-func docutils literal"><span class="pre">add()</span></code></a> for details on input parameters</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.ObservatoryList.ObservatoryList.nameList">
+<code class="descname">nameList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.nameList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.ObservatoryList.nameList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a list of tuples (obs id, observatory name) in the alphabetical order of the column &#8216;observatory name&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.ObservatoryList.ObservatoryList.rem">
+<code class="descname">rem</code><span class="sig-paren">(</span><em>obsid</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.rem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.ObservatoryList.rem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes an observatory from the current observatories database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obsid (str): id of the observatory to remove</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if the observatory ID does not exist</li>
+<li>Exception: if a mandatory input parameter is missing when reloading all observatories</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.ObservatoryList.showall">
+<code class="descclassname">astroobs.ObservatoryList.</code><code class="descname">showall</code><span class="sig-paren">(</span><em>dataFile=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#showall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.showall" title="Permalink to this definition">¶</a></dt>
+<dd><p>A quick function to view all available observatories</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.Target">
+<span id="astroobs-target-module"></span><h2>astroobs.Target module<a class="headerlink" href="#module-astroobs.Target" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astroobs.Target.Target">
+<em class="property">class </em><code class="descclassname">astroobs.Target.</code><code class="descname">Target</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>name</em>, <em>input_epoch='2000'</em>, <em>obs=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.Target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Initialises a target object from its right ascension and declination. Optionaly, processes the target for the observatory and date given (refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Target.Target.process" title="astroobs.Target.Target.process"><code class="xref py py-func docutils literal"><span class="pre">Target.process()</span></code></a>).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>ra (str &#8216;hh:mm:ss.s&#8217; or float - degrees): the right ascension of the target</li>
+<li>dec (str &#8216;+/-dd:mm:ss.s&#8217; or float - degrees): the declination of the target</li>
+<li>name (str): the name of the target, for display</li>
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>) [optional]: the observatory for which to process the target</li>
+<li>input_epoch (str): the &#8216;YYYY&#8217; year of epoch in which the ra-dec coordinates are given. These coordinates will corrected with precession if the epoch of observatory is different</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<dl class="attribute">
+<dt id="astroobs.Target.Target.dec">
+<code class="descname">dec</code><a class="headerlink" href="#astroobs.Target.Target.dec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The declination of the target, displayed as tuple (+/-dd, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Target.Target.decStr">
+<code class="descname">decStr</code><a class="headerlink" href="#astroobs.Target.Target.decStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the declination of the target</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.Target.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>obs</em>, <em>y='alt'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.Target.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to plot the target</li>
+<li>y (object attribute): the y-data to plot</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></li>
+<li>simpleplt (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the observatory plot will not be plotted, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>color (str or #XXXXXX): the color of the target curve, default is &#8216;k&#8217;</li>
+<li>lw (float): the linewidth, default is 1</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.Target.polar">
+<code class="descname">polar</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.Target.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the sky-view diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to plot the target</li>
+<li>y (object attribute): the y-data to plot</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Target.Target.plot" title="astroobs.Target.Target.plot"><code class="xref py py-func docutils literal"><span class="pre">Target.plot()</span></code></a></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.Target.process">
+<code class="descname">process</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.Target.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the target for the given observatory and date.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to process the target</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+<dt>Creates vector attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">airmass</span></code>: the airmass of the target</li>
+<li><code class="docutils literal"><span class="pre">ha</span></code>: the hour angle of the target (degrees)</li>
+<li><code class="docutils literal"><span class="pre">alt</span></code>: the altitude of the target (degrees - horizon is 0)</li>
+<li><code class="docutils literal"><span class="pre">az</span></code>: the azimuth of the target (degrees)</li>
+<li><code class="docutils literal"><span class="pre">moondist</span></code>: the angular distance between the moon and the target (degrees)</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>All previous attributes are vectors related to the time vector of the observatory used for processing, stored under <code class="docutils literal"><span class="pre">dates</span></code> attribute</li>
+</ul>
+</div>
+<dl class="docutils">
+<dt>Other attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the rise of the target</li>
+<li><code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the setting of the target</li>
+<li><code class="docutils literal"><span class="pre">transit_time</span></code>, <code class="docutils literal"><span class="pre">transit_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the transit of the target</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code>, i.e. <code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>, <code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>. In that case, an additional parameter is added to the Target object: <code class="docutils literal"><span class="pre">Target.alwaysUp</span></code> which is <code class="docutils literal"><span class="pre">True</span></code> if the target never sets and <code class="docutils literal"><span class="pre">False</span></code> if it never rises above the horizon.</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Target.Target.ra">
+<code class="descname">ra</code><a class="headerlink" href="#astroobs.Target.Target.ra" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right ascension of the target, displayed as tuple (hh, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Target.Target.raStr">
+<code class="descname">raStr</code><a class="headerlink" href="#astroobs.Target.Target.raStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the right ascension of the target</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.Target.whenobs">
+<code class="descname">whenobs</code><span class="sig-paren">(</span><em>obs</em>, <em>fromDate='now'</em>, <em>toDate='now+30day'</em>, <em>plot=True</em>, <em>ret=False</em>, <em>dday=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.whenobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.Target.whenobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the target for the given observatory and dat.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>): the observatory for which to process the target</li>
+<li>fromDate (see below): the start date of the range</li>
+<li>toDate (see below): the end date of the range</li>
+<li>plot: whether it plots the diagram</li>
+<li>ret: whether it returns the values</li>
+<li>dday: the</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor
+* legend (bool): whether to add a legend or not, default is <code class="docutils literal"><span class="pre">True</span></code>
+* loc: location of the legend, default is 8 (top right), refer to plt.legend
+* ncol: number of columns in the legend, default is 3, refer to plt.legend
+* columnspacing: spacing between columns in the legend, refer to plt.legend
+* lfs: legend font size, default is 11</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">local_date</span></code> and <code class="docutils literal"><span class="pre">ut_date</span></code> can be date-tuples <code class="docutils literal"><span class="pre">(yyyy,</span> <span class="pre">mm,</span> <span class="pre">dd,</span> <span class="pre">[hh,</span> <span class="pre">mm,</span> <span class="pre">ss])</span></code>, timestamps, datetime structures or ephem.Date instances.</li>
+</ul>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.TargetSIMBAD">
+<span id="astroobs-targetsimbad-module"></span><h2>astroobs.TargetSIMBAD module<a class="headerlink" href="#module-astroobs.TargetSIMBAD" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astroobs.TargetSIMBAD.TargetSIMBAD">
+<em class="property">class </em><code class="descclassname">astroobs.TargetSIMBAD.</code><code class="descname">TargetSIMBAD</code><span class="sig-paren">(</span><em>name</em>, <em>obs=None</em>, <em>input_epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/TargetSIMBAD.html#TargetSIMBAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.TargetSIMBAD.TargetSIMBAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.Target.Target" title="astroobs.Target.Target"><code class="xref py py-class docutils literal"><span class="pre">astroobs.Target.Target</span></code></a></p>
+<p>Initialises a target object from an online SIMBAD database name-search. Optionaly, processes the target for the observatory and date given (refer to <code class="xref py py-func docutils literal"><span class="pre">TargetSIMBAD.process()</span></code>).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>name (str): the name of the target as if performing an online SIMBAD search</li>
+<li>obs (<code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code>) [optional]: the observatory for which to process the target</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+<dt>Creates attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">flux</span></code>: a dictionary of the magnitudes of the target. Keys are part or all of [&#8216;U&#8217;,&#8217;B&#8217;,&#8217;V&#8217;,&#8217;R&#8217;,&#8217;I&#8217;,&#8217;J&#8217;,&#8217;H&#8217;,&#8217;K&#8217;]</li>
+<li><code class="docutils literal"><span class="pre">link</span></code>: the link to paste into a web-browser to display the SIMBAD page of the target</li>
+<li><code class="docutils literal"><span class="pre">linkbib</span></code>: the link to paste into a web-browser to display the references on the SIMBAD page of the target</li>
+<li><code class="docutils literal"><span class="pre">hd</span></code>: if applicable, the HD number of the target</li>
+<li><code class="docutils literal"><span class="pre">hr</span></code>: if applicable, the HR number of the target</li>
+<li><code class="docutils literal"><span class="pre">hip</span></code>: if applicable, the HIP number of the target</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.astroobsexception">
+<span id="astroobs-astroobsexception-module"></span><h2>astroobs.astroobsexception module<a class="headerlink" href="#module-astroobs.astroobsexception" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="astroobs.astroobsexception.AstroobsException">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">AstroobsException</code><a class="reference internal" href="_modules/astroobs/astroobsexception.html#AstroobsException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.AstroobsException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>Root for astroobs Exceptions, only used to except any astroobs error, never raised</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.DuplicateObservatory">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">DuplicateObservatory</code><span class="sig-paren">(</span><em>key=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#DuplicateObservatory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.DuplicateObservatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the observatory key is already existing</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.InputNotUnderstood">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">InputNotUnderstood</code><span class="sig-paren">(</span><em>ipt=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#InputNotUnderstood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.InputNotUnderstood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the input was not understood</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.NoObservatoryDate">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">NoObservatoryDate</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#NoObservatoryDate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.NoObservatoryDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.UncompleteObservatory" title="astroobs.astroobsexception.UncompleteObservatory"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.UncompleteObservatory</span></code></a></p>
+<p>If the observatory is missing a date</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.NoPlotMode">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">NoPlotMode</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#NoPlotMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.NoPlotMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the user doesn&#8217;t have matplotlib</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.NonObservatory">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">NonObservatory</code><span class="sig-paren">(</span><em>obs=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#NonObservatory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.NonObservatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If one or more parameter is missing in the setting up of the Obervatory object</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.NonObservatoryList">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">NonObservatoryList</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#NonObservatoryList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.NonObservatoryList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the observatory list is not valid</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.NonTarget">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">NonTarget</code><span class="sig-paren">(</span><em>obj=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#NonTarget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.NonTarget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the type of the object is not astroobs.Target, or is not valid</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.ReadOnly">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">ReadOnly</code><span class="sig-paren">(</span><em>attr=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#ReadOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.ReadOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the parameter is read-only</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.TargetMissingSIMBAD">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">TargetMissingSIMBAD</code><span class="sig-paren">(</span><em>target=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#TargetMissingSIMBAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.TargetMissingSIMBAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the target name given was not found in SIMBAD</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.UncompleteObservatory">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">UncompleteObservatory</code><span class="sig-paren">(</span><em>param=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#UncompleteObservatory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.UncompleteObservatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If one or more parameter is missing in the setting up of the Obervatory object</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.UnknownObservatory">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">UnknownObservatory</code><span class="sig-paren">(</span><em>obs=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#UnknownObservatory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.UnknownObservatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the observatory key is not known</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="astroobs.astroobsexception.UnknownTwilight">
+<em class="property">exception </em><code class="descclassname">astroobs.astroobsexception.</code><code class="descname">UnknownTwilight</code><span class="sig-paren">(</span><em>twi=''</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#UnknownTwilight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.UnknownTwilight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.astroobsexception.AstroobsException" title="astroobs.astroobsexception.AstroobsException"><code class="xref py py-class docutils literal"><span class="pre">astroobs.astroobsexception.AstroobsException</span></code></a></p>
+<p>If the twilight key is not known</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.astroobsexception.raiseIt">
+<code class="descclassname">astroobs.astroobsexception.</code><code class="descname">raiseIt</code><span class="sig-paren">(</span><em>exc</em>, <em>raiseoupas</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/astroobsexception.html#raiseIt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.astroobsexception.raiseIt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.core">
+<span id="astroobs-core-module"></span><h2>astroobs.core module<a class="headerlink" href="#module-astroobs.core" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="astroobs.core.airmass_to_rad">
+<code class="descclassname">astroobs.core.</code><code class="descname">airmass_to_rad</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/core.html#airmass_to_rad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.core.airmass_to_rad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms airmass to radians</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.core.cleanTime">
+<code class="descclassname">astroobs.core.</code><code class="descname">cleanTime</code><span class="sig-paren">(</span><em>t</em>, <em>format=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/core.html#cleanTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.core.cleanTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises an error if t not among (ephem.Date, datetime, timestamp, tuple, time.struct_time) date types, and optionaly returns the date into the format:
+- &#8216;ts&#8217;: unix timestamp (float)
+- &#8216;dt&#8217;: datetime
+- &#8216;du&#8217;: date tuple
+- &#8216;ed&#8217;: ephem.Date
+- &#8216;st&#8217;: time.struct_time</p>
+<p>NB: does not keep the tzinfo of datetime</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.core.convertTime">
+<code class="descclassname">astroobs.core.</code><code class="descname">convertTime</code><span class="sig-paren">(</span><em>t</em>, <em>tzTo</em>, <em>tzFrom='utc'</em>, <em>format=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/core.html#convertTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.core.convertTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the time &#8216;t&#8217; from timezone &#8216;tzFrom&#8217; (default is UT) to timezone &#8216;tzTo&#8217;.</p>
+<p>tzFrom and tzTo are like &#8216;America/Los_Angeles&#8217;</p>
+<p>cf cleanTime method to see possible types for &#8216;t&#8217; and output.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.core.make_num">
+<code class="descclassname">astroobs.core.</code><code class="descname">make_num</code><span class="sig-paren">(</span><em>numstr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/core.html#make_num"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.core.make_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes any non-number character from numstr. Keeps also decimal separator &#8221;.&#8221; and signs &#8220;-&#8221;, &#8220;+&#8221;.
+Returns float</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.core.rad_to_airmass">
+<code class="descclassname">astroobs.core.</code><code class="descname">rad_to_airmass</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/core.html#rad_to_airmass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.core.rad_to_airmass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms radians to airmass</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astroobs.core.radecFromStr">
+<code class="descclassname">astroobs.core.</code><code class="descname">radecFromStr</code><span class="sig-paren">(</span><em>txt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/core.html#radecFromStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.core.radecFromStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a string that contains ra in decimal degrees or in hh:mm:ss.s and dec in decimal degrees or dd:mm:ss.s
+returns (ra, dec) in decimal degrees</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-astroobs.obs">
+<span id="astroobs-obs-module"></span><h2>astroobs.obs module<a class="headerlink" href="#module-astroobs.obs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-astroobs.version">
+<span id="astroobs-version-module"></span><h2>astroobs.version module<a class="headerlink" href="#module-astroobs.version" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-astroobs">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-astroobs" title="Permalink to this headline">¶</a></h2>
+<p>Provides astronomy ephemeris to plan telescope observations</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>All altitudes, azimuth, hour angle are in degrees</li>
+<li><code class="docutils literal"><span class="pre">horizon</span></code> attribute of <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a> or <a class="reference internal" href="docs/astroobs.html#astroobs.Observation" title="astroobs.Observation"><code class="xref py py-class docutils literal"><span class="pre">Observation</span></code></a> is in radian</li>
+<li>All times are in UT, except for <code class="docutils literal"><span class="pre">Observatory.localnight</span></code></li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code></li>
+</ul>
+</div>
+<p>Real-life example use:
+&gt;&gt;&gt;</p>
+<dl class="class">
+<dt id="astroobs.ObservatoryList">
+<em class="property">class </em><code class="descclassname">astroobs.</code><code class="descname">ObservatoryList</code><span class="sig-paren">(</span><em>dataFile=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Manages the database of observatories.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>dataFile (str): path+file to the observatories database. If left to <code class="docutils literal"><span class="pre">None</span></code>, the standard package database will be used</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>Exception: if a mandatory input parameter is missing when loading all observatories</li>
+</ul>
+</dd>
+</dl>
+<p>Use <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.add" title="astroobs.ObservatoryList.add"><code class="xref py py-func docutils literal"><span class="pre">add()</span></code></a>, <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.rem" title="astroobs.ObservatoryList.rem"><code class="xref py py-func docutils literal"><span class="pre">rem()</span></code></a>, <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.mod" title="astroobs.ObservatoryList.mod"><code class="xref py py-func docutils literal"><span class="pre">mod()</span></code></a> to add, remove or modify an observatory to the database.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">ObservatoryList</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span>
+<span class="go">List of 34 observatories</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span><span class="o">.</span><span class="n">obsids</span>
+<span class="go">[&#39;mwo&#39;,</span>
+<span class="go"> &#39;kpno&#39;,</span>
+<span class="go"> &#39;ctio&#39;,</span>
+<span class="go"> &#39;lasilla&#39;,</span>
+<span class="go"> ...</span>
+<span class="go"> &#39;vlt&#39;,</span>
+<span class="go"> &#39;mgo&#39;,</span>
+<span class="go"> &#39;ohp&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ol</span><span class="p">[</span><span class="s">&#39;ohp&#39;</span><span class="p">]</span>
+<span class="go">{&#39;elevation&#39;: 650.0,</span>
+<span class="go"> &#39;lat&#39;: 0.7667376848115423,</span>
+<span class="go"> &#39;long&#39;: 0.09971647793060935,</span>
+<span class="go"> &#39;moonAvoidRadius&#39;: 0.25,</span>
+<span class="go"> &#39;name&#39;: &#39;Observatoire de Haute Provence&#39;,</span>
+<span class="go"> &#39;pressure&#39;: 1010.0,</span>
+<span class="go"> &#39;temp&#39;: 15.0,</span>
+<span class="go"> &#39;timezone&#39;: &#39;Europe/Paris&#39;}</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="astroobs.ObservatoryList.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>obsid</em>, <em>name</em>, <em>long</em>, <em>lat</em>, <em>elevation</em>, <em>timezone</em>, <em>temp=15.0</em>, <em>pressure=1010.0</em>, <em>moonAvoidRadius=0.25</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an observatory to the current observatories database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obsid (str): id of the observatory to add. Must be unique, without spaces or ;</li>
+<li>name (str): name of the observatory</li>
+<li>long (str - &#8216;+/-ddd:mm:ss.s&#8217;): longitude of the observatory. West is negative, East is positive</li>
+<li>lat (str - &#8216;+/-dd:mm:ss.s&#8217;): latitude of the observatory. North is Positive, South is negative</li>
+<li>elevation (float - m): elevation of the observatory</li>
+<li>timezone (str): timezone of the observatory, as in pytz library. See note below</li>
+<li>temp (float - degrees Celcius) [optional]: temperature at the observatory</li>
+<li>pressure (float - hPa) [optional]: pressure at the observatory</li>
+<li>moonAvoidRadius (float - degrees) [optional]: minimum distance at which a target must sit from the moon to be observed</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if the observatory ID already exists</li>
+<li>Exception: if a mandatory input parameter is missing when reloading all observatories</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To view all available timezones, run:
+&gt;&gt;&gt; import pytz
+&gt;&gt;&gt; for tz in pytz.all_timezones:
+&gt;&gt;&gt;     print(tz)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.ObservatoryList.mod">
+<code class="descname">mod</code><span class="sig-paren">(</span><em>obsid</em>, <em>name</em>, <em>long</em>, <em>lat</em>, <em>elevation</em>, <em>timezone</em>, <em>temp=15.0</em>, <em>pressure=1010.0</em>, <em>moonAvoidRadius=0.25</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.mod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.mod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies an observatory in the current observatories database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obsid (str): id of the observatory to modify. All other parameters redefine the observatory</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if the observatory ID does not exist</li>
+<li>Exception: if a mandatory input parameter is missing when reloading all observatories</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.add" title="astroobs.ObservatoryList.add"><code class="xref py py-func docutils literal"><span class="pre">add()</span></code></a> for details on input parameters</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.ObservatoryList.nameList">
+<code class="descname">nameList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.nameList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.nameList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a list of tuples (obs id, observatory name) in the alphabetical order of the column &#8216;observatory name&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.ObservatoryList.rem">
+<code class="descname">rem</code><span class="sig-paren">(</span><em>obsid</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/ObservatoryList.html#ObservatoryList.rem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.ObservatoryList.rem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes an observatory from the current observatories database.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obsid (str): id of the observatory to remove</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if the observatory ID does not exist</li>
+<li>Exception: if a mandatory input parameter is missing when reloading all observatories</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="astroobs.Observatory">
+<em class="property">class </em><code class="descclassname">astroobs.</code><code class="descname">Observatory</code><span class="sig-paren">(</span><em>obs</em>, <em>long=None</em>, <em>lat=None</em>, <em>elevation=None</em>, <em>timezone=None</em>, <em>temp=None</em>, <em>pressure=None</em>, <em>moonAvoidRadius=None</em>, <em>local_date=None</em>, <em>ut_date=None</em>, <em>horizon_obs=None</em>, <em>dataFile=None</em>, <em>epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">ephem.Observer</span></code>, <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Defines an observatory from which the ephemeris of the twilights or a night-sky target are processed. The <em>night-time</em> is base on the given date. It ends at the next sunrise and starts at the sunset preceeding this next sunrise.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (str): id of the observatory to pick from the observatories database OR the name of the custom observatory (in that case, <code class="docutils literal"><span class="pre">long</span></code>, <code class="docutils literal"><span class="pre">lat</span></code>, <code class="docutils literal"><span class="pre">elevation</span></code>, <code class="docutils literal"><span class="pre">timezone</span></code> must also be given, <code class="docutils literal"><span class="pre">temp</span></code>, <code class="docutils literal"><span class="pre">pressure</span></code>, <code class="docutils literal"><span class="pre">moonAvoidRadius</span></code> are optional)</li>
+<li>local_date (see below): the date of observation in local time</li>
+<li>ut_date (see below): the date of observation in UT time</li>
+<li>horizon_obs (float - degrees): minimum altitude at which a target can be observed, default is 30 degrees altitude</li>
+<li>epoch (str): the &#8216;YYYY&#8217; year in which all ra-dec coordinates are converted</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fig: TBD</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>NameError: if a mandatory input parameter is missing</li>
+<li>KeyError: if the observatory ID does not exist</li>
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>For details on <code class="docutils literal"><span class="pre">local_date</span></code> and <code class="docutils literal"><span class="pre">ut_date</span></code>, refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.upd_date" title="astroobs.Observatory.upd_date"><code class="xref py py-func docutils literal"><span class="pre">Observatory.upd_date()</span></code></a></li>
+<li>For details on other input parameters, refer to <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.add" title="astroobs.ObservatoryList.add"><code class="xref py py-func docutils literal"><span class="pre">ObservatoryList.add()</span></code></a></li>
+<li>The <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a> automatically creates and manages a <a class="reference internal" href="docs/astroobs.html#astroobs.Moon" title="astroobs.Moon"><code class="xref py py-class docutils literal"><span class="pre">Moon</span></code></a> target under <code class="docutils literal"><span class="pre">moon</span></code> attribute</li>
+<li>If <code class="docutils literal"><span class="pre">obs</span></code> is the id of an observatory to pick in the database, the user can still provide <code class="docutils literal"><span class="pre">temp</span></code>, <code class="docutils literal"><span class="pre">pressure</span></code>, <code class="docutils literal"><span class="pre">moonAvoidRadius</span></code> attributes which will override the database default values</li>
+<li><code class="docutils literal"><span class="pre">horizon</span></code> attribute is in radian</li>
+</ul>
+</div>
+<dl class="docutils">
+<dt>Main attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">localnight</span></code>: gives the local midnight time in local time (YYYY, MM, DD, 23, 59, 59)</li>
+<li><code class="docutils literal"><span class="pre">date</span></code>: gives the local midnight time in UT time</li>
+<li><code class="docutils literal"><span class="pre">dates</span></code>: is a vector of Dublin Julian Dates. Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.process_obs" title="astroobs.Observatory.process_obs"><code class="xref py py-func docutils literal"><span class="pre">process_obs()</span></code></a></li>
+<li><code class="docutils literal"><span class="pre">lst</span></code>: the local sidereal time corresponding to each <code class="docutils literal"><span class="pre">dates</span></code> element</li>
+<li><code class="docutils literal"><span class="pre">localTimeOffest</span></code>: gives the shift in days between UT and local time: local=UT+localTimeOffest</li>
+<li><code class="docutils literal"><span class="pre">moon</span></code>: points to the <a class="reference internal" href="docs/astroobs.html#astroobs.Moon" title="astroobs.Moon"><code class="xref py py-class docutils literal"><span class="pre">Moon</span></code></a> target processed for the given observatory and date</li>
+</ul>
+</dd>
+<dt>Twilight attributes:</dt>
+<dd><ul class="first last simple">
+<li>For the next three attributes, <code class="docutils literal"><span class="pre">XXX</span></code> shall be replaced by {&#8216;&#8217; (blank), &#8216;civil&#8217;, &#8216;nautical&#8217;, &#8216;astro&#8217;} for, respectively, horizon, -6, -12, and -18 degrees altitude</li>
+<li><code class="docutils literal"><span class="pre">sunriseXXX</span></code>: gives the sunrise time for different twilights, in Dublin Julian Dates. e.g.: <code class="docutils literal"><span class="pre">observatory.sunrise</span></code></li>
+<li><code class="docutils literal"><span class="pre">sunsetXXX</span></code>: gives the sunset time for different twilights, in Dublin Julian Dates. e.g.: <code class="docutils literal"><span class="pre">observatory.sunsetcivil</span></code></li>
+<li><code class="docutils literal"><span class="pre">len_nightXXX</span></code>: gives the night duration for different twilights (between corresponding sunset and sunrise), in hours. e.g.: <code class="docutils literal"><span class="pre">observatory.len_nightnautical</span></code></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code></li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observatory</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span>
+<span class="go">&lt;ephem.Observer date=&#39;2015/3/31 21:59:59&#39; epoch=&#39;2000/1/1 12:00:00&#39;</span>
+<span class="go">lon=5:42:48.0 lat=43:55:51.0 elevation=650.0m horizon=-0:49:04.8</span>
+<span class="go">temp=15.0C pressure=1010.0mBar&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">moon</span>
+<span class="go">Moon - phase: 89.2%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">sunset</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sunrise</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">len_night</span><span class="p">)</span>
+<span class="go">2015/3/31 18:08:40 ... 2015/4/1 05:13:09 ... 11.0746939826</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ephem</span> <span class="kn">as</span> <span class="nn">E</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">sunsetastro</span><span class="o">+</span><span class="n">o</span><span class="o">.</span><span class="n">localTimeOffest</span><span class="p">),</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+<span class="go">        o.sunriseastro+o.localTimeOffest), &#39;...&#39;, o.len_nightastro)</span>
+<span class="go">2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="astroobs.Observatory.nowArg">
+<code class="descname">nowArg</code><a class="headerlink" href="#astroobs.Observatory.nowArg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the index of <em>now</em> in the <code class="docutils literal"><span class="pre">observatory.dates</span></code> vector, or None if <em>now</em> is out of its bounds (meaning the observation is not taking place now)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ephem</span> <span class="kn">as</span> <span class="nn">E</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observatory</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="p">,</span> <span class="s">&#39;k-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">now</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">nowArg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">now</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">now</span><span class="p">],</span> <span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="p">[</span><span class="n">now</span><span class="p">],</span> <span class="s">&#39;ro&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">E</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">E</span><span class="o">.</span><span class="n">now</span><span class="p">()],</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">o</span><span class="o">.</span><span class="n">moon</span><span class="o">.</span><span class="n">alt</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span> <span class="s">&#39;r--&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observatory.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the observatory diagram</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>dt (float - hour): the spacing of x-axis labels, default is 1 hour (not with polar mode)</li>
+<li>t0 (float - DJD or [0-24]): the date of the first tick-label of x-axis, default is sunsetastro. The time type must correspond to <code class="docutils literal"><span class="pre">time</span></code> parameter (not with polar mode)</li>
+<li>xlim ([xmin, xmax]): bounds for x-axis, default is full night span (not with polar mode)</li>
+<li>retxdisp (bool): if <code class="docutils literal"><span class="pre">True</span></code>, bounds of x-axis displayed values are returned (<code class="docutils literal"><span class="pre">xdisp</span></code> key)</li>
+<li>ylim ([ymin, ymax]): bounds for y-axis, default is [horizon_obs-10, 90] (not with polar mode)</li>
+<li>xlabel (str): label for x-axis, default &#8216;Time (UT)&#8217;</li>
+<li>ylabel (str): label for y-axis, default &#8216;Elevation (°)&#8217;</li>
+<li>title (str): title of the diagram, default is observatory name or coordinates</li>
+<li>ymin_margin (float): margin between xmin of graph and horizon_obs. Low priority vs ylim, default is 10 (not with polar mode)</li>
+<li>retfignum (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the figure number will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fignum (int): figure number on which to plot, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>retaxnum (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the ax index as in <code class="docutils literal"><span class="pre">figure.axes[n]</span></code> will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>axnum (int): axes index on which to plot, default is <code class="docutils literal"><span class="pre">None</span></code> (create new ax)</li>
+<li>retfig (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the figure object will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fig (figure): figure object on which to plot, default is <code class="docutils literal"><span class="pre">None</span></code> (use fignum)</li>
+<li>retax (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the ax will be returned, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>ax (axes): ax on which to plot, default is <code class="docutils literal"><span class="pre">None</span></code></li>
+<li>now (bool): if <code class="docutils literal"><span class="pre">True</span></code> and within range, a vertical line as indication of &#8220;now&#8221; will be shown, default is True</li>
+<li>retnow (bool): returns the line object (<code class="docutils literal"><span class="pre">nowline</span></code> key) corresponding to the &#8216;now-line&#8217;, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>legend (bool): whether to add a legend or not, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>loc: location of the legend, default is 8 (top right), refer to plt.legend</li>
+<li>ncol: number of columns in the legend, default is 3, refer to plt.legend</li>
+<li>columnspacing: spacing between columns in the legend, refer to plt.legend</li>
+<li>lfs: legend font size, default is 11</li>
+<li>textlbl (bool): if <code class="docutils literal"><span class="pre">True</span></code>, a text label with target name or coordinates will be added near transit, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>polar (bool): if <code class="docutils literal"><span class="pre">True</span></code>, plots the sky view, otherwise plots target attribute versus time</li>
+<li>time (str): the type of the x-axis time, <code class="docutils literal"><span class="pre">ut</span></code> for UT, <code class="docutils literal"><span class="pre">loc</span></code> for local time and <code class="docutils literal"><span class="pre">lst</span></code> [0-24] for local sidereal time, default is <code class="docutils literal"><span class="pre">ut</span></code> (not with polar mode)</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observatory.process_obs">
+<code class="descname">process_obs</code><span class="sig-paren">(</span><em>pts=200</em>, <em>margin=15</em>, <em>fullhour=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory.process_obs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.process_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes all twilights as well as moon rise, set and position through night for the given observatory and date.
+Creates the vector <code class="docutils literal"><span class="pre">observatory.dates</span></code> which is the vector containing all timestamps at which the moon and the targets will be processed.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>pts (int) [optional]: the size of the <code class="docutils literal"><span class="pre">dates</span></code> vector, whose elements are linearly spaced in time</li>
+<li>margin (float - minutes) [optional]: the margin between the first element of the vector <code class="docutils literal"><span class="pre">dates</span></code> and the sunset, and between the sunrise and its last element</li>
+<li>fullhour (bool) [optional]: if <code class="docutils literal"><span class="pre">True</span></code>, then the vector <code class="docutils literal"><span class="pre">dates</span></code> will start and finish on the first full hour preceeding sunset and following sunrise</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In case the observatory is in polar regions where the sun does not alway set and rise everyday, the first and last elements of the <code class="docutils literal"><span class="pre">dates</span></code> vector are set to local midday right before and after the local midnight of the observation date. e.g.: 24h night centered on the local midnight.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observatory.upd_date">
+<code class="descname">upd_date</code><span class="sig-paren">(</span><em>ut_date=None</em>, <em>local_date=None</em>, <em>force=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observatory.html#Observatory.upd_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observatory.upd_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the date of the observatory, and re-process the observatory parameters if the date is different.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>ut_date (see below): the date of observation in UT time</li>
+<li>local_date (see below): the date of observation in local time</li>
+<li>force (bool): if <code class="docutils literal"><span class="pre">False</span></code>, the observatory is re-processed only if the date changed</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="docutils literal"><span class="pre">True</span></code> if the date was changed, otherwise <code class="docutils literal"><span class="pre">False</span></code></dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">local_date</span></code> and <code class="docutils literal"><span class="pre">ut_date</span></code> can be date-tuples <code class="docutils literal"><span class="pre">(yyyy,</span> <span class="pre">mm,</span> <span class="pre">dd,</span> <span class="pre">[hh,</span> <span class="pre">mm,</span> <span class="pre">ss])</span></code>, timestamps, datetime structures or ephem.Date instances.</li>
+<li>If both are given, <code class="docutils literal"><span class="pre">ut_date</span></code> has higher priority</li>
+<li>If neither of those are given, the date is automatically set to <em>tonight</em> or <em>now</em> (whether the sun has already set or not)</li>
+</ul>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="astroobs.Target">
+<em class="property">class </em><code class="descclassname">astroobs.</code><code class="descname">Target</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>name</em>, <em>input_epoch='2000'</em>, <em>obs=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Initialises a target object from its right ascension and declination. Optionaly, processes the target for the observatory and date given (refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Target.process" title="astroobs.Target.process"><code class="xref py py-func docutils literal"><span class="pre">Target.process()</span></code></a>).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>ra (str &#8216;hh:mm:ss.s&#8217; or float - degrees): the right ascension of the target</li>
+<li>dec (str &#8216;+/-dd:mm:ss.s&#8217; or float - degrees): the declination of the target</li>
+<li>name (str): the name of the target, for display</li>
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>) [optional]: the observatory for which to process the target</li>
+<li>input_epoch (str): the &#8216;YYYY&#8217; year of epoch in which the ra-dec coordinates are given. These coordinates will corrected with precession if the epoch of observatory is different</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<dl class="attribute">
+<dt id="astroobs.Target.dec">
+<code class="descname">dec</code><a class="headerlink" href="#astroobs.Target.dec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The declination of the target, displayed as tuple (+/-dd, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Target.decStr">
+<code class="descname">decStr</code><a class="headerlink" href="#astroobs.Target.decStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the declination of the target</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>obs</em>, <em>y='alt'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to plot the target</li>
+<li>y (object attribute): the y-data to plot</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.plot" title="astroobs.Observatory.plot"><code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></a></li>
+<li>simpleplt (bool): if <code class="docutils literal"><span class="pre">True</span></code>, the observatory plot will not be plotted, default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>color (str or #XXXXXX): the color of the target curve, default is &#8216;k&#8217;</li>
+<li>lw (float): the linewidth, default is 1</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.polar">
+<code class="descname">polar</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the sky-view diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to plot the target</li>
+<li>y (object attribute): the y-data to plot</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.plot" title="astroobs.Observatory.plot"><code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></a></li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Target.plot" title="astroobs.Target.plot"><code class="xref py py-func docutils literal"><span class="pre">Target.plot()</span></code></a></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.process">
+<code class="descname">process</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the target for the given observatory and date.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to process the target</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+<dt>Creates vector attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">airmass</span></code>: the airmass of the target</li>
+<li><code class="docutils literal"><span class="pre">ha</span></code>: the hour angle of the target (degrees)</li>
+<li><code class="docutils literal"><span class="pre">alt</span></code>: the altitude of the target (degrees - horizon is 0)</li>
+<li><code class="docutils literal"><span class="pre">az</span></code>: the azimuth of the target (degrees)</li>
+<li><code class="docutils literal"><span class="pre">moondist</span></code>: the angular distance between the moon and the target (degrees)</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>All previous attributes are vectors related to the time vector of the observatory used for processing, stored under <code class="docutils literal"><span class="pre">dates</span></code> attribute</li>
+</ul>
+</div>
+<dl class="docutils">
+<dt>Other attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the rise of the target</li>
+<li><code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the setting of the target</li>
+<li><code class="docutils literal"><span class="pre">transit_time</span></code>, <code class="docutils literal"><span class="pre">transit_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the transit of the target</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code>, i.e. <code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>, <code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>. In that case, an additional parameter is added to the Target object: <code class="docutils literal"><span class="pre">Target.alwaysUp</span></code> which is <code class="docutils literal"><span class="pre">True</span></code> if the target never sets and <code class="docutils literal"><span class="pre">False</span></code> if it never rises above the horizon.</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Target.ra">
+<code class="descname">ra</code><a class="headerlink" href="#astroobs.Target.ra" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right ascension of the target, displayed as tuple (hh, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Target.raStr">
+<code class="descname">raStr</code><a class="headerlink" href="#astroobs.Target.raStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the right ascension of the target</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Target.whenobs">
+<code class="descname">whenobs</code><span class="sig-paren">(</span><em>obs</em>, <em>fromDate='now'</em>, <em>toDate='now+30day'</em>, <em>plot=True</em>, <em>ret=False</em>, <em>dday=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Target.html#Target.whenobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Target.whenobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the target for the given observatory and dat.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to process the target</li>
+<li>fromDate (see below): the start date of the range</li>
+<li>toDate (see below): the end date of the range</li>
+<li>plot: whether it plots the diagram</li>
+<li>ret: whether it returns the values</li>
+<li>dday: the</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor
+* legend (bool): whether to add a legend or not, default is <code class="docutils literal"><span class="pre">True</span></code>
+* loc: location of the legend, default is 8 (top right), refer to plt.legend
+* ncol: number of columns in the legend, default is 3, refer to plt.legend
+* columnspacing: spacing between columns in the legend, refer to plt.legend
+* lfs: legend font size, default is 11</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">local_date</span></code> and <code class="docutils literal"><span class="pre">ut_date</span></code> can be date-tuples <code class="docutils literal"><span class="pre">(yyyy,</span> <span class="pre">mm,</span> <span class="pre">dd,</span> <span class="pre">[hh,</span> <span class="pre">mm,</span> <span class="pre">ss])</span></code>, timestamps, datetime structures or ephem.Date instances.</li>
+</ul>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="astroobs.Moon">
+<em class="property">class </em><code class="descclassname">astroobs.</code><code class="descname">Moon</code><span class="sig-paren">(</span><em>obs=None</em>, <em>input_epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.Target.Target" title="astroobs.Target.Target"><code class="xref py py-class docutils literal"><span class="pre">astroobs.Target.Target</span></code></a></p>
+<p>Initialises the Moon. Optionaly, processes the Moon for the observatory and date given (refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Moon.process" title="astroobs.Moon.process"><code class="xref py py-func docutils literal"><span class="pre">Moon.process()</span></code></a>).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>) [optional]: the observatory for which to process the Moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<dl class="attribute">
+<dt id="astroobs.Moon.dec">
+<code class="descname">dec</code><a class="headerlink" href="#astroobs.Moon.dec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The declination of the Moon, displayed as tuple of np.array (+/-dd, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Moon.decStr">
+<code class="descname">decStr</code><a class="headerlink" href="#astroobs.Moon.decStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the mean of the declination of the moon</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Moon.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>obs</em>, <em>y='alt'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the moon at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to plot the moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.plot" title="astroobs.Observatory.plot"><code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></a></li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Target.plot" title="astroobs.Target.plot"><code class="xref py py-func docutils literal"><span class="pre">Target.plot()</span></code></a></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Moon.polar">
+<code class="descname">polar</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon.polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the moon at the given observatory and date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to plot the moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.plot" title="astroobs.Observatory.plot"><code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></a></li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Target.plot" title="astroobs.Target.plot"><code class="xref py py-func docutils literal"><span class="pre">Target.plot()</span></code></a></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Moon.process">
+<code class="descname">process</code><span class="sig-paren">(</span><em>obs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Moon.html#Moon.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Moon.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the moon for the given observatory and date.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>): the observatory for which to process the moon</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+<dt>Creates vector attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">airmass</span></code>: the airmass of the moon</li>
+<li><code class="docutils literal"><span class="pre">ha</span></code>: the hour angle of the moon (degrees)</li>
+<li><code class="docutils literal"><span class="pre">alt</span></code>: the altitude of the moon (degrees - horizon is 0)</li>
+<li><code class="docutils literal"><span class="pre">az</span></code>: the azimuth of the moon (degrees)</li>
+<li><code class="docutils literal"><span class="pre">ra</span></code>: the right ascension of the moon, see <a class="reference internal" href="docs/astroobs.html#astroobs.Moon.ra" title="astroobs.Moon.ra"><code class="xref py py-func docutils literal"><span class="pre">Moon.ra()</span></code></a></li>
+<li><code class="docutils literal"><span class="pre">dec</span></code>: the declination of the moon, see <a class="reference internal" href="docs/astroobs.html#astroobs.Moon.dec" title="astroobs.Moon.dec"><code class="xref py py-func docutils literal"><span class="pre">Moon.dec()</span></code></a></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>All previous attributes are vectors related to the time vector of the observatory used for processing: <code class="docutils literal"><span class="pre">obs.dates</span></code></li>
+</ul>
+</div>
+<dl class="docutils">
+<dt>Other attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the rise of the moon</li>
+<li><code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the setting of the moon</li>
+<li><code class="docutils literal"><span class="pre">transit_time</span></code>, <code class="docutils literal"><span class="pre">transit_az</span></code>: the time (ephem.Date) and the azimuth (degree) of the transit of the moon</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the moon does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code>, i.e. <code class="docutils literal"><span class="pre">set_time</span></code>, <code class="docutils literal"><span class="pre">set_az</span></code>, <code class="docutils literal"><span class="pre">rise_time</span></code>, <code class="docutils literal"><span class="pre">rise_az</span></code>. In that case, an additional parameter is added to the Moon object: <code class="docutils literal"><span class="pre">Moon.alwaysUp</span></code> which is <code class="docutils literal"><span class="pre">True</span></code> if the Moon never sets and <code class="docutils literal"><span class="pre">False</span></code> if it never rises above the horizon.</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Moon.ra">
+<code class="descname">ra</code><a class="headerlink" href="#astroobs.Moon.ra" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right ascension of the Moon, displayed as tuple of np.array (hh, mm, ss)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Moon.raStr">
+<code class="descname">raStr</code><a class="headerlink" href="#astroobs.Moon.raStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pretty printable version of the mean of the right ascension of the moon</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="astroobs.TargetSIMBAD">
+<em class="property">class </em><code class="descclassname">astroobs.</code><code class="descname">TargetSIMBAD</code><span class="sig-paren">(</span><em>name</em>, <em>obs=None</em>, <em>input_epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/TargetSIMBAD.html#TargetSIMBAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.TargetSIMBAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.Target.Target" title="astroobs.Target.Target"><code class="xref py py-class docutils literal"><span class="pre">astroobs.Target.Target</span></code></a></p>
+<p>Initialises a target object from an online SIMBAD database name-search. Optionaly, processes the target for the observatory and date given (refer to <code class="xref py py-func docutils literal"><span class="pre">TargetSIMBAD.process()</span></code>).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>name (str): the name of the target as if performing an online SIMBAD search</li>
+<li>obs (<a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a>) [optional]: the observatory for which to process the target</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+<dt>Creates attributes:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">flux</span></code>: a dictionary of the magnitudes of the target. Keys are part or all of [&#8216;U&#8217;,&#8217;B&#8217;,&#8217;V&#8217;,&#8217;R&#8217;,&#8217;I&#8217;,&#8217;J&#8217;,&#8217;H&#8217;,&#8217;K&#8217;]</li>
+<li><code class="docutils literal"><span class="pre">link</span></code>: the link to paste into a web-browser to display the SIMBAD page of the target</li>
+<li><code class="docutils literal"><span class="pre">linkbib</span></code>: the link to paste into a web-browser to display the references on the SIMBAD page of the target</li>
+<li><code class="docutils literal"><span class="pre">hd</span></code>: if applicable, the HD number of the target</li>
+<li><code class="docutils literal"><span class="pre">hr</span></code>: if applicable, the HR number of the target</li>
+<li><code class="docutils literal"><span class="pre">hip</span></code>: if applicable, the HIP number of the target</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="astroobs.Observation">
+<em class="property">class </em><code class="descclassname">astroobs.</code><code class="descname">Observation</code><span class="sig-paren">(</span><em>obs</em>, <em>long=None</em>, <em>lat=None</em>, <em>elevation=None</em>, <em>timezone=None</em>, <em>temp=None</em>, <em>pressure=None</em>, <em>moonAvoidRadius=None</em>, <em>local_date=None</em>, <em>ut_date=None</em>, <em>horizon_obs=None</em>, <em>dataFile=None</em>, <em>epoch='2000'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.Observatory" title="astroobs.Observatory.Observatory"><code class="xref py py-class docutils literal"><span class="pre">astroobs.Observatory.Observatory</span></code></a></p>
+<p>Assembles together an <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a> (including itself the <a class="reference internal" href="docs/astroobs.html#astroobs.Moon" title="astroobs.Moon"><code class="xref py py-class docutils literal"><span class="pre">Moon</span></code></a> target), and a list of <a class="reference internal" href="docs/astroobs.html#astroobs.Target" title="astroobs.Target"><code class="xref py py-class docutils literal"><span class="pre">Target</span></code></a>.</p>
+<dl class="docutils">
+<dt>For use and docs refer to:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.add_target" title="astroobs.Observation.add_target"><code class="xref py py-func docutils literal"><span class="pre">add_target()</span></code></a> to add a target to the list</li>
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.rem_target" title="astroobs.Observation.rem_target"><code class="xref py py-func docutils literal"><span class="pre">rem_target()</span></code></a> to remove one</li>
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.change_obs" title="astroobs.Observation.change_obs"><code class="xref py py-func docutils literal"><span class="pre">change_obs()</span></code></a> to change the observatory</li>
+<li><a class="reference internal" href="docs/astroobs.html#astroobs.Observation.change_date" title="astroobs.Observation.change_date"><code class="xref py py-func docutils literal"><span class="pre">change_date()</span></code></a> to change the date of observation</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>raiseError (bool): if <code class="docutils literal"><span class="pre">True</span></code>, errors will be raised; if <code class="docutils literal"><span class="pre">False</span></code>, they will be printed. Default is <code class="docutils literal"><span class="pre">False</span></code></li>
+<li>fig: TBD</li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory" title="astroobs.Observatory"><code class="xref py py-class docutils literal"><span class="pre">Observatory</span></code></a></dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ul class="last simple">
+<li>it can occur that the Sun, the Moon or a target does not rise or set for an observatory/date combination. In that case, the corresponding attributes will be set to <code class="docutils literal"><span class="pre">None</span></code></li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observation</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span>
+<span class="go">Observation at Observatoire de Haute Provence on 2015/6/21-22. 0 targets.</span>
+<span class="go">    Moon phase: 89.2%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">moon</span>
+<span class="go">Moon - phase: 89.2%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">o</span><span class="o">.</span><span class="n">sunset</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sunrise</span><span class="p">,</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">len_night</span>
+<span class="go">2015/3/31 18:08:40 ... 2015/4/1 05:13:09 ... 11.0746939826</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ephem</span> <span class="kn">as</span> <span class="nn">E</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">sunsetastro</span><span class="o">+</span><span class="n">o</span><span class="o">.</span><span class="n">localTimeOffest</span><span class="p">),</span> <span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span>
+<span class="go">        o.sunriseastro+o.localTimeOffest), &#39;...&#39;, o.len_nightastro)</span>
+<span class="go">2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;vega&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;mystar&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">19.1824</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="mf">213.9153</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span>
+<span class="go">[Target: &#39;vega&#39;, 18h36m56.3s +38°35&#39;8.1&quot;, O,</span>
+<span class="go"> Target: &#39;mystar&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> mags: &#39;K&#39;: </span><span class="si">%2.2f</span><span class="s">, &#39;R&#39;: </span><span class="si">%2.2f</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="go">        o.targets[0].flux[&#39;K&#39;], o.targets[0].flux[&#39;R&#39;]))</span>
+<span class="go">vega mags: &#39;K&#39;: 0.13, &#39;R&#39;: 0.07</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="astroobs.Observation.add_target">
+<code class="descname">add_target</code><span class="sig-paren">(</span><em>tgt</em>, <em>ra=None</em>, <em>dec=None</em>, <em>name=''</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.add_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.add_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a target to the observation list</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>tgt (see below): the index of the target in the <code class="docutils literal"><span class="pre">Observation.targets</span></code> list</li>
+<li>ra (&#8216;hh:mm:ss.s&#8217; or decimal degree) [optional]: the right ascension of the target to add to the observation list. See below</li>
+<li>dec (&#8216;+/-dd:mm:ss.s&#8217; or decimal degree) [optional]: the declination of the target to add to the observation list. See below</li>
+<li>name (string) [optional]: the name of the target to add to the observation list. See below</li>
+</ul>
+</dd>
+<dt><code class="docutils literal"><span class="pre">tgt</span></code> arg can be:</dt>
+<dd><ul class="first last simple">
+<li>a <a class="reference internal" href="docs/astroobs.html#astroobs.Target" title="astroobs.Target"><code class="xref py py-class docutils literal"><span class="pre">Target</span></code></a> instance: all other parameters are ignored</li>
+<li>a target name (string): if <code class="docutils literal"><span class="pre">ra</span></code> and <code class="docutils literal"><span class="pre">dec</span></code> are not <code class="docutils literal"><span class="pre">None</span></code>, the target is added with the provided coordinates; if <code class="docutils literal"><span class="pre">None</span></code>, a SIMBAD search is performed on <code class="docutils literal"><span class="pre">tgt</span></code>. <code class="docutils literal"><span class="pre">name</span></code> is ignored</li>
+<li>a ra-dec string (&#8216;hh:mm:ss.s +/-dd:mm:ss.s&#8217;): in that case, <code class="docutils literal"><span class="pre">ra</span></code> and <code class="docutils literal"><span class="pre">dec</span></code> will be ignored and <code class="docutils literal"><span class="pre">name</span></code> will be the name of the target</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>ValueError: if ra-dec formating was not understood</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Automatically processes the target for the given observatory and date</li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observation</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arc</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">TargetSIMBAD</span><span class="p">(</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;arcturusILoveYou&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">19.1824</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="mf">213.9153</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;14:15:39.67 +10:10:56.67&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span> 
+<span class="go">[Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O,</span>
+<span class="go"> Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O,</span>
+<span class="go"> Target: &#39;arcturus&#39;, 14h15m39.7s +10°40&#39;43.8&quot;, O,</span>
+<span class="go"> Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.change_date">
+<code class="descname">change_date</code><span class="sig-paren">(</span><em>ut_date=None</em>, <em>local_date=None</em>, <em>recalcAll=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.change_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.change_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the date of the observation and optionaly re-processes targets for the same observatory and new date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>ut_date: Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.upd_date" title="astroobs.Observatory.upd_date"><code class="xref py py-func docutils literal"><span class="pre">Observatory.upd_date()</span></code></a></li>
+<li>local_date: Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.upd_date" title="astroobs.Observatory.upd_date"><code class="xref py py-func docutils literal"><span class="pre">Observatory.upd_date()</span></code></a></li>
+<li>recalcAll (bool or None) [optional]: if <code class="docutils literal"><span class="pre">False</span></code> (default): only targets selected for observation are re-processed, if <code class="docutils literal"><span class="pre">True</span></code>: all targets are re-processed, if <code class="docutils literal"><span class="pre">None</span></code>: no re-process</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd><ul class="first last simple">
+<li>KeyError: if the twilight keyword is unknown</li>
+<li>Exception: if the observatory object has no date</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.change_obs">
+<code class="descname">change_obs</code><span class="sig-paren">(</span><em>obs</em>, <em>long=None</em>, <em>lat=None</em>, <em>elevation=None</em>, <em>timezone=None</em>, <em>temp=None</em>, <em>pressure=None</em>, <em>moonAvoidRadius=None</em>, <em>horizon_obs=None</em>, <em>dataFile=None</em>, <em>recalcAll=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.change_obs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.change_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the observatory and optionaly re-processes all target for the new observatory and same date</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>recalcAll (bool or None) [optional]: if <code class="docutils literal"><span class="pre">False</span></code> (default): only targets selected for observation are re-processed, if <code class="docutils literal"><span class="pre">True</span></code>: all targets are re-processed, if <code class="docutils literal"><span class="pre">None</span></code>: no re-process</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Refer to <a class="reference internal" href="docs/astroobs.html#astroobs.ObservatoryList.add" title="astroobs.ObservatoryList.add"><code class="xref py py-func docutils literal"><span class="pre">ObservatoryList.add()</span></code></a> for details on other input parameters</li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>y='alt'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the y-parameter vs time diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.plot" title="astroobs.Observatory.plot"><code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></a></li>
+<li>moon (bool): if <code class="docutils literal"><span class="pre">True</span></code>, adds the moon to the graph, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>autocolor (bool): if <code class="docutils literal"><span class="pre">True</span></code>, sets curves-colors automatically, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.polar">
+<code class="descname">polar</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the sky-view diagram for the target at the given observatory and date</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><ul class="first last simple">
+<li>See class constructor</li>
+<li>See <a class="reference internal" href="docs/astroobs.html#astroobs.Observatory.plot" title="astroobs.Observatory.plot"><code class="xref py py-func docutils literal"><span class="pre">Observatory.plot()</span></code></a></li>
+<li>moon (bool): if <code class="docutils literal"><span class="pre">True</span></code>, adds the moon to the graph, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>autocolor (bool): if <code class="docutils literal"><span class="pre">True</span></code>, sets curves-colors automatically, default is <code class="docutils literal"><span class="pre">True</span></code></li>
+</ul>
+</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.rem_target">
+<code class="descname">rem_target</code><span class="sig-paren">(</span><em>tgt</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.rem_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.rem_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a target from the observation list</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>tgt (int): the index of the target in the <code class="docutils literal"><span class="pre">Observation.targets</span></code> list</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Observation.targets">
+<code class="descname">targets</code><a class="headerlink" href="#astroobs.Observation.targets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows the list of targets recorded into the Observation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astroobs.Observation.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><em>tgt</em>, <em>forceTo=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/astroobs/Observation.html#Observation.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astroobs.Observation.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the ticked property of a target (whether it is selected for observation)</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>tgt (int): the index of the target in the <code class="docutils literal"><span class="pre">Observation.targets</span></code> list</li>
+<li>forceTo (bool) [optional]: if <code class="docutils literal"><span class="pre">True</span></code>, selects the target for observation, if <code class="docutils literal"><span class="pre">False</span></code>, unselects it, if <code class="docutils literal"><span class="pre">None</span></code>, the value of the selection is inverted</li>
+</ul>
+</dd>
+<dt>Kwargs:</dt>
+<dd>See class constructor</dd>
+<dt>Raises:</dt>
+<dd>N/A</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Automatically reprocesses the target for the given observatory and date if it is selected for observation</li>
+</ul>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astroobs.obs</span> <span class="kn">as</span> <span class="nn">obs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">Observation</span><span class="p">(</span><span class="s">&#39;ohp&#39;</span><span class="p">,</span> <span class="n">local_date</span><span class="o">=</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">59</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="s">&#39;arcturus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span>
+<span class="go">[Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, O]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">targets</span>
+<span class="go">[Target: &#39;arcturus&#39;, 14h15m39.7s +19°16&#39;43.8&quot;, -]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astroobs.Observation.ticked">
+<code class="descname">ticked</code><a class="headerlink" href="#astroobs.Observation.ticked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows whether the target was select for observation</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">astroobs package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-astroobs.Moon">astroobs.Moon module</a></li>
+<li><a class="reference internal" href="#module-astroobs.Observation">astroobs.Observation module</a></li>
+<li><a class="reference internal" href="#module-astroobs.Observatory">astroobs.Observatory module</a></li>
+<li><a class="reference internal" href="#module-astroobs.ObservatoryList">astroobs.ObservatoryList module</a></li>
+<li><a class="reference internal" href="#module-astroobs.Target">astroobs.Target module</a></li>
+<li><a class="reference internal" href="#module-astroobs.TargetSIMBAD">astroobs.TargetSIMBAD module</a></li>
+<li><a class="reference internal" href="#module-astroobs.astroobsexception">astroobs.astroobsexception module</a></li>
+<li><a class="reference internal" href="#module-astroobs.core">astroobs.core module</a></li>
+<li><a class="reference internal" href="#module-astroobs.obs">astroobs.obs module</a></li>
+<li><a class="reference internal" href="#module-astroobs.version">astroobs.version module</a></li>
+<li><a class="reference internal" href="#module-astroobs">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to astroobs&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="setup.html"
+                        title="next chapter">setup module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/astroobs.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/astroobs.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

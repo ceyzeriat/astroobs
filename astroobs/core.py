@@ -36,17 +36,12 @@ try:
     NOPLOT = False
 except:
     NOPLOT = True
-import sys
-try:
-    reload(sys) # python 2.x
-except NameError:
-    try: # python >=3.4
-        import importlib
-        importlib.reload(sys)
-    except: # python <=3.3
-        import imp
-        imp.reload(sys)
-sys.setdefaultencoding('utf8')
+# force UTF-8 for python 2.x
+from sys import version_info
+if version_info[0] < 3:
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf8')
 
 obsDataFile = './obsData.txt'
 many_color = ['#40AC1E','#4E9FCC','#9A4ECC','#CC7B4E','#4E2ECC','#CC9EBD','#8EDCCD','#DC1ED2','#F21616','#2816F2','#3BF216','#F2E016']

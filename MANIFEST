@@ -2,7 +2,15 @@
 README
 setup.cfg
 setup.py
+astroobs/Moon.py
+astroobs/Observation.py
+astroobs/Observatory.py
+astroobs/ObservatoryList.py
+astroobs/Target.py
+astroobs/TargetSIMBAD.py
 astroobs/__init__.py
-astroobs/_core.py
+astroobs/astroobsexception.py
+astroobs/core.py
 astroobs/obs.py
 astroobs/obsData.txt
+astroobs/version.py

@@ -37,7 +37,15 @@ try:
 except:
     NOPLOT = True
 import sys
-reload(sys)
+try:
+    reload(sys) # python 2.x
+except NameError:
+    try: # python >=3.4
+        import importlib
+        importlib.reload(sys)
+    except: # python <=3.3
+        import imp
+        imp.reload(sys)
 sys.setdefaultencoding('utf8')
 
 obsDataFile = './obsData.txt'

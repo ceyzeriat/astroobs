@@ -180,7 +180,7 @@ class Target(object):
         self.alt = []
         self.az = []
         self.moondist = []
-        targetdb = "star,f|V|G2,%s,%s%s,0.0,%s" % (':'.join(map(str, self.ra)), '-'*(self.dec[0]<0), ':'.join(map(str, map(abs, self.dec))), int(self.input_epoch))
+        targetdb = "star,f|V|G2,%s,%s%s,0.0,%s" % (':'.join(list(map(str, self.ra))), '-'*(self.dec[0]<0), ':'.join(list(map(str, list(map(abs, self.dec))))), int(self.input_epoch))
         target = _core.E.readdb(targetdb)
         self._set_RiseSetTransit(target=target, obs=obs, **kwargs)
         for t in range(len(obs.dates)):
@@ -389,7 +389,7 @@ class Target(object):
             bestalt = self.alt.argmax()
             if kwargs.get('textlbl', False) is True:
                 retkwargs['ax'].text(xstuff[bestalt], ystuff[bestalt], getattr(self, 'name', self.raStr+' '+self.decStr))
-            if kwargs.has_key('gemmenow') is True:
+            if 'gemmenow' in kwargs.keys():
                 ret = retkwargs['ax'].plot(xstuff[kwargs['gemmenow']], ystuff[kwargs['gemmenow']], 'ko', ms=4)[0]
                 xmoon = (90-obs.moon.alt[kwargs['gemmenow']])*_core.np.cos(obs.moon.az[kwargs['gemmenow']]*_core.np.pi/180+_core.np.pi/2)
                 ymoon = (90-obs.moon.alt[kwargs['gemmenow']])*_core.np.sin(obs.moon.az[kwargs['gemmenow']]*_core.np.pi/180+_core.np.pi/2)

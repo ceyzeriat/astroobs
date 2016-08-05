@@ -445,7 +445,7 @@ class Observatory(_core.E.Observer, object):
             if self.sunsetastro is not None and self.sunriseastro is not None:
                 theax.add_patch(_core.Rectangle((self.sunsetastro, minmin), self.sunriseastro-self.sunsetastro, maxmax, facecolor='w', edgecolor='w'))
             theax.set_xlim(kwargs.get('xlim', [self.dates[0], self.dates[-1]]))
-            if kwargs.has_key('ylim'):
+            if 'ylim' in kwargs.keys():
                 theax.set_ylim(kwargs['ylim'])
             else:
                 theax.set_ylim([self.horizon_obs-float(kwargs.get('ymin_margin', 10)), 90])

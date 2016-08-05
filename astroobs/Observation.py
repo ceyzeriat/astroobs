@@ -302,10 +302,10 @@ class Observation(Observatory):
                 if kwargs.get('autocolor', True): kwargs['color'] = _core.many_color[colindex%len(_core.many_color)]
                 item.plot(self, y=y, **kwargs)
                 colindex += 1
-        if kwargs.has_key('color'): kwargs.pop('color')
-        if kwargs.get('moon', True) is True: self.moon.plot(self, y=y, **kwargs)
-        if saveretax is False: retkwargs.pop('ax')
-        if retkwargs!={}: return retkwargs
+        if 'color' in kwargs.keys(): kwargs.pop('color')
+        if kwargs.get('moon', True): self.moon.plot(self, y=y, **kwargs)
+        if not saveretax: retkwargs.pop('ax')
+        if retkwargs != {}: return retkwargs
 
     def polar(self, **kwargs):
         """
@@ -336,7 +336,7 @@ class Observation(Observatory):
                 ret = item.polar(self, **kwargs)
                 if isinstance(ret, dict) is True: thenowline.append(ret.get('nowline', None))
                 colindex += 1
-        if kwargs.has_key('color'): kwargs.pop('color')
+        if 'color' in kwargs.keys(): kwargs.pop('color')
         if kwargs.get('moon', True) is True:
             ret = self.moon.polar(self, **kwargs)
             if isinstance(ret, dict) is True: thenowline.append(ret.get('nowline', None))

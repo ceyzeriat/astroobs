@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,8 @@
 # THE SOFTWARE.
 # 
 
-import core as _core
-import astroobsexception as _exc
+from . import core as _core
+from . import astroobsexception as _exc
 
 def showall(dataFile=None, **kwargs):
     """
@@ -141,7 +141,7 @@ class ObservatoryList(object):
           To view all available timezones, run:
           >>> import pytz
           >>> for tz in pytz.all_timezones:
-          >>>     print tz
+          >>>     print(tz)
         """
         obsid = str(obsid).lower().strip()
         if obsid in self.obsids or obsid.find(' ')!=-1 or obsid.find(';')!=-1:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,10 @@
 # THE SOFTWARE.
 # 
 
-import core as _core
-import astroobsexception as _exc
+from . import core as _core
+from . import astroobsexception as _exc
 
-from Target import Target
+from .Target import Target
 
 class Moon(Target):
     """

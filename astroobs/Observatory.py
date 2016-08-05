@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,11 @@
 # THE SOFTWARE.
 # 
 
-import core as _core
-import astroobsexception as _exc
+from . import core as _core
+from . import astroobsexception as _exc
 
-from ObservatoryList import ObservatoryList
-from Moon import Moon
+from .ObservatoryList import ObservatoryList
+from .Moon import Moon
 
 class Observatory(_core.E.Observer, object):
     """
@@ -79,11 +79,11 @@ class Observatory(_core.E.Observer, object):
     temp=15.0C pressure=1010.0mBar>
     >>> o.moon
     Moon - phase: 89.2%
-    >>> print o.sunset, '...', o.sunrise, '...', o.len_night
+    >>> print(o.sunset, '...', o.sunrise, '...', o.len_night)
     2015/3/31 18:08:40 ... 2015/4/1 05:13:09 ... 11.0746939826
     >>> import ephem as E
-    >>> print E.Date(o.sunsetastro+o.localTimeOffest), '...', E.Date(
-            o.sunriseastro+o.localTimeOffest), '...', o.len_nightastro
+    >>> print(E.Date(o.sunsetastro+o.localTimeOffest), '...', E.Date(
+            o.sunriseastro+o.localTimeOffest), '...', o.len_nightastro)
     2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949
     """
     def __init__(self, obs, long=None, lat=None, elevation=None, timezone=None, temp=None, pressure=None, moonAvoidRadius=None, local_date=None, ut_date=None, horizon_obs=None, dataFile=None, epoch='2000', **kwargs):
@@ -335,7 +335,7 @@ class Observatory(_core.E.Observer, object):
         """
         if _core.NOPLOT:
             if _exc.raiseIt(_exc.NoPlotMode, self._raiseError): return
-        return self._plot()
+        return self._plot(**kwargs)
 
     def _plot(self, **kwargs):
         if kwargs.get('fignum', None) is None and kwargs.get('fig', None) is None and kwargs.get('axnum', None) is None and kwargs.get('ax', None) is None: # no fig and no ax given, need to create

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,4 +23,4 @@
 
 __major__ = 1
 __minor__ = 3
-__version__ = "v1.3.7beta"
+__version__ = "v1.4beta"

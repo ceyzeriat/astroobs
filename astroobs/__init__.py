@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -39,13 +39,13 @@ Real-life example use:
 """
 __all__ = ['ObservatoryList', 'Observatory', 'Target', 'Moon', 'TargetSIMBAD', 'Observation', 'version']
 
-import obs # left for backward v <= 1.3.7 compatibility
+from . import obs # left for backward v <= 1.3.7 compatibility
 
-from ObservatoryList import ObservatoryList
-from Observatory import Observatory
-from Target import Target
-from Moon import Moon
-from TargetSIMBAD import TargetSIMBAD
-from Observation import Observation
+from .ObservatoryList import ObservatoryList
+from .Observatory import Observatory
+from .Target import Target
+from .Moon import Moon
+from .TargetSIMBAD import TargetSIMBAD
+from .Observation import Observation
 
-from version import __version__, __major__, __minor__
+from .version import __version__, __major__, __minor__

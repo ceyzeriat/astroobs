@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 def raiseIt(exc, raiseoupas, *args):
     exc = exc(*args)
     if raiseoupas:
-        raise exc
+        raise(exc)
     else:
         print("\033[31m"+exc.message+"\033[39m")
         return True

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2015 Guillaume SCHWORER
+# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,12 @@
 # THE SOFTWARE.
 # 
 
-import core as _core
-import astroobsexception as _exc
+from . import core as _core
+from . import astroobsexception as _exc
 
-from Observatory import Observatory
-from Target import Target
-from TargetSIMBAD import TargetSIMBAD
+from .Observatory import Observatory
+from .Target import Target
+from .TargetSIMBAD import TargetSIMBAD
 
 class Observation(Observatory):
     """
@@ -58,16 +58,16 @@ class Observation(Observatory):
     >>> print o.sunset, '...', o.sunrise, '...', o.len_night
     2015/3/31 18:08:40 ... 2015/4/1 05:13:09 ... 11.0746939826
     >>> import ephem as E
-    >>> print E.Date(o.sunsetastro+o.localTimeOffest), '...', E.Date(
-            o.sunriseastro+o.localTimeOffest), '...', o.len_nightastro
+    >>> print(E.Date(o.sunsetastro+o.localTimeOffest), '...', E.Date(
+            o.sunriseastro+o.localTimeOffest), '...', o.len_nightastro)
     2015/3/31 21:43:28 ... 2015/4/1 05:38:26 ... 7.91603336949
     >>> o.add_target('vega')
     >>> o.add_target('mystar', dec=19.1824, ra=213.9153)
     >>> o.targets
     [Target: 'vega', 18h36m56.3s +38°35'8.1", O,
      Target: 'mystar', 14h15m39.7s +19°16'43.8", O]
-    >>> print "%s mags: 'K': %2.2f, 'R': %2.2f"%(o.targets[0].name,
-            o.targets[0].flux['K'], o.targets[0].flux['R'])
+    >>> print("%s mags: 'K': %2.2f, 'R': %2.2f"%(o.targets[0].name,
+            o.targets[0].flux['K'], o.targets[0].flux['R']))
     vega mags: 'K': 0.13, 'R': 0.07
     """
     def _info(self):

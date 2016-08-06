@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 from sys import argv, exit
+import os
 
 if "upl" in argv[1:]:
-    import os
     os.system("python setup.py register -r pypi")
     os.system("python setup.py sdist upload -r pypi")
     exit()
 
-m = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "soif", "_version.py")).read()
+m = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "astroobs", "_version.py")).read()
 version = re.findall(r"__version__ *= *\"(.*?)\"", m)[0]
 
 

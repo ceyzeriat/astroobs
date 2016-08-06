@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from sys import argv, exit
-import os
+import os, re
 
 if "upl" in argv[1:]:
     os.system("python setup.py register -r pypi")
@@ -32,7 +32,7 @@ setup(
             'Environment :: Console',
             'Intended Audience :: Education',
             'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)'
+            'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
             'Operating System :: OS Independent',
             'Programming Language :: Python',
             'Topic :: Documentation :: Sphinx',

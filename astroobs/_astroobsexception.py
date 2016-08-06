@@ -25,11 +25,10 @@
 ###############################################################################
 
 
-
-def raiseIt(exc, raiseoupas, *args):
-    exc = exc(*args)
+def raiseIt(exc, raiseoupas, *args, **kwargs):
+    exc = exc(*args, **kwargs)
     if raiseoupas:
-        raise(exc)
+        raise exc
     else:
         print("\033[31m"+exc.message+"\033[39m")
         return True

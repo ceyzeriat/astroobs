@@ -24,13 +24,7 @@
 #
 ###############################################################################
 
-# left for backward compatibility, <v1.3.7
 
-from . import _core
 
-from .ObservatoryList import ObservatoryList
-from .Observatory import Observatory
-from .Target import Target
-from .Moon import Moon
-from .TargetSIMBAD import TargetSIMBAD
-from .Observation import Observation
+__version__ = "1.4.4"
+__major__, __minor__, __micro__ = list(map(int, __version__.split('.')))

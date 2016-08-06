@@ -1,28 +1,33 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-# 
 
-from . import core as _core
-from . import astroobsexception as _exc
+###############################################################################
+#  
+#  ASTROOBS - Astronomical Observation
+#  Copyright (C) 2015-2016  Guillaume Schworer
+#  
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#  
+#  For any information, bug report, idea, donation, hug, beer, please contact
+#    guillaume.schworer@obspm.fr
+#
+###############################################################################
+
+
+
+from . import _core
+from . import _astroobsexception as _exc
 
 from .Observatory import Observatory
 from .Target import Target
@@ -128,7 +133,7 @@ class Observation(Observatory):
           * forceTo (bool) [optional]: if ``True``, selects the target for observation, if ``False``, unselects it, if ``None``, the value of the selection is inverted
         
         Kwargs:
-          See class constructor
+          See :class:`Observation`
 
         Raises:
           N/A
@@ -150,7 +155,7 @@ class Observation(Observatory):
             self._targets[tgt]._ticked = bool(forceTo)
         else:
             self._targets[tgt]._ticked = not bool(self._targets[tgt]._ticked)
-        if self._targets[tgt]._ticked is True: self._targets[tgt].process(self, **kwargs)
+        if self._targets[tgt]._ticked: self._targets[tgt].process(self, **kwargs)
     
 
     def add_target(self, tgt, ra=None, dec=None, name="", **kwargs):
@@ -169,7 +174,7 @@ class Observation(Observatory):
           * a ra-dec string ('hh:mm:ss.s +/-dd:mm:ss.s'): in that case, ``ra`` and ``dec`` will be ignored and ``name`` will be the name of the target
 
         Kwargs:
-          See class constructor
+          See :class:`Observation`
 
         Raises:
           * ValueError: if ra-dec formating was not understood
@@ -220,7 +225,7 @@ class Observation(Observatory):
           * tgt (int): the index of the target in the ``Observation.targets`` list
 
         Kwargs:
-          See class constructor
+          See :class:`Observation`
 
         Raises:
           N/A
@@ -236,7 +241,7 @@ class Observation(Observatory):
           * recalcAll (bool or None) [optional]: if ``False`` (default): only targets selected for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
 
         Kwargs:
-          See class constructor
+          See :class:`Observation`
 
         .. note::
           * Refer to :func:`ObservatoryList.add` for details on other input parameters
@@ -267,7 +272,7 @@ class Observation(Observatory):
           * recalcAll (bool or None) [optional]: if ``False`` (default): only targets selected for observation are re-processed, if ``True``: all targets are re-processed, if ``None``: no re-process
 
         Kwargs:
-          See class constructor
+          See :class:`Observation`
 
         Raises:
           * KeyError: if the twilight keyword is unknown
@@ -282,14 +287,44 @@ class Observation(Observatory):
         Plots the y-parameter vs time diagram for the target at the given observatory and date
 
         Kwargs:
-          * See class constructor
-          * See :func:`Observatory.plot`
+          * See :class:`Observation`
           * moon (bool): if ``True``, adds the moon to the graph, default is ``True``
           * autocolor (bool): if ``True``, sets curves-colors automatically, default is ``True``
+          * time (str): the type of the x-axis time, ``ut`` for UT, ``loc`` for local time and ``lst`` [0-24] for local sidereal time, default is ``ut`` (not with polar mode)
+          * dt (float - hour): the spacing of x-axis labels, default is 1 hour (not with polar mode)
+          * t0 (float - DJD or [0-24]): the date of the first tick-label of x-axis, default is sunsetastro. The time type must correspond to ``time`` parameter (not with polar mode)
+          * xlim ([xmin, xmax]): bounds for x-axis, default is full night span (not with polar mode)
+          * retxdisp (bool): if ``True``, bounds of x-axis displayed values are returned (``xdisp`` key)
+          * ylim ([ymin, ymax]): bounds for y-axis, default is [horizon_obs-10, 90] (not with polar mode)
+          * xlabel (str): label for x-axis, default 'Time (UT)'
+          * ylabel (str): label for y-axis, default 'Elevation (°)'
+          * title (str): title of the diagram, default is observatory name or coordinates
+          * ymin_margin (float): margin between xmin of graph and horizon_obs. Low priority vs ylim, default is 10 (not with polar mode)
+          * retfignum (bool): if ``True``, the figure number will be returned, default is ``False``
+          * fignum (int): figure number on which to plot, default is ``False``
+          * retaxnum (bool): if ``True``, the ax index as in ``figure.axes[n]`` will be returned, default is ``False``
+          * axnum (int): axes index on which to plot, default is ``None`` (create new ax)
+          * retfig (bool): if ``True``, the figure object will be returned, default is ``False``
+          * fig (figure): figure object on which to plot, default is ``None`` (use fignum)
+          * retax (bool): if ``True``, the ax will be returned, default is ``False``
+          * ax (axes): ax on which to plot, default is ``None``
+          * now (bool): if ``True`` and within range, a vertical line as indication of "now" will be shown, default is True
+          * retnow (bool): returns the line object (``nowline`` key) corresponding to the 'now-line', default is ``False``
+          * legend (bool): whether to add a legend or not, default is ``True``
+          * loc: location of the legend, default is 8 (top right), refer to plt.legend
+          * ncol: number of columns in the legend, default is 3, refer to plt.legend
+          * columnspacing: spacing between columns in the legend, refer to plt.legend
+          * lfs: legend font size, default is 11
+          * textlbl (bool): if ``True``, a text label with target name or coordinates will be added near transit, default is ``False``
+          * polar (bool): if ``True``, plots the sky view, otherwise plots target attribute versus time
 
         Raises:
           N/A
         """
+        if kwargs.get('polar', False):
+            if self.polar(**kwargs) != {}:
+                return retkwargs
+            return
         saveretax = kwargs.get('retax', False)
         kwargs['retax'] = True
         kwargs['polar'] = False
@@ -298,7 +333,7 @@ class Observation(Observatory):
         kwargs['simpleplt'] = True
         colindex = 0
         for item in self.targets:
-            if item._ticked is True and item.name.lower()!="moon":
+            if item._ticked and item.name.lower()!="moon":
                 if kwargs.get('autocolor', True): kwargs['color'] = _core.many_color[colindex%len(_core.many_color)]
                 item.plot(self, y=y, **kwargs)
                 colindex += 1
@@ -312,10 +347,8 @@ class Observation(Observatory):
         Plots the sky-view diagram for the target at the given observatory and date
 
         Kwargs:
-          * See class constructor
+          * See :class:`Observation`
           * See :func:`Observatory.plot`
-          * moon (bool): if ``True``, adds the moon to the graph, default is ``True``
-          * autocolor (bool): if ``True``, sets curves-colors automatically, default is ``True``
 
         Raises:
           N/A
@@ -328,18 +361,18 @@ class Observation(Observatory):
         kwargs['simpleplt'] = True
         colindex = 0
         nowArg = self.nowArg # take now time
-        if kwargs.get('now') is True and nowArg is not None: kwargs['gemmenow'] = nowArg # time parameter to pass to each item to plot
+        if kwargs.get('now', False) and nowArg is not None: kwargs['gemmenow'] = nowArg # time parameter to pass to each item to plot
         thenowline = []
         for item in self.targets:
-            if item._ticked is True and item.name.lower()!="moon":
+            if item._ticked and item.name.lower()!="moon":
                 if kwargs.get('autocolor', True): kwargs['color'] = _core.many_color[colindex%len(_core.many_color)]
                 ret = item.polar(self, **kwargs)
-                if isinstance(ret, dict) is True: thenowline.append(ret.get('nowline', None))
+                if isinstance(ret, dict): thenowline.append(ret.get('nowline', None))
                 colindex += 1
         if 'color' in kwargs.keys(): kwargs.pop('color')
-        if kwargs.get('moon', True) is True:
+        if kwargs.get('moon', True):
             ret = self.moon.polar(self, **kwargs)
-            if isinstance(ret, dict) is True: thenowline.append(ret.get('nowline', None))
-        if saveretax is False: retkwargs.pop('ax')
-        if nowArg is not None and kwargs.get('retnow', False) is True: retkwargs['nowline'] = [item for item in thenowline if item is not None]
+            if isinstance(ret, dict): thenowline.append(ret.get('nowline', None))
+        if not saveretax: retkwargs.pop('ax')
+        if nowArg is not None and kwargs.get('retnow', False): retkwargs['nowline'] = [item for item in thenowline if item is not None]
         if retkwargs!={}: return retkwargs

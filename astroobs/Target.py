@@ -1,28 +1,33 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Copyright ASTROOBS (c) 2015-20016 Guillaume SCHWORER
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-# 
 
-from . import core as _core
-from . import astroobsexception as _exc
+###############################################################################
+#  
+#  ASTROOBS - Astronomical Observation
+#  Copyright (C) 2015-2016  Guillaume Schworer
+#  
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#  
+#  For any information, bug report, idea, donation, hug, beer, please contact
+#    guillaume.schworer@obspm.fr
+#
+###############################################################################
+
+
+
+from . import _core
+from . import _astroobsexception as _exc
 
 class Target(object):
     """
@@ -58,7 +63,7 @@ class Target(object):
     def _info(self):
         if not hasattr(self,'_ra') or not hasattr(self,'_dec') or not hasattr(self,'name'):
             if _exc.raiseIt(_exc.NonTarget, self._raiseError): return
-        return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], (self._dec.dms[0]>0)*'+', self._dec.dms[0], _core.np.abs(self._dec.dms[1]), _core.np.abs(self._dec.dms[2]), hasattr(self, "_ticked")*(', '+getattr(self, "_ticked", False)*'O'+(not getattr(self, "_ticked", False))*'-'))
+        return "Target: '%s', %ih%im%2.1fs %s%i°%i'%2.1f\"%s" % (self.name, self._ra.hms[0], self._ra.hms[1], self._ra.hms[2], ('+' if self._dec.dms[0]>0 else ''), self._dec.dms[0], _core.np.abs(self._dec.dms[1]), _core.np.abs(self._dec.dms[2]), '' if not hasattr(self, "_ticked") else (', O' if getattr(self, "_ticked", False) else ', -'))
     def __repr__(self):
         return self._info()
     def __str__(self):
@@ -102,7 +107,7 @@ class Target(object):
         A pretty printable version of the declination of the target
         """
         dms = self._dec.dms
-        return "%s%i°%i'%2.1f\"" % ((dms[0]>0)*'+', dms[0], dms[1], dms[2])
+        return "%s%i°%i'%2.1f\"" % ('+' if dms[0]>0 else '', dms[0], dms[1], dms[2])
     @decStr.setter
     def decStr(self, value):
         if _exc.raiseIt(_exc.ReadOnly, self._raiseError, "dectr"): return
@@ -150,7 +155,7 @@ class Target(object):
           * obs (:class:`Observatory`): the observatory for which to process the target
 
         Kwargs:
-          See class constructor
+          See :class:`Target`
 
         Raises:
           N/A
@@ -221,7 +226,7 @@ class Target(object):
             obs.upd_date(ut_date=_core.E.Date(date), **kwargs)
             # checks for polar night/day
             if obs.sunset is None or obs.sunrise is None: # if polar
-                if obs.alwaysDark is True:
+                if obs.alwaysDark:
                     gooddates = _core.np.ones(len(obs.dates), dtype=bool)
                 else:
                     retval.append((0., 0., obs.dates.size*dt, 0., 0., 0., 0.))
@@ -269,7 +274,7 @@ class Target(object):
           * dday: the 
 
         Kwargs:
-          See class constructor
+          See :class:`Target`
           * legend (bool): whether to add a legend or not, default is ``True``
           * loc: location of the legend, default is 8 (top right), refer to plt.legend
           * ncol: number of columns in the legend, default is 3, refer to plt.legend
@@ -284,7 +289,7 @@ class Target(object):
         """
         defaultlegend = True
         dates, retval, retkeys = self._whenobs(obs=obs, fromDate=fromDate, toDate=toDate, plot=plot, ret=ret, dday=dday, **kwargs)
-        if plot is True:
+        if plot:
             if _core.NOPLOT:
                 if _exc.raiseIt(_exc.NoPlotMode, self._raiseError): return
             def daymon(t):
@@ -299,7 +304,7 @@ class Target(object):
             hatch = {'duskmoon':'//', 'moon':'//', 'dawnmoon':'//'}
             datestr = [daymon(item) for item in dates]
             for key in retkeys:
-                if legend.get(key, '')!='' and kwargs.get('legend', defaultlegend) is True:
+                if legend.get(key, '')!='' and kwargs.get('legend', defaultlegend):
                     theax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0, label=legend.get(key, ''))
                 else:
                     theax.bar(dates, retval[key], bottom=bottombar, width=0.8+(dday-1)*0.9, color=color[key], hatch=hatch.get(key, ''), edgecolor='k', linewidth=0.0)
@@ -309,7 +314,7 @@ class Target(object):
             theax.set_xlim([dates[0]-1, dates[-1]+2])
             theax.set_ylabel('Duration (hour)')
             theax.set_title(getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)))
-            if kwargs.get('legend', defaultlegend) is True:
+            if kwargs.get('legend', defaultlegend):
                 l=theax.legend(loc=kwargs.get('loc', 8), frameon=True, ncol=kwargs.get('ncol', 3), columnspacing=kwargs.get('columnspacing', 0.2))
                 l.zorder=400
                 theax.get_legend().texts[0].set_fontsize(kwargs.get('lfs', 11))
@@ -324,7 +329,7 @@ class Target(object):
           * y (object attribute): the y-data to plot
 
         Kwargs:
-          * See class constructor
+          * See :class:`Target`
           * See :func:`Observatory.plot`
           * simpleplt (bool): if ``True``, the observatory plot will not be plotted, default is ``False``
           * color (str or #XXXXXX): the color of the target curve, default is 'k'
@@ -347,7 +352,7 @@ class Target(object):
           * y (object attribute): the y-data to plot
 
         Kwargs:
-          * See class constructor
+          * See :class:`Target`
           * See :func:`Observatory.plot`
           * See :func:`Target.plot`
         
@@ -360,18 +365,18 @@ class Target(object):
         return self._plot(obs=obs, **kwargs)
 
     def _plot(self, obs, y='alt', **kwargs):
-        defaultlegend = False
+        defaultlegend = True
         kwargs['title'] = kwargs.get('title', getattr(self, 'name', self.raStr+' '+self.decStr)+' @ '+getattr(obs, 'name', str(obs.lat)+' '+str(obs.lon)) +' - '+str(obs.localnight).split()[0])
         kwargs['ylabel'] = kwargs.get('ylabel', 'Elevation (°) vs time (UT)')
         saveretax = kwargs.get('retax', False)
         kwargs['retax'] = True
         retkwargs = obs._plot(**kwargs)
-        if kwargs.get('polar', False) is False:
-            if kwargs.get('legend', defaultlegend) is True:
+        if not kwargs.get('polar', False):
+            if kwargs.get('legend', defaultlegend):
                 retkwargs['ax'].plot(obs.dates, getattr(self, y), kwargs.get('color', 'k'), lw=kwargs.get('lw', 1), label=getattr(self, 'name', self.raStr+' '+self.decStr))
             else:
                 retkwargs['ax'].plot(obs.dates, getattr(self, y), kwargs.get('color', 'k'), lw=kwargs.get('lw', 1))
-            if kwargs.get('textlbl', False) is True:
+            if kwargs.get('textlbl', False):
                 margintxt = int(self.alt.size*0.2)
                 retkwargs['ax'].text(obs.dates[:-margintxt][self.alt[:-margintxt].argmax()], self.alt[:-margintxt].max(), getattr(self, 'name', self.raStr+' '+self.decStr))
         else:
@@ -380,24 +385,24 @@ class Target(object):
             #goodtime = _core.np.hypot(xstuffori, ystuffori) < 90-obs.horizon_obs+float(kwargs.get('ymin_margin', 10)) # when inside the polar plot
             #xstuff = xstuffori[goodtime]
             #ystuff = ystuffori[goodtime]
-            if kwargs.get('legend', defaultlegend) is True:
+            if kwargs.get('legend', defaultlegend):
                 retkwargs['ax'].plot(xstuff, ystuff, kwargs.get('color', 'k'), lw=kwargs.get('lw', 1), label=getattr(self, 'name', self.raStr+' '+self.decStr))
             else:
                 retkwargs['ax'].plot(xstuff, ystuff, kwargs.get('color', 'k'), lw=kwargs.get('lw', 1))
             darktime = ((obs.dates>=obs.sunsetastro) & (obs.dates<=obs.sunriseastro)) # when dark night
             retkwargs['ax'].plot(xstuff[darktime], ystuff[darktime], kwargs.get('color', 'k'), lw=kwargs.get('lw', 1)+2) # plots big lw for good alt target
             bestalt = self.alt.argmax()
-            if kwargs.get('textlbl', False) is True:
+            if kwargs.get('textlbl', False):
                 retkwargs['ax'].text(xstuff[bestalt], ystuff[bestalt], getattr(self, 'name', self.raStr+' '+self.decStr))
             if 'gemmenow' in kwargs.keys():
                 ret = retkwargs['ax'].plot(xstuff[kwargs['gemmenow']], ystuff[kwargs['gemmenow']], 'ko', ms=4)[0]
                 xmoon = (90-obs.moon.alt[kwargs['gemmenow']])*_core.np.cos(obs.moon.az[kwargs['gemmenow']]*_core.np.pi/180+_core.np.pi/2)
                 ymoon = (90-obs.moon.alt[kwargs['gemmenow']])*_core.np.sin(obs.moon.az[kwargs['gemmenow']]*_core.np.pi/180+_core.np.pi/2)
                 retkwargs['ax'].add_artist(_core.plt.Circle((xmoon, ymoon), obs.moonAvoidRadius, fc='r', alpha=0.3, ec='r', fill=True))
-                if kwargs.get('retnow', False) is True: retkwargs['nowline'] = ret
-        if kwargs.get('legend', defaultlegend) is True:
+                if kwargs.get('retnow', False): retkwargs['nowline'] = ret
+        if kwargs.get('legend', defaultlegend):
             l=retkwargs['ax'].legend(loc=kwargs.get('loc', 8), frameon=True, ncol=kwargs.get('ncol', 3), columnspacing=kwargs.get('columnspacing', 0.2))
             l.zorder=400
             retkwargs['ax'].get_legend().texts[0].set_fontsize(kwargs.get('lfs', 11))
-        if saveretax is False: retkwargs.pop('ax')
+        if not saveretax: retkwargs.pop('ax')
         if retkwargs!={}: return retkwargs

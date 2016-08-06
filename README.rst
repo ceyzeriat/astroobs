@@ -3,10 +3,7 @@
 :Name: astroobs
 :Website: https://github.com/ceyzeriat/astroobs
 :Author: Guillaume Schworer
-:Version: 1.3.3beta
-
-.. image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target: https://github.com/ceyzeriat/astroobs/blob/master/LICENSE.txt
+:Version: 1.4.4
 
 Check the `astroobs.eu`_ website for a friendly web-interface of that library! (soon)
 
@@ -16,16 +13,16 @@ Astroobs provides astronomy ephemeris (airmass, azimuth, altitude, moon separati
 A list of international observatories is provided as well as a SIMBAD-querier to easily import targets.
 This package is based on pyephem ephemeris calculations. The main difference with this latter package is that astroobs provides a very straight-forward library for the observer to get the critical information in order to plan an observation.
 It also provides convenient turn-key tools to convert epochs and plot diagrams.
-It is released under the MIT license.
+It is released under the GNU General Public License v3 or later (GPLv3+).
 
 .. code-block:: python
 
-    import astroobs.obs as obs
+    import astroobs as obs
 
     o=obs.Observation('vlt', local_date=(2015, 1, 1), moonAvoidRadius=15, horizon_obs = 40)
     o.add_target('aldebaran')
     o.add_target('canopus')
-    o.plot(legend=True)
+    o.plot()
 
 .. image:: https://raw.githubusercontent.com/ceyzeriat/astroobs/master/img/obs_ex.png
    :align: center
@@ -101,4 +98,4 @@ If you use astroobs on your project, please
 License
 =======
 
-astroobs is released under the MIT license, hence allowing commercial use of the library. Please refer to the LICENSE.txt file.
+astroobs is released under the GNU General Public License v3 or later (GPLv3+). Please refer to the LICENSE file.
